@@ -7,11 +7,7 @@ import { themeDefault } from '@/styles/theme'
 const Layout = () => {
   return (
     <ThemeProvider theme={themeDefault}>
-      <Global
-        styles={(theme) => css`
-          ${globalStyles(theme)}
-        `}
-      />
+      <Global styles={globalStyles} />
       <div css={container}>
         <Outlet />
       </div>
@@ -23,6 +19,7 @@ export default Layout
 
 const container = css`
   width: 100%;
+  height: 100%;
   position: absolute;
   top: 0;
   left: 0;
