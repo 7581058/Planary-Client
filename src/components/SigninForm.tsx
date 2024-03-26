@@ -1,0 +1,62 @@
+import { css, Theme } from '@emotion/react'
+
+import { Common } from '@/styles/common'
+
+const SigninForm = () => {
+  return (
+    <form css={formWrap}>
+      <label css={inputLabel} htmlFor="email">
+        E-mail
+      </label>
+      <input type="text" id="email" css={input} />
+      <label css={inputLabel} htmlFor="password">
+        Password
+      </label>
+      <input type="password" id="password" css={input} />
+      <button type="submit" css={signinButton}>
+        SignIn
+      </button>
+    </form>
+  )
+}
+
+export default SigninForm
+
+const formWrap = css`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
+
+const input = (theme: Theme) => css`
+  width: 70%;
+  height: 3rem;
+  box-sizing: border-box;
+  background-color: transparent;
+  border-bottom: 3px solid rgba(255, 255, 255, 0.3);
+  font-size: ${Common.fontSize.fs10};
+  color: ${theme.text};
+`
+
+const inputLabel = css`
+  width: 70%;
+  color: ${Common.colors.white};
+  font-weight: 700;
+  text-align: left;
+  margin-top: 20px;
+  font-size: ${Common.fontSize.fs10};
+`
+
+const signinButton = (theme: Theme) => css`
+  width: 70%;
+  height: 3rem;
+  background-color: ${theme.button};
+  color: ${theme.buttonText};
+  margin-top: 5rem;
+  font-size: ${Common.fontSize.fs12};
+  cursor: pointer;
+  &:hover {
+    scale: 1.01;
+  }
+`
