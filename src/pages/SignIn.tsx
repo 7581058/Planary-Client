@@ -1,5 +1,6 @@
 import { css, Theme } from '@emotion/react'
 
+import SigninForm from '@/components/SigninForm'
 import { Common, glassPanel } from '@/styles/common'
 
 const SignIn = () => {
@@ -7,15 +8,7 @@ const SignIn = () => {
     <div css={container}>
       <div css={[wrap, glassPanel]}>
         <img css={logo} src="/src/assets/logo_default_clear.svg" alt="planary" />
-        <form css={formWrap}>
-          <label css={inputLabel}>E-mail</label>
-          <input type="text" css={input} />
-          <label css={inputLabel}>Password</label>
-          <input type="password" css={input} />
-          <button type="submit" css={signinButton}>
-            SignIn
-          </button>
-        </form>
+        <SigninForm />
         <p css={text}>
           Don't have an account?
           <a href="#" css={signupButton}>
@@ -56,45 +49,6 @@ const logo = css`
   width: 230px;
   height: 80px;
   margin-top: 5rem;
-`
-
-const formWrap = css`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`
-
-const input = (theme: Theme) => css`
-  width: 70%;
-  height: 3rem;
-  box-sizing: border-box;
-  background-color: transparent;
-  border-bottom: 3px solid rgba(255, 255, 255, 0.3);
-  font-size: ${Common.fontSize.fs10};
-  color: ${theme.text};
-`
-
-const inputLabel = css`
-  width: 70%;
-  color: ${Common.colors.white};
-  font-weight: 700;
-  text-align: left;
-  margin-top: 20px;
-  font-size: ${Common.fontSize.fs10};
-`
-
-const signinButton = (theme: Theme) => css`
-  width: 70%;
-  height: 3rem;
-  background-color: ${theme.button};
-  color: ${theme.buttonText};
-  margin-top: 5rem;
-  font-size: ${Common.fontSize.fs12};
-  cursor: pointer;
-  &:hover {
-    scale: 1.01;
-  }
 `
 
 const signupButton = (theme: Theme) => css`
