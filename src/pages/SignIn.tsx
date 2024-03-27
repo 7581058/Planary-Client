@@ -1,20 +1,23 @@
 import { css, Theme } from '@emotion/react'
 
 import SigninForm from '@/components/SigninForm'
-import { Common, glassPanel } from '@/styles/common'
+import { Common, flexCenter, glassPanel } from '@/styles/common'
 
 const SignIn = () => {
   return (
     <div css={container}>
       <div css={[wrap, glassPanel]}>
-        <img css={logo} src="/src/assets/logo_default_clear.svg" alt="planary" />
-        <SigninForm />
-        <p css={text}>
-          Don't have an account?
-          <a href="#" css={signupButton}>
-            SignUp here
-          </a>
-        </p>
+        <div css={adContainer}>ad</div>
+        <div css={signinContainer}>
+          <img css={logo} src="/src/assets/logo_default_clear.svg" alt="planary" />
+          <SigninForm />
+          <p css={text}>
+            Don't have an account?
+            <a href="#" css={signupButton}>
+              SignUp here
+            </a>
+          </p>
+        </div>
       </div>
     </div>
   )
@@ -31,24 +34,41 @@ const container = css`
   background-image: url('/src/assets/bg.webp');
   background-size: cover;
   background-position: center;
-  display: flex;
-  align-items: center;
-  justify-content: end;
+  ${flexCenter}
 `
 
 const wrap = css`
-  width: 35%;
+  width: 90%;
   height: 85%;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  margin-right: 50px;
+  border-radius: 32px;
+  padding: 40px;
+`
+
+const adContainer = css`
+  width: 100%;
+  height: 100%;
+  border: 1px solid #fff;
+  flex-grow: 2;
+  flex-basis: 0;
+  box-sizing: border-box;
+  ${flexCenter}
+`
+
+const signinContainer = css`
+  width: 100%;
+  height: 100%;
+  flex-grow: 1;
+  flex-basis: 0;
+  ${flexCenter}
+  flex-direction: column;
+  box-sizing: border-box;
 `
 
 const logo = css`
   width: 230px;
   height: 80px;
-  margin-top: 5rem;
 `
 
 const signupButton = (theme: Theme) => css`
