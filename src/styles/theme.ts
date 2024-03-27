@@ -5,4 +5,5 @@ export const themeDefault = {
   text: Common.colors.black,
   button: Common.colors.primary,
   buttonText: Common.colors.white,
+  errorRed: Common.colors.red01,
 }

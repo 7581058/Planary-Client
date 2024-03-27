@@ -8,6 +8,7 @@ export const Common = {
     white: '#F8F8F8',
     black: '#222222',
     gray: '#EDEDED',
+    red01: '#D60404',
   },
   fontSize: {
     title: '2.4rem',
