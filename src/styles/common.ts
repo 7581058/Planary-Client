@@ -8,6 +8,7 @@ export const Common = {
     white: '#F8F8F8',
     black: '#222222',
     gray: '#EDEDED',
+    red01: '#D60404',
   },
   fontSize: {
     title: '2.4rem',
@@ -28,4 +29,10 @@ export const glassPanel = css`
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   border: 1px solid rgba(255, 255, 255, 0.18);
+`
+
+export const flexCenter = css`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `
