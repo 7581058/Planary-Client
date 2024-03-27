@@ -1,5 +1,6 @@
 import { css, Theme } from '@emotion/react'
 import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 import ErrorMessage from './ErrorMessage'
 
 import { login } from '@/api'
@@ -11,6 +12,7 @@ interface SignInFormType {
 }
 
 const SigninForm = () => {
+  const navigator = useNavigate()
   const {
     register,
     handleSubmit,
@@ -23,6 +25,7 @@ const SigninForm = () => {
       const res = await login({ email: data.email, password: data.password })
       if (res) {
         alert('로그인성공')
+        navigator('/board')
       } else {
         alert('로그인실패')
       }
