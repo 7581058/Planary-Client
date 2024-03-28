@@ -1,6 +1,14 @@
 import { css } from '@emotion/react'
+interface Colors {
+  colors: {
+    [key: string]: string
+  }
+  fontSize: {
+    [key: string]: string
+  }
+}
 
-export const Common = {
+export const Common: Colors = {
   colors: {
     primary: '#87C5FB',
     secondary: '#B2D9FB',
