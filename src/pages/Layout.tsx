@@ -1,15 +1,26 @@
 import { css, Global, ThemeProvider } from '@emotion/react'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router-dom'
 
+import LayoutHeader from '@/components/header/LayoutHeader'
 import { globalStyles } from '@/styles/globalStyles'
 import { themeDefault } from '@/styles/theme'
 
 const Layout = () => {
+  const location = useLocation()
+  const isSigninPage = location.pathname === '/'
+
   return (
     <ThemeProvider theme={themeDefault}>
       <Global styles={globalStyles} />
       <div css={container}>
-        <Outlet />
+        {isSigninPage ? (
+          <Outlet />
+        ) : (
+          <div css={[container, imageContainer]}>
+            <LayoutHeader />
+            <Outlet />
+          </div>
+        )}
       </div>
     </ThemeProvider>
   )
@@ -27,4 +38,8 @@ const container = css`
   padding: 0;
   display: flex;
   flex-direction: column;
+`
+
+const imageContainer = css`
+  background-image: url('/src/assets/bg.webp');
 `
