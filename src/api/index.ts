@@ -20,7 +20,16 @@ const instance = axios.create({
   },
 }) */
 
-export const login = async (body: SigninRequestBody) => {
+export const signin = async (body: SigninRequestBody) => {
   const res = await instance.post('/api/signin', body)
-  return res
+  return res.data
+}
+
+export const getMyPage = async () => {
+  const res = await instance.get('/api/myPage', {
+    headers: {
+      Authorization: `${localStorage.getItem('accessToken')}`,
+    },
+  })
+  return res.data
 }
