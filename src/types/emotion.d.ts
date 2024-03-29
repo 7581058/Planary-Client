@@ -7,5 +7,7 @@ declare module '@emotion/react' {
     button: string
     buttonText: string
     errorRed: string
+    secondary: string
+    gray: string
   }
 }

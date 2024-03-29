@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import ErrorMessage from './ErrorMessage'
 
-import { login } from '@/api'
+import { signin } from '@/api'
 import { Common } from '@/styles/common'
 import { signinFormValidation } from '@/utils/validation'
 interface SignInFormType {
@@ -20,11 +20,10 @@ const SigninForm = () => {
   } = useForm<SignInFormType>()
 
   const onSubmit = async (data: SignInFormType) => {
-    alert(JSON.stringify(data))
     try {
-      const res = await login({ email: data.email, password: data.password })
+      const res = await signin({ email: data.email, password: data.password })
       if (res) {
-        alert('로그인성공')
+        localStorage.setItem('accessToken', res.accessToken)
         navigator('/board')
       } else {
         alert('로그인실패')

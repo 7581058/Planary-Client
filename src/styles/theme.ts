@@ -6,4 +6,6 @@ export const themeDefault = {
   button: Common.colors.primary,
   buttonText: Common.colors.white,
   errorRed: Common.colors.red01,
+  secondary: Common.colors.secondary,
+  gray: Common.colors.gray,
 }
