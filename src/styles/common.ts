@@ -16,6 +16,7 @@ export const Common: Colors = {
     white: '#F8F8F8',
     black: '#222222',
     gray: '#EDEDED',
+    gray02: '#555555',
     red01: '#D60404',
   },
   fontSize: {
