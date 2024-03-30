@@ -2,6 +2,7 @@ import { css, Global, ThemeProvider } from '@emotion/react'
 import { Outlet, useLocation } from 'react-router-dom'
 
 import LayoutHeader from '@/components/header/LayoutHeader'
+import MainNav from '@/components/MainNav'
 import { globalStyles } from '@/styles/globalStyles'
 import { themeDefault } from '@/styles/theme'
 
@@ -18,7 +19,10 @@ const Layout = () => {
         ) : (
           <div css={[container, imageContainer]}>
             <LayoutHeader />
-            <Outlet />
+            <div css={innerContainer}>
+              <MainNav />
+              <Outlet />
+            </div>
           </div>
         )}
       </div>
@@ -42,4 +46,10 @@ const container = css`
 
 const imageContainer = css`
   background-image: url('/src/assets/bg.webp');
+`
+
+const innerContainer = css`
+  width: 100%;
+  height: 100%;
+  display: flex;
 `
