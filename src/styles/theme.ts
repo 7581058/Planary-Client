@@ -8,4 +8,6 @@ export const themeDefault = {
   errorRed: Common.colors.red01,
   secondary: Common.colors.secondary,
   gray: Common.colors.gray,
+  darkGray: Common.colors.gray02,
+  point: Common.colors.point,
 }

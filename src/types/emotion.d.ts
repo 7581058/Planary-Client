@@ -9,5 +9,7 @@ declare module '@emotion/react' {
     errorRed: string
     secondary: string
     gray: string
+    darkGray: string
+    point: string
   }
 }
