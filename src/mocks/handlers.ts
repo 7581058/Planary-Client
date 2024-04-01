@@ -1,4 +1,4 @@
-import { http, HttpResponse } from 'msw'
+import { http, HttpResponse, passthrough } from 'msw'
 
 const members = []
 
@@ -73,4 +73,7 @@ export const handlers = [
       })
     }
   }),
+
+  http.get('*.svg', () => passthrough()),
+  http.get('/board', () => passthrough()),
 ]
