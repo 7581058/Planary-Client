@@ -9,6 +9,8 @@ import Panel from '@/components/board/Panel'
 export interface Item {
   id: number
   title: string
+  row: number
+  col: number
 }
 
 export interface ContainerState {
@@ -20,30 +22,44 @@ const BoardGrid = () => {
     {
       id: 0,
       title: 'ad',
+      row: 1,
+      col: 3,
     },
     {
       id: 1,
       title: 'player',
+      row: 1,
+      col: 2,
     },
     {
       id: 2,
       title: 'dday',
+      row: 1,
+      col: 2,
     },
     {
       id: 3,
       title: 'minicalendar',
+      row: 2,
+      col: 3,
     },
     {
       id: 4,
       title: 'clock',
+      row: 1,
+      col: 2,
     },
     {
       id: 5,
-      title: 'todo',
+      title: 'timer',
+      row: 2,
+      col: 2,
     },
     {
       id: 6,
-      title: 'timer',
+      title: 'todo',
+      row: 1,
+      col: 2,
     },
   ])
 
@@ -59,8 +75,18 @@ const BoardGrid = () => {
   }, [])
 
   const renderPanel = useCallback(
-    (panel: { id: number; title: string }, index: number) => {
-      return <Panel key={panel.id} index={index} id={panel.id} title={panel.title} movePanel={movePanel} />
+    (panel: { id: number; title: string; row: number; col: number }, index: number) => {
+      return (
+        <Panel
+          key={panel.id}
+          index={index}
+          id={panel.id}
+          title={panel.title}
+          row={panel.row}
+          col={panel.col}
+          movePanel={movePanel}
+        />
+      )
     },
     [movePanel],
   )
@@ -77,8 +103,11 @@ export default BoardGrid
 const boardWrap = css`
   width: 100%;
   height: 100%;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(3, 1fr);
   border: 1px solid red;
   box-sizing: border-box;
+  overflow: hidden;
+  gap: 15px;
 `

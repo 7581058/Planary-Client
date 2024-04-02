@@ -10,6 +10,8 @@ export interface PanelProps {
   id: number
   title: string
   index: number
+  row: number
+  col: number
   movePanel: (dragIndex: number, hoverIndex: number) => void
 }
 
@@ -19,7 +21,7 @@ interface DragItem {
   type: string
 }
 
-const Panel = ({ id, title, index, movePanel }: PanelProps) => {
+const Panel = ({ id, title, index, row, col, movePanel }: PanelProps) => {
   const ref = useRef<HTMLDivElement>(null)
 
   //드래그
@@ -60,7 +62,7 @@ const Panel = ({ id, title, index, movePanel }: PanelProps) => {
 
   drag(drop(ref))
   return (
-    <div ref={ref} css={panelContainer(isDragging)}>
+    <div ref={ref} css={panelContainer(isDragging, row, col)}>
       <div css={panelWrap}>
         <div>
           <TbArrowsMove />
@@ -73,13 +75,13 @@ const Panel = ({ id, title, index, movePanel }: PanelProps) => {
 
 export default Panel
 
-const panelContainer = (isDragging: boolean) => css`
-  width: 200px;
-  height: 200px;
+const panelContainer = (isDragging: boolean, row: number, col: number) => css`
   background-color: ${Common.colors.white};
   border: 1px solid blue;
   opacity: ${isDragging ? 0 : 1};
   position: relative;
+  grid-column: span ${col};
+  grid-row: span ${row};
 `
 
 const panelWrap = css`
