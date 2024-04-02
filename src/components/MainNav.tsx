@@ -31,6 +31,7 @@ const navContainer = (theme: Theme) => css`
   height: 100%;
   background-color: ${rgba(theme.background, 0.5)};
   display: flex;
+  flex-shrink: 0;
 `
 
 const menuWrap = css`
