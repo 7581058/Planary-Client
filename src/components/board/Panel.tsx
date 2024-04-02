@@ -2,9 +2,8 @@ import { css } from '@emotion/react'
 import type { Identifier } from 'dnd-core'
 import { useRef } from 'react'
 import { useDrag, useDrop } from 'react-dnd'
-import { TbArrowsMove } from 'react-icons/tb'
 
-import { Common } from '@/styles/common'
+import { Common, glassPanel } from '@/styles/common'
 
 export interface PanelProps {
   id: number
@@ -62,11 +61,8 @@ const Panel = ({ id, title, index, row, col, movePanel }: PanelProps) => {
 
   drag(drop(ref))
   return (
-    <div ref={ref} css={panelContainer(isDragging, row, col)}>
+    <div ref={ref} css={[panelContainer(isDragging, row, col), glassPanel]}>
       <div css={panelWrap}>
-        <div>
-          <TbArrowsMove />
-        </div>
         <div data-handler-id={handlerId}>{title}</div>
       </div>
     </div>
@@ -77,11 +73,11 @@ export default Panel
 
 const panelContainer = (isDragging: boolean, row: number, col: number) => css`
   background-color: ${Common.colors.white};
-  border: 1px solid blue;
   opacity: ${isDragging ? 0 : 1};
   position: relative;
   grid-column: span ${col};
   grid-row: span ${row};
+  border-radius: 16px;
 `
 
 const panelWrap = css`

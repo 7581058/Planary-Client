@@ -106,7 +106,6 @@ const boardWrap = css`
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   grid-template-rows: repeat(3, 1fr);
-  border: 1px solid red;
   box-sizing: border-box;
   overflow: hidden;
   gap: 15px;
