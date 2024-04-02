@@ -18,4 +18,5 @@ const boardContainer = css`
   height: 100%;
   padding: 50px;
   box-sizing: border-box;
+  overflow: hidden;
 `
