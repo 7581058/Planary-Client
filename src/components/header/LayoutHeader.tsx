@@ -1,5 +1,6 @@
 import { css } from '@emotion/react'
 import { Theme } from '@emotion/react'
+import React from 'react'
 import HeaderMenu from './HeaderMenu'
 import HeaderProfile from './HeaderProfile'
 
@@ -8,7 +9,9 @@ import { rgba } from '@/utils/convertRGBA'
 const LayoutHeader = () => {
   return (
     <div css={headerContainer}>
-      <HeaderProfile />
+      <React.Suspense fallback={<div></div>}>
+        <HeaderProfile />
+      </React.Suspense>
       <HeaderMenu />
     </div>
   )
