@@ -4,7 +4,7 @@ import { SigninRequestBody } from '@/types'
 
 const { VITE_BASE_URL } = import.meta.env
 
-const instance = axios.create({
+export const instance = axios.create({
   baseURL: VITE_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
@@ -22,14 +22,5 @@ const instance = axios.create({
 
 export const signin = async (body: SigninRequestBody) => {
   const res = await instance.post('/api/signin', body)
-  return res.data
-}
-
-export const getMyPage = async () => {
-  const res = await instance.get('/api/myPage', {
-    headers: {
-      Authorization: `${localStorage.getItem('accessToken')}`,
-    },
-  })
   return res.data
 }

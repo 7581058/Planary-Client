@@ -76,4 +76,5 @@ export const handlers = [
 
   http.get('*.svg', () => passthrough()),
   http.get('/board', () => passthrough()),
+  http.get('/src/assets/*', () => passthrough()),
 ]

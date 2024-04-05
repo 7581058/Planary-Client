@@ -1,33 +1,12 @@
 import { css } from '@emotion/react'
 import { Theme } from '@emotion/react'
-import { useEffect, useState } from 'react'
+import { useRecoilValue } from 'recoil'
 
-import { getMyPage } from '@/api'
+import { currentUserInfoQuery } from '@/store/userState'
 import { Common } from '@/styles/common'
 
 const HeaderProfile = () => {
-  const [name, setName] = useState('')
-  const [profile, setProfile] = useState('')
-  const [title, setTitle] = useState('')
-
-  const getProfile = async () => {
-    try {
-      const res = await getMyPage()
-      if (res) {
-        setName(res.name)
-        setProfile(res.profile_image_url)
-        setTitle(res.title)
-      } else {
-        alert('유저정보불러오기실패')
-      }
-    } catch (error) {
-      alert(`유저정보불러오기실패${error}`)
-    }
-  }
-
-  useEffect(() => {
-    getProfile()
-  })
+  const { name, profile_image_url: profile, title } = useRecoilValue(currentUserInfoQuery)
 
   return (
     <div css={profileContainer}>
