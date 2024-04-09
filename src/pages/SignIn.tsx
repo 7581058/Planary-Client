@@ -1,15 +1,17 @@
 import { css, Theme } from '@emotion/react'
 
 import SigninForm from '@/components/SigninForm'
-import { Common, flexCenter, glassPanel } from '@/styles/common'
+import { Common, flexCenter } from '@/styles/common'
 
 const SignIn = () => {
   return (
     <div css={container}>
-      <div css={[wrap, glassPanel]}>
-        <div css={adContainer}>ad</div>
+      <div css={[wrap]}>
+        <div css={adContainer}>
+          <img src="/src/assets/test_ad_2.png" alt="" />
+        </div>
         <div css={signinContainer}>
-          <img css={logo} src="/src/assets/logo_default_clear.svg" alt="planary" />
+          <img css={logo} src="/src/assets/logo_black.svg" alt="planary" />
           <SigninForm />
           <p css={text}>
             Don't have an account?
@@ -26,44 +28,50 @@ const SignIn = () => {
 export default SignIn
 
 const container = css`
-  width: 100%;
-  height: 100%;
   position: absolute;
   top: 0;
   left: 0;
-  background-image: url('/src/assets/bg.webp');
-  background-size: cover;
-  background-position: center;
-  ${flexCenter}
-`
 
-const wrap = css`
-  width: 90%;
-  height: 85%;
-  display: flex;
-  align-items: center;
-  border-radius: 32px;
-  padding: 40px;
-`
-
-const adContainer = css`
   width: 100%;
   height: 100%;
-  border: 1px solid #fff;
-  flex-grow: 2;
-  flex-basis: 0;
-  box-sizing: border-box;
+
+  background-image: url('/src/assets/background.webp');
+  background-position: center;
+  background-size: cover;
   ${flexCenter}
+`
+
+const wrap = (theme: Theme) => css`
+  display: flex;
+  align-items: center;
+
+  box-sizing: border-box;
+  padding: 40px;
+
+  background-color: ${theme.background};
+  border-radius: 32px;
+`
+//TODO: 미디어쿼리
+const adContainer = css`
+  box-sizing: border-box;
+  width: 864px;
+  height: 486px;
+  ${flexCenter}
+  img {
+    width: 100%;
+    height: 100%;
+  }
 `
 
 const signinContainer = css`
-  width: 100%;
-  height: 100%;
-  flex-grow: 1;
-  flex-basis: 0;
-  ${flexCenter}
   flex-direction: column;
+
   box-sizing: border-box;
+  width: 400px;
+  height: 486px;
+  ${flexCenter}
+
+  padding: 40px;
 `
 
 const logo = css`
@@ -72,8 +80,8 @@ const logo = css`
 `
 
 const signupButton = (theme: Theme) => css`
-  color: ${theme.buttonText};
   margin-left: 5px;
+  color: ${theme.button};
 `
 
 const text = css`
