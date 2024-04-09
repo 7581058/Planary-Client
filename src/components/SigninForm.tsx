@@ -54,39 +54,61 @@ const SigninForm = () => {
 export default SigninForm
 
 const formWrap = css`
-  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
 `
 
 const input = (theme: Theme) => css`
-  width: 70%;
-  height: 3rem;
   box-sizing: border-box;
-  background-color: transparent;
-  border-bottom: 3px solid rgba(255, 255, 255, 0.3);
+  width: 100%;
+  height: 3rem;
+  padding: 15px;
+
   font-size: ${Common.fontSize.fs10};
   color: ${theme.text};
+
+  background-color: transparent;
+  background-color: ${theme.inputBackground};
+  border-radius: 36px;
+
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover,
+  &:-webkit-autofill:focus,
+  &:-webkit-autofill:active {
+    box-shadow: 0 0 0 1000px ${theme.inputBackground} inset !important;
+    transition: background-color 9999s ease-out;
+    transition: background-color 5000s ease-in-out 0s;
+
+    -webkit-text-fill-color: ${theme.inputText} !important;
+  }
 `
 
-const inputLabel = css`
-  width: 70%;
-  color: ${Common.colors.white};
-  font-weight: 700;
-  text-align: left;
+const inputLabel = (theme: Theme) => css`
+  width: 100%;
   margin-top: 20px;
-  font-size: ${Common.fontSize.fs10};
+  margin-bottom: 5px;
+
+  font-size: ${Common.fontSize.fs8};
+  font-weight: 100;
+  color: ${theme.inputLabel};
+  text-align: left;
 `
 
 const signinButton = (theme: Theme) => css`
-  width: 70%;
-  height: 3rem;
-  background-color: ${theme.button};
-  color: ${theme.buttonText};
-  margin-top: 2rem;
-  font-size: ${Common.fontSize.fs12};
   cursor: pointer;
+
+  width: 100%;
+  height: 3rem;
+  margin-top: 2rem;
+
+  font-size: ${Common.fontSize.fs12};
+  color: ${theme.buttonText};
+
+  background-color: ${theme.button};
+  border-radius: 32px;
+
   &:hover {
     scale: 1.01;
   }
