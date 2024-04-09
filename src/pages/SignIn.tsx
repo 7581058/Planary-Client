@@ -16,7 +16,7 @@ const SignIn = () => {
           <p css={text}>
             Don't have an account?
             <a href="#" css={signupButton}>
-              SignUp here
+              Sign up here
             </a>
           </p>
         </div>
@@ -79,11 +79,13 @@ const logo = css`
   height: 80px;
 `
 
-const signupButton = (theme: Theme) => css`
+const signupButton = css`
   margin-left: 5px;
-  color: ${theme.button};
+  font-weight: 700;
 `
 
 const text = css`
+  margin-top: 20px;
   font-size: ${Common.fontSize.fs8};
+  font-weight: 300;
 `

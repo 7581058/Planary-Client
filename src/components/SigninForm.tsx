@@ -45,7 +45,7 @@ const SigninForm = () => {
       <input type="password" id="password" css={input} {...register('password', signinFormValidation.password)} />
       <ErrorMessage msg={errors.email?.message || errors.password?.message} />
       <button type="submit" css={signinButton}>
-        SignIn
+        Sign in
       </button>
     </form>
   )
@@ -91,7 +91,7 @@ const inputLabel = (theme: Theme) => css`
   margin-bottom: 5px;
 
   font-size: ${Common.fontSize.fs8};
-  font-weight: 100;
+  font-weight: 300;
   color: ${theme.inputLabel};
   text-align: left;
 `
@@ -104,6 +104,7 @@ const signinButton = (theme: Theme) => css`
   margin-top: 2rem;
 
   font-size: ${Common.fontSize.fs12};
+  font-weight: 700;
   color: ${theme.buttonText};
 
   background-color: ${theme.button};
