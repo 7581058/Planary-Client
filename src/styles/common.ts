@@ -10,14 +10,17 @@ interface Colors {
 
 export const Common: Colors = {
   colors: {
-    primary: '#87C5FB',
-    secondary: '#B2D9FB',
-    point: '#FBF9C2',
-    white: '#F8F8F8',
-    black: '#222222',
-    gray: '#EDEDED',
-    gray02: '#555555',
-    red01: '#D60404',
+    white: '#ffffff',
+    white02: '#F9F9F9',
+    black: '#000000',
+    black02: '#181718',
+    blue01: '#A7DFFF',
+    blue02: '#55C2FF',
+    blue03: '#3C64B1',
+    pink01: '#FFEBEC',
+    purple01: '#F8E7FF',
+    purple02: '#E2DCFB',
+    purple03: '#CE52FF',
   },
   fontSize: {
     title: '2.4rem',
