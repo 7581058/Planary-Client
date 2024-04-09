@@ -14,9 +14,10 @@ const Board = () => {
 export default Board
 
 const boardContainer = css`
+  overflow: hidden;
+
+  box-sizing: border-box;
   width: 100%;
   height: 100%;
   padding: 50px;
-  box-sizing: border-box;
-  overflow: hidden;
 `
