@@ -3,7 +3,7 @@ export type MenuWrapProps = [number | string, number | string, number | string, 
 export interface HeaderMenuItem {
   event: string
   title: string
-  icon: JSX.Element
+  icon?: JSX.Element
 }
 
 export interface ToggleMenuProps {
@@ -12,4 +12,5 @@ export interface ToggleMenuProps {
   isOpen: boolean
   toggleMenu: (state: boolean) => void
   position: MenuWrapProps
+  radius?: number
 }
