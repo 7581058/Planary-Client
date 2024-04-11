@@ -18,9 +18,9 @@ const Layout = () => {
           <Outlet />
         ) : (
           <div css={[container, imageContainer]}>
-            <LayoutHeader />
+            <MainNav />
             <div css={innerContainer}>
-              <MainNav />
+              <LayoutHeader />
               <Outlet />
             </div>
           </div>
@@ -38,7 +38,6 @@ const container = css`
   left: 0;
 
   display: flex;
-  flex-direction: column;
 
   width: 100%;
   height: 100%;
@@ -53,6 +52,8 @@ const imageContainer = css`
 const innerContainer = css`
   overflow: hidden;
   display: flex;
+  flex-direction: column;
+
   width: 100%;
   height: 100%;
 `
