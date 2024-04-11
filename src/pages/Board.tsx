@@ -1,11 +1,10 @@
 import { css } from '@emotion/react'
 
 import BoardGrid from '@/components/board/BoardGrid'
-import { glassPanel } from '@/styles/common'
 
 const Board = () => {
   return (
-    <div css={[boardContainer, glassPanel]}>
+    <div css={[boardContainer]}>
       <BoardGrid />
     </div>
   )
