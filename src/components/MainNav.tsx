@@ -29,14 +29,17 @@ export default MainNav
 const navContainer = (theme: Theme) => css`
   display: flex;
   flex-shrink: 0;
+
+  width: 72px;
   height: 100%;
+
   background-color: ${rgba(theme.background, 0.5)};
+  background-color: ${theme.buttonHover};
 `
 
 const menuWrap = css`
   display: flex;
   flex-direction: column;
-  gap: 40px;
   margin-top: 50px;
 `
 
@@ -45,20 +48,21 @@ const menuItem = (theme: Theme) => css`
 
   display: flex;
   align-items: center;
+  justify-content: center;
 
-  width: 100%;
-  height: 32px;
-  padding: 0 30px;
+  box-sizing: border-box;
+  width: 72px;
+  height: 72px;
 
   font-size: ${Common.fontSize.fs16};
-  color: ${theme.text};
+  color: ${theme.navText};
 
   &:hover {
     scale: 1.05;
   }
 
   &.active {
-    color: ${theme.button};
+    color: ${theme.navActive};
   }
 `
 
