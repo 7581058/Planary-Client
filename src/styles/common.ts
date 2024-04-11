@@ -21,6 +21,10 @@ export const Common: Colors = {
     purple01: '#F8E7FF',
     purple02: '#E2DCFB',
     purple03: '#CE52FF',
+    red01: '#D43B3B',
+    gray01: '#F8F8F8',
+    gray02: '#F2F2F2',
+    gray03: '#8a8a8a',
   },
   fontSize: {
     title: '2.4rem',
