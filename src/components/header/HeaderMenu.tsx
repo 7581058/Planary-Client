@@ -31,7 +31,6 @@ const HeaderMenu = () => {
         onItemClick={handleItemClick}
         toggleMenu={toggleMenu}
         position={[48, 15, '', '']}
-        radius={8}
       />
     </div>
   )
@@ -49,19 +48,23 @@ const menuButton = (theme: Theme) => css`
   align-items: center;
 
   font-size: ${Common.fontSize.fs20};
-  color: ${theme.button};
+  color: ${theme.menuButton};
+
+  &:hover {
+    scale: 1.05;
+  }
 `
 const HEADER_MENU = [
   {
     event: '/profile',
-    title: '내 계정',
+    title: 'My',
   },
   {
     event: '/theme',
-    title: '테마 설정',
+    title: 'Theme Settings',
   },
   {
     event: '/',
-    title: '로그아웃',
+    title: 'Logout',
   },
 ]

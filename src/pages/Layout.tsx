@@ -17,7 +17,7 @@ const Layout = () => {
         {isSigninPage ? (
           <Outlet />
         ) : (
-          <div css={[container, imageContainer]}>
+          <div css={container}>
             <MainNav />
             <div css={innerContainer}>
               <LayoutHeader />
@@ -43,10 +43,6 @@ const container = css`
   height: 100%;
   margin: 0;
   padding: 0;
-`
-
-const imageContainer = css`
-  background-image: url('/src/assets/background.webp');
 `
 
 const innerContainer = css`

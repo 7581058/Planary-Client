@@ -2,8 +2,6 @@ import { css } from '@emotion/react'
 import { Theme } from '@emotion/react'
 import HeaderMenu from './HeaderMenu'
 
-import { rgba } from '@/utils/convertRGBA'
-
 const LayoutHeader = () => {
   return (
     <div css={headerContainer}>
@@ -24,5 +22,6 @@ const headerContainer = (theme: Theme) => css`
   height: 48px;
   padding: 10px;
 
-  background-color: ${rgba(theme.background, 0.2)};
+  background-color: ${theme.panel};
+  border-bottom: 3px solid ${theme.border};
 `
