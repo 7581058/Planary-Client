@@ -17,7 +17,6 @@ const MainNav = () => {
         {NAV_MENU.map((item, index: number) => (
           <NavLink key={index} css={menuItem} to={item.path} className={({ isActive }) => (isActive ? 'active' : '')}>
             <div css={menuIcon}>{item.icon}</div>
-            {item.title}
           </NavLink>
         ))}
       </div>
@@ -28,41 +27,49 @@ const MainNav = () => {
 export default MainNav
 
 const navContainer = (theme: Theme) => css`
-  height: 100%;
-  background-color: ${rgba(theme.background, 0.5)};
   display: flex;
   flex-shrink: 0;
+
+  width: 72px;
+  height: 100%;
+
+  background-color: ${rgba(theme.background, 0.5)};
+  background-color: ${theme.buttonHover};
 `
 
 const menuWrap = css`
   display: flex;
   flex-direction: column;
-  gap: 20px;
   margin-top: 50px;
 `
 
 const menuItem = (theme: Theme) => css`
-  width: 100%;
-  height: 32px;
-  padding: 0 30px 0 30px;
+  cursor: pointer;
+
   display: flex;
   align-items: center;
-  gap: 15px;
-  font-size: ${Common.fontSize.fs12};
-  color: ${theme.darkGray};
-  cursor: pointer;
+  justify-content: center;
+
+  box-sizing: border-box;
+  width: 72px;
+  height: 72px;
+
+  font-size: ${Common.fontSize.fs16};
+  color: ${theme.navText};
+
   &:hover {
     scale: 1.05;
   }
+
   &.active {
-    color: ${theme.button};
+    color: ${theme.navActive};
   }
 `
 
 const menuIcon = css`
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 `
 
 const NAV_MENU = [

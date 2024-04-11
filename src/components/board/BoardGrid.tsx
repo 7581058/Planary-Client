@@ -101,12 +101,13 @@ const BoardGrid = () => {
 export default BoardGrid
 
 const boardWrap = css`
-  width: 100%;
-  height: 100%;
+  overflow: hidden;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   grid-template-rows: repeat(3, 1fr);
-  box-sizing: border-box;
-  overflow: hidden;
   gap: 15px;
+
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
 `

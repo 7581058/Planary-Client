@@ -2,22 +2,24 @@ import { css, useTheme } from '@emotion/react'
 import { Theme } from '@emotion/react'
 
 import { HeaderMenuItem, MenuWrapProps, ToggleMenuProps } from '@/types/common'
+import { rgba } from '@/utils/convertRGBA'
 
-const ToggleMenu = ({ items, onItemClick, isOpen, toggleMenu, position }: ToggleMenuProps) => {
+const ToggleMenu = ({ items, onItemClick, isOpen, toggleMenu, position, radius = 0 }: ToggleMenuProps) => {
   const handleClickItem = (item: string) => {
     onItemClick(item)
     toggleMenu(false)
   }
 
   const theme = useTheme()
+
   return (
     <>
       {isOpen && (
         <div css={menuContainer} onClick={() => toggleMenu(false)}>
-          <ul css={menuWrap(theme, position)}>
+          <ul css={menuWrap(theme, position, radius)}>
             {items.map((item: HeaderMenuItem, index: number) => (
               <li key={index} onClick={() => handleClickItem(item.event)}>
-                <div css={menuIcon}>{item.icon}</div>
+                {item.icon && <div css={menuIcon}>{item.icon}</div>}
                 {item.title}
               </li>
             ))}
@@ -31,40 +33,52 @@ const ToggleMenu = ({ items, onItemClick, isOpen, toggleMenu, position }: Toggle
 export default ToggleMenu
 
 const menuContainer = css`
-  width: 100%;
-  height: 100%;
-  background-color: transparent;
   position: absolute;
+  z-index: 9;
   top: 0;
   left: 0;
-  z-index: 9;
+
+  width: 100%;
+  height: 100%;
+
+  background-color: transparent;
 `
 
-const menuWrap = (theme: Theme, props: MenuWrapProps) => css`
-  padding: 20px 0 20px 0;
-  border-radius: 16px;
-  margin: 0;
-  background-color: ${theme.background};
+const menuWrap = (theme: Theme, position: MenuWrapProps, radius: number) => css`
   position: absolute;
+
   box-sizing: border-box;
-  top: ${`${props[0]}px`};
-  right: ${`${props[1]}px`};
-  bottom: ${`${props[2]}px`};
-  left: ${`${props[3]}px`};
+  margin: 0;
+
+  background-color: ${theme.menuBackground};
+  border-radius: ${radius}px;
+
   li {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    padding: 5px 30px 5px 30px;
     cursor: pointer;
+
+    display: flex;
+    gap: 5px;
+    align-items: center;
+
+    padding: 5px 20px;
+
+    font-weight: 400;
+    color: ${theme.menuText};
+
     &:hover {
-      background-color: ${theme.secondary};
+      color: ${theme.text};
+      background-color: ${rgba(theme.button, 0.03)};
     }
   }
+  /* stylelint-disable */
+  top: ${`${position[0]}px`};
+  right: ${`${position[1]}px`};
+  bottom: ${`${position[2]}px`};
+  left: ${`${position[3]}px`};
 `
 
 const menuIcon = css`
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 `

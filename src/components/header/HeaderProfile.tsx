@@ -25,16 +25,19 @@ export default HeaderProfile
 
 const profileContainer = css`
   display: flex;
-  align-items: center;
   gap: 10px;
+  align-items: center;
 `
 
 const imageWrap = (theme: Theme) => css`
+  overflow: hidden;
+
   width: 2rem;
   height: 2rem;
-  border-radius: 50%;
-  overflow: hidden;
+
   border: 3px solid ${theme.background};
+  border-radius: 50%;
+
   img {
     width: 100%;
     height: 100%;
@@ -44,6 +47,7 @@ const imageWrap = (theme: Theme) => css`
 const profileWrap = css`
   display: flex;
   flex-direction: column;
+
   p {
     margin: 0;
   }
@@ -51,11 +55,10 @@ const profileWrap = css`
 
 const userName = (theme: Theme) => css`
   font-size: ${Common.fontSize.fs10};
-  color: ${theme.buttonText};
+  color: ${theme.text};
 `
 
 const userTitle = (theme: Theme) => css`
   font-size: ${Common.fontSize.fs7};
-  color: ${theme.buttonText};
-  color: ${Common.colors.point};
+  color: ${theme.text};
 `

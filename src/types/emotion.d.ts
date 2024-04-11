@@ -1,15 +1,8 @@
 import '@emotion/react'
 
+import { themeDefault } from '@/styles/theme'
+
+type ExtendedTheme = typeof themeDefault
 declare module '@emotion/react' {
-  export interface Theme {
-    background: string
-    text: string
-    button: string
-    buttonText: string
-    errorRed: string
-    secondary: string
-    gray: string
-    darkGray: string
-    point: string
-  }
+  interface Theme extends ExtendedTheme { }
 }

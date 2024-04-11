@@ -72,11 +72,13 @@ const Panel = ({ id, title, index, row, col, movePanel }: PanelProps) => {
 export default Panel
 
 const panelContainer = (isDragging: boolean, row: number, col: number) => css`
-  background-color: ${Common.colors.white};
-  opacity: ${isDragging ? 0 : 1};
   position: relative;
+
   grid-column: span ${col};
   grid-row: span ${row};
+
+  opacity: ${isDragging ? 0 : 1};
+  background-color: ${Common.colors.white};
   border-radius: 16px;
 `
 

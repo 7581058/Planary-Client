@@ -1,17 +1,12 @@
 import { css } from '@emotion/react'
 import { Theme } from '@emotion/react'
-import React from 'react'
 import HeaderMenu from './HeaderMenu'
-import HeaderProfile from './HeaderProfile'
 
 import { rgba } from '@/utils/convertRGBA'
 
 const LayoutHeader = () => {
   return (
     <div css={headerContainer}>
-      <React.Suspense fallback={<div></div>}>
-        <HeaderProfile />
-      </React.Suspense>
       <HeaderMenu />
     </div>
   )
@@ -20,12 +15,14 @@ const LayoutHeader = () => {
 export default LayoutHeader
 
 const headerContainer = (theme: Theme) => css`
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: end;
+
   width: 100%;
   height: 48px;
-  display: flex;
-  justify-content: end;
-  align-items: center;
   padding: 10px;
-  gap: 10px;
-  background-color: ${rgba(theme.button, 0.2)};
+
+  background-color: ${rgba(theme.background, 0.2)};
 `

@@ -18,9 +18,9 @@ const Layout = () => {
           <Outlet />
         ) : (
           <div css={[container, imageContainer]}>
-            <LayoutHeader />
+            <MainNav />
             <div css={innerContainer}>
-              <MainNav />
+              <LayoutHeader />
               <Outlet />
             </div>
           </div>
@@ -33,24 +33,27 @@ const Layout = () => {
 export default Layout
 
 const container = css`
-  width: 100%;
-  height: 100%;
   position: absolute;
   top: 0;
   left: 0;
+
+  display: flex;
+
+  width: 100%;
+  height: 100%;
   margin: 0;
   padding: 0;
-  display: flex;
-  flex-direction: column;
 `
 
 const imageContainer = css`
-  background-image: url('/src/assets/bg.webp');
+  background-image: url('/src/assets/background.webp');
 `
 
 const innerContainer = css`
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+
   width: 100%;
   height: 100%;
-  display: flex;
-  overflow: hidden;
 `
