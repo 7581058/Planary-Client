@@ -15,4 +15,6 @@ export const themeDefault = {
   menuText: Common.colors.gray03,
   menuBackground: Common.colors.purple02,
   menuHover: Common.colors.gray02,
+  navActive: Common.colors.black02,
+  navText: Common.colors.gray03,
 }
