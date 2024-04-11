@@ -69,9 +69,10 @@ const input = (theme: Theme) => css`
   font-size: ${Common.fontSize.fs10};
   color: ${theme.text};
 
-  background-color: transparent;
   background-color: ${theme.inputBackground};
-  border-radius: 36px;
+  background-color: transparent;
+  border: 3px solid ${theme.border};
+  border-radius: 8px;
 
   &:-webkit-autofill,
   &:-webkit-autofill:hover,
@@ -108,7 +109,7 @@ const signinButton = (theme: Theme) => css`
   color: ${theme.buttonText};
 
   background-color: ${theme.button};
-  border-radius: 32px;
+  border-radius: 8px;
 
   &:hover {
     scale: 1.01;

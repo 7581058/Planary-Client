@@ -52,6 +52,7 @@ const menuWrap = (theme: Theme, position: MenuWrapProps, radius: number) => css`
 
   background-color: ${theme.menuBackground};
   border-radius: ${radius}px;
+  box-shadow: 0 4px 10px 0 rgb(46 52 136 / 10%);
 
   li {
     cursor: pointer;
@@ -66,7 +67,7 @@ const menuWrap = (theme: Theme, position: MenuWrapProps, radius: number) => css`
     color: ${theme.menuText};
 
     &:hover {
-      color: ${theme.text};
+      color: ${theme.hoverText};
       background-color: ${rgba(theme.button, 0.03)};
     }
   }
@@ -77,8 +78,9 @@ const menuWrap = (theme: Theme, position: MenuWrapProps, radius: number) => css`
   left: ${`${position[3]}px`};
 `
 
-const menuIcon = css`
+const menuIcon = (theme: Theme) => css`
   display: flex;
   align-items: center;
   justify-content: center;
+  color: ${theme.icon};
 `

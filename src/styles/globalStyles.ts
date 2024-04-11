@@ -105,5 +105,6 @@ export const globalStyles = (theme: Theme) => css`
     outline: none;
     font-family: 'Pretendard';
     font-weight: 400;
+    color: ${theme.text};
   }
 `

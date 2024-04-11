@@ -27,18 +27,16 @@ const SignIn = () => {
 
 export default SignIn
 
-const container = css`
+const container = (theme: Theme) => css`
   position: absolute;
   top: 0;
   left: 0;
 
   width: 100%;
   height: 100%;
-
-  background-image: url('/src/assets/background.webp');
-  background-position: center;
-  background-size: cover;
   ${flexCenter}
+
+  background-color: ${theme.background};
 `
 
 const wrap = (theme: Theme) => css`
@@ -48,8 +46,9 @@ const wrap = (theme: Theme) => css`
   box-sizing: border-box;
   padding: 40px;
 
-  background-color: ${theme.background};
-  border-radius: 32px;
+  background-color: ${theme.panel};
+  border: 5px solid ${theme.border};
+  border-radius: 16px;
 `
 //TODO: 미디어쿼리
 const adContainer = css`

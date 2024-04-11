@@ -11,20 +11,16 @@ interface Colors {
 export const Common: Colors = {
   colors: {
     white: '#ffffff',
-    white02: '#F9F9F9',
+    white02: '#edf0f6',
     black: '#000000',
-    black02: '#181718',
-    blue01: '#A7DFFF',
-    blue02: '#55C2FF',
-    blue03: '#3C64B1',
-    pink01: '#FFEBEC',
-    purple01: '#F8E7FF',
-    purple02: '#E2DCFB',
-    purple03: '#CE52FF',
+    black02: '#28292E',
+    blue01: '#edf0f6',
+    blue02: '#7E93FF',
     red01: '#D43B3B',
-    gray01: '#F8F8F8',
-    gray02: '#F2F2F2',
-    gray03: '#8a8a8a',
+    gray01: '#F7F8FA',
+    gray02: '#C8CCD9',
+    gray03: '#9A9BA1',
+    gray04: '#F5F7FC',
   },
   fontSize: {
     title: '2.4rem',
@@ -36,6 +32,7 @@ export const Common: Colors = {
     fs10: '1rem',
     fs8: '0.875rem',
     fs7: '0.75rem',
+    fs6: '0.6rem',
   },
 }
 

@@ -1,9 +1,8 @@
-import { css } from '@emotion/react'
+import { css, useTheme } from '@emotion/react'
+import { Theme } from '@emotion/react'
 import type { Identifier } from 'dnd-core'
 import { useRef } from 'react'
 import { useDrag, useDrop } from 'react-dnd'
-
-import { Common, glassPanel } from '@/styles/common'
 
 export interface PanelProps {
   id: number
@@ -21,6 +20,7 @@ interface DragItem {
 }
 
 const Panel = ({ id, title, index, row, col, movePanel }: PanelProps) => {
+  const theme = useTheme()
   const ref = useRef<HTMLDivElement>(null)
 
   //드래그
@@ -61,7 +61,7 @@ const Panel = ({ id, title, index, row, col, movePanel }: PanelProps) => {
 
   drag(drop(ref))
   return (
-    <div ref={ref} css={[panelContainer(isDragging, row, col), glassPanel]}>
+    <div ref={ref} css={panelContainer(isDragging, row, col, theme)}>
       <div css={panelWrap}>
         <div data-handler-id={handlerId}>{title}</div>
       </div>
@@ -71,14 +71,17 @@ const Panel = ({ id, title, index, row, col, movePanel }: PanelProps) => {
 
 export default Panel
 
-const panelContainer = (isDragging: boolean, row: number, col: number) => css`
+const panelContainer = (isDragging: boolean, row: number, col: number, theme: Theme) => css`
   position: relative;
 
   grid-column: span ${col};
   grid-row: span ${row};
 
+  box-sizing: border-box;
+
   opacity: ${isDragging ? 0 : 1};
-  background-color: ${Common.colors.white};
+  background-color: ${theme.panel};
+  border: 5px solid ${theme.border};
   border-radius: 16px;
 `
 
