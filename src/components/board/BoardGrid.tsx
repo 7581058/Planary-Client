@@ -3,6 +3,7 @@ import update from 'immutability-helper'
 import { useCallback, useState } from 'react'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
+import Clock from '../widget/Clock'
 
 import Panel from '@/components/board/Panel'
 
@@ -11,6 +12,7 @@ export interface Item {
   title: string
   row: number
   col: number
+  component: JSX.Element
 }
 
 export interface ContainerState {
@@ -21,45 +23,52 @@ const BoardGrid = () => {
   const [panels, setPanels] = useState([
     {
       id: 0,
-      title: 'ad',
+      title: 'profile',
       row: 1,
       col: 3,
+      component: <div>profile</div>,
     },
     {
       id: 1,
       title: 'player',
       row: 1,
       col: 2,
+      component: <div>player</div>,
     },
     {
       id: 2,
       title: 'dday',
       row: 1,
       col: 2,
+      component: <div>dday</div>,
     },
     {
       id: 3,
       title: 'minicalendar',
       row: 2,
       col: 3,
+      component: <div>minicalendar</div>,
     },
     {
       id: 4,
       title: 'clock',
       row: 1,
       col: 2,
+      component: <Clock />,
     },
     {
       id: 5,
       title: 'timer',
       row: 2,
       col: 2,
+      component: <div>timer</div>,
     },
     {
       id: 6,
       title: 'todo',
       row: 1,
       col: 2,
+      component: <div>todo</div>,
     },
   ])
 
@@ -75,7 +84,7 @@ const BoardGrid = () => {
   }, [])
 
   const renderPanel = useCallback(
-    (panel: { id: number; title: string; row: number; col: number }, index: number) => {
+    (panel: { id: number; title: string; row: number; col: number; component: JSX.Element }, index: number) => {
       return (
         <Panel
           key={panel.id}
@@ -85,6 +94,7 @@ const BoardGrid = () => {
           row={panel.row}
           col={panel.col}
           movePanel={movePanel}
+          component={panel.component}
         />
       )
     },
