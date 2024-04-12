@@ -11,6 +11,7 @@ export interface PanelProps {
   row: number
   col: number
   movePanel: (dragIndex: number, hoverIndex: number) => void
+  component: JSX.Element
 }
 
 interface DragItem {
@@ -19,7 +20,7 @@ interface DragItem {
   type: string
 }
 
-const Panel = ({ id, title, index, row, col, movePanel }: PanelProps) => {
+const Panel = ({ id, title, index, row, col, movePanel, component }: PanelProps) => {
   const theme = useTheme()
   const ref = useRef<HTMLDivElement>(null)
 
@@ -63,7 +64,9 @@ const Panel = ({ id, title, index, row, col, movePanel }: PanelProps) => {
   return (
     <div ref={ref} css={panelContainer(isDragging, row, col, theme)}>
       <div css={panelWrap}>
-        <div data-handler-id={handlerId}>{title}</div>
+        <div css={widget} data-handler-id={handlerId}>
+          {component}
+        </div>
       </div>
     </div>
   )
@@ -88,4 +91,15 @@ const panelContainer = (isDragging: boolean, row: number, col: number, theme: Th
 const panelWrap = css`
   width: 100%;
   height: 100%;
+`
+
+const widget = css`
+  overflow: hidden;
+
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding: 5px;
+
+  border-radius: 16px;
 `
