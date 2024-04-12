@@ -23,4 +23,6 @@ export const themeDefault = {
   navText: Common.colors.gray03,
   icon: Common.colors.gray02,
   iconActive: Common.colors.blue02,
+  clockText: Common.colors.blue02,
+  dateText: Common.colors.gray03,
 }

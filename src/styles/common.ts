@@ -23,6 +23,8 @@ export const Common: Colors = {
     gray04: '#F5F7FC',
   },
   fontSize: {
+    fs40: '4rem',
+    fs30: '3rem',
     title: '2.4rem',
     fs20: '2rem',
     fs18: '1.8rem',
