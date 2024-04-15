@@ -1,17 +1,15 @@
 import { atom } from 'recoil'
 
-type AlertType = {
+import { AlertButtonType, AlertNotificationType } from '@/constants/enum'
+
+export type AlertType = {
   isOpen: boolean
+  icon?: string
   title: string
   content: string | JSX.Element
-  type: AlertButtonType
+  buttonType: AlertButtonType
+  notiType: AlertNotificationType
   callBack?: () => void
-}
-
-export enum AlertButtonType {
-  CloseAndOk,
-  Close,
-  None,
 }
 
 export const currentAlertState = atom<AlertType>({
@@ -20,6 +18,7 @@ export const currentAlertState = atom<AlertType>({
     isOpen: false,
     title: '',
     content: '',
-    type: AlertButtonType.Close,
+    buttonType: AlertButtonType.Close,
+    notiType: AlertNotificationType.Default,
   },
 })

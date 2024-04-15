@@ -1,13 +1,17 @@
 import { useRecoilState } from 'recoil'
 
-import { AlertButtonType, currentAlertState } from '@/store/alertState'
+import { AlertButtonType, AlertNotificationType } from '@/constants/enum'
+import { currentAlertState } from '@/store/alertState'
 
 type OpenAlertType = {
+  icon?: string
   title: string
   content: string | JSX.Element
-  type: AlertButtonType
+  buttonType: AlertButtonType
+  notiType: AlertNotificationType
   callback?: () => void
 }
+
 export const useAlert = () => {
   const [alertState, setAlertState] = useRecoilState(currentAlertState)
 
@@ -17,12 +21,14 @@ export const useAlert = () => {
     })
   }
 
-  const openAlert = ({ title, content, type, callback }: OpenAlertType) => {
+  const openAlert = ({ icon, title, content, buttonType, notiType, callback }: OpenAlertType) => {
     setAlertState({
       isOpen: true,
-      type: type,
+      icon: icon,
       title: title,
       content: content,
+      buttonType: buttonType,
+      notiType: notiType,
       callBack: callback,
     })
   }
