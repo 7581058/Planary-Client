@@ -47,7 +47,7 @@ const LoginForm = () => {
       <input type="password" id="password" css={input} {...register('password', loginFormValidation.password)} />
       <ErrorMessage msg={errors.email?.message || errors.password?.message} />
       <button type="submit" css={loginButton}>
-        Sign in
+        Log in
       </button>
     </form>
   )

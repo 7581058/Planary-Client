@@ -1,4 +1,4 @@
-export interface SigninRequestBody {
+export interface LoginRequestBody {
   email: string
   password: string
 }

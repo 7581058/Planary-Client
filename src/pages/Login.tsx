@@ -1,18 +1,18 @@
 import { css, Theme } from '@emotion/react'
 
-import SigninForm from '@/components/SigninForm'
+import LoginForm from '@/components/LoginForm'
 import { Common, flexCenter } from '@/styles/common'
 
-const SignIn = () => {
+const Login = () => {
   return (
     <div css={container}>
       <div css={[wrap]}>
         <div css={adContainer}>
           <img src="/src/assets/test_ad_2.png" alt="" />
         </div>
-        <div css={signinContainer}>
+        <div css={loginContainer}>
           <img css={logo} src="/src/assets/logo_black.svg" alt="planary" />
-          <SigninForm />
+          <LoginForm />
           <p css={text}>
             Don't have an account?
             <a href="#" css={signupButton}>
@@ -25,7 +25,7 @@ const SignIn = () => {
   )
 }
 
-export default SignIn
+export default Login
 
 const container = (theme: Theme) => css`
   position: absolute;
@@ -62,7 +62,7 @@ const adContainer = css`
   }
 `
 
-const signinContainer = css`
+const loginContainer = css`
   flex-direction: column;
 
   box-sizing: border-box;

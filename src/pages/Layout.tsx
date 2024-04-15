@@ -9,13 +9,13 @@ import { themeDefault } from '@/styles/theme'
 
 const Layout = () => {
   const location = useLocation()
-  const isSigninPage = location.pathname === '/'
+  const isLoginPage = location.pathname === '/'
 
   return (
     <ThemeProvider theme={themeDefault}>
       <Global styles={globalStyles} />
       <div css={container}>
-        {isSigninPage ? (
+        {isLoginPage ? (
           <Outlet />
         ) : (
           <div css={container}>
