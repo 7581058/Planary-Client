@@ -1,6 +1,7 @@
 import { css, Global, ThemeProvider } from '@emotion/react'
 import { Outlet, useLocation } from 'react-router-dom'
 
+import CustomAlert from '@/components/alert/CustomAlert'
 import LayoutHeader from '@/components/header/LayoutHeader'
 import MainNav from '@/components/MainNav'
 import { globalStyles } from '@/styles/globalStyles'
@@ -25,6 +26,7 @@ const Layout = () => {
             </div>
           </div>
         )}
+        <CustomAlert />
       </div>
     </ThemeProvider>
   )
