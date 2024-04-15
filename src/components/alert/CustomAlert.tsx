@@ -1,5 +1,6 @@
 import { css, keyframes, useTheme } from '@emotion/react'
 import { Theme } from '@emotion/react'
+import { useEffect } from 'react'
 
 import { AlertButtonType, AlertNotificationType } from '@/constants/enum'
 import { useAlert } from '@/hooks/useAlert'
@@ -8,6 +9,16 @@ import { Common } from '@/styles/common'
 const CustomAlert = () => {
   const theme = useTheme()
   const { alertState, closeAlert } = useAlert()
+
+  useEffect(() => {
+    if (alertState.buttonType === AlertButtonType.None) {
+      const timeoutId = setTimeout(() => {
+        closeAlert()
+      }, 1500)
+
+      return () => clearTimeout(timeoutId)
+    }
+  }, [alertState.buttonType, closeAlert])
 
   return (
     <div css={alertContainer(theme, alertState.isOpen)}>
