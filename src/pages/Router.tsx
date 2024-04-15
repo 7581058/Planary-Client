@@ -1,38 +1,38 @@
-import { RouteObject } from "react-router-dom"
-import Board from "./Board"
-import Calendar from "./Calendar"
-import Layout from "./Layout"
-import Note from "./Note"
-import Planner from "./Planner"
-import SignIn from "./SignIn"
-import Store from "./Store"
+import { RouteObject } from 'react-router-dom'
+import Board from './Board'
+import Calendar from './Calendar'
+import Layout from './Layout'
+import Login from './Login'
+import Note from './Note'
+import Planner from './Planner'
+import Store from './Store'
 
 export const routues: RouteObject[] = [
   {
     element: <Layout />,
     children: [
       {
-        path: "/",
-        element: <SignIn />,
+        path: '/',
+        element: <Login />,
       },
       {
-        path: "/board",
+        path: '/board',
         element: <Board />,
       },
       {
-        path: "/calendar",
+        path: '/calendar',
         element: <Calendar />,
       },
       {
-        path: "/planner",
+        path: '/planner',
         element: <Planner />,
       },
       {
-        path: "/note",
+        path: '/note',
         element: <Note />,
       },
       {
-        path: "/store",
+        path: '/store',
         element: <Store />,
       },
     ],

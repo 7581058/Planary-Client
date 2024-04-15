@@ -1,11 +1,11 @@
-import { SIGNIN_MESSAGE } from '@/constants/message'
+import { LOGIN_MESSAGE } from '@/constants/message'
 
-export const signinFormValidation = {
+export const loginFormValidation = {
   email: {
-    required: SIGNIN_MESSAGE.email_required,
+    required: LOGIN_MESSAGE.email_required,
     pattern: {
       value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-      message: SIGNIN_MESSAGE.email_rex_error,
+      message: LOGIN_MESSAGE.email_rex_error,
     },
   },
   password: {
@@ -16,10 +16,10 @@ export const signinFormValidation = {
 //TODO: 회원가입 폼 구현 후 적용
 /* export const signupFormValidation = {
   email: {
-    ...signinFormValidation.email,
+    ...loginFormValidation.email,
   },
   password: {
-    ...signinFormValidation.password,
+    ...loginFormValidation.password,
     minLength: { value: 8, message: '8~16자의 영문 대/소문자, 숫자, 특수문자(!@#$%^&*)를 사용해 주세요.' },
     maxLength: { value: 16, message: '8~16자의 영문 대/소문자, 숫자, 특수문자(!@#$%^&*)를 사용해 주세요.' },
     pattern: {

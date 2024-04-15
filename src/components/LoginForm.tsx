@@ -3,33 +3,35 @@ import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import ErrorMessage from './ErrorMessage'
 
-import { signin } from '@/api'
+import { login } from '@/api'
+import { LOGIN_FAILED_ALERT } from '@/constants/alert'
+import { useAlert } from '@/hooks/useAlert'
 import { Common } from '@/styles/common'
-import { signinFormValidation } from '@/utils/validation'
-interface SignInFormType {
+import { loginFormValidation } from '@/utils/validation'
+
+interface LoginFormType {
   email: string
   password: string
 }
 
-const SigninForm = () => {
+const LoginForm = () => {
   const navigator = useNavigate()
+  const { openAlert } = useAlert()
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<SignInFormType>()
+  } = useForm<LoginFormType>()
 
-  const onSubmit = async (data: SignInFormType) => {
+  const onSubmit = async (data: LoginFormType) => {
     try {
-      const res = await signin({ email: data.email, password: data.password })
+      const res = await login({ email: data.email, password: data.password })
       if (res) {
         localStorage.setItem('accessToken', res.accessToken)
         navigator('/board')
-      } else {
-        alert('로그인실패')
       }
     } catch (error) {
-      alert(`로그인실패${error}`)
+      openAlert(LOGIN_FAILED_ALERT)
     }
   }
 
@@ -38,20 +40,20 @@ const SigninForm = () => {
       <label css={inputLabel} htmlFor="email">
         E-mail
       </label>
-      <input type="text" id="email" css={input} {...register('email', signinFormValidation.email)} />
+      <input type="text" id="email" css={input} {...register('email', loginFormValidation.email)} />
       <label css={inputLabel} htmlFor="password">
         Password
       </label>
-      <input type="password" id="password" css={input} {...register('password', signinFormValidation.password)} />
+      <input type="password" id="password" css={input} {...register('password', loginFormValidation.password)} />
       <ErrorMessage msg={errors.email?.message || errors.password?.message} />
-      <button type="submit" css={signinButton}>
-        Sign in
+      <button type="submit" css={loginButton}>
+        Log in
       </button>
     </form>
   )
 }
 
-export default SigninForm
+export default LoginForm
 
 const formWrap = css`
   display: flex;
@@ -97,7 +99,7 @@ const inputLabel = (theme: Theme) => css`
   text-align: left;
 `
 
-const signinButton = (theme: Theme) => css`
+const loginButton = (theme: Theme) => css`
   cursor: pointer;
 
   width: 100%;

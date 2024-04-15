@@ -13,7 +13,7 @@ export const handlers = [
   }),
 
   // 로그인 API
-  http.post('/api/signin', async ({ request }) => {
+  http.post('/api/login', async ({ request }) => {
     const data = {
       accessToken: '12341234',
       refreshToken: '1234',
