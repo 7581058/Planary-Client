@@ -74,6 +74,35 @@ export const handlers = [
     }
   }),
 
+  //대시보드 리스트
+  http.get('/api/boardList', async ({ request }) => {
+    const data = {
+      boards: [
+        {
+          title: 'myboard',
+          index: 0,
+        },
+        {
+          title: 'board2',
+          index: 1,
+        },
+      ],
+    }
+
+    const token = request.headers.get('Authorization')
+
+    if (token === '12341234') {
+      return new HttpResponse(JSON.stringify(data), {
+        status: 200,
+      })
+    } else {
+      return new HttpResponse(null, {
+        status: 400,
+        statusText: 'authentication_failed',
+      })
+    }
+  }),
+
   http.get('*.svg', () => passthrough()),
   http.get('/board', () => passthrough()),
   http.get('/src/assets/*', () => passthrough()),

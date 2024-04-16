@@ -24,3 +24,8 @@ export const login = async (body: LoginRequestBody) => {
   const res = await instance.post('/api/login', body)
   return res.data
 }
+
+export const getBoardList = async () => {
+  const res = await instance.get('/api/boards')
+  return res.data
+}
