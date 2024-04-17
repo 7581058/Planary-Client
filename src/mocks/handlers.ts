@@ -157,7 +157,7 @@ export const handlers = [
     }
 
     const data2 = {
-      board: {
+      boards: {
         title: 'board2',
         index: 1,
         grid: [
