@@ -25,7 +25,7 @@ const menuContainer = css`
   justify-content: end;
 
   width: 100%;
-  height: 32px;
+  height: 40px;
   padding-right: 32px;
 `
 
