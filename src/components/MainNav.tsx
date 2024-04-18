@@ -129,7 +129,7 @@ const menuIcon = (theme: Theme) => css`
 
 const NAV_MENU = [
   {
-    path: '/board',
+    path: '/dashboard',
     title: 'Dashboard',
     icon: <MdOutlineSpaceDashboard />,
   },

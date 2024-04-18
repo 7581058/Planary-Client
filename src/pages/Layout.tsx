@@ -10,12 +10,13 @@ import { themeDefault } from '@/styles/theme'
 const Layout = () => {
   const location = useLocation()
   const isLoginPage = location.pathname === '/'
+  const isDashboardPage = location.pathname === '/dashboard/edit'
 
   return (
     <ThemeProvider theme={themeDefault}>
       <Global styles={globalStyles} />
       <div css={container}>
-        {isLoginPage ? (
+        {isLoginPage || isDashboardPage ? (
           <Outlet />
         ) : (
           <div css={container}>
