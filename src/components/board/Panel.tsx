@@ -30,10 +30,8 @@ const panelContainer = (row: number, col: number, theme: Theme) => css`
   grid-column: span ${col};
   grid-row: span ${row};
 
-  box-sizing: border-box;
-
   background-color: ${theme.panel};
-  border: 5px solid ${theme.border};
+  border: 2px solid ${theme.border};
   border-radius: 16px;
 `
 

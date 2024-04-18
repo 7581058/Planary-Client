@@ -27,14 +27,15 @@ const menuContainer = css`
 
   width: 100%;
   height: 40px;
-  padding-right: 32px;
+  padding-right: 40px;
 `
 
 const editButton = (theme: Theme) => css`
   cursor: pointer;
 
-  width: 32px;
-  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   font-size: ${Common.fontSize.fs14};
   color: ${theme.button};
