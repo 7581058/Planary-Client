@@ -35,4 +35,8 @@ export const themeDefault = {
   alertButtonBoard: Common.colors.gray03,
   alertOkButton: Common.colors.blue02,
   alertOkButtonText: Common.colors.white,
+  selectBorder: Common.colors.blue02,
+  selectBackground: Common.colors.white02,
+  selectText: Common.colors.blue02,
+  selectOptionBackground: Common.colors.white,
 }
