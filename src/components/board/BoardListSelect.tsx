@@ -33,4 +33,18 @@ const BoardListSelect = () => {
 
 export default BoardListSelect
 
-const selectContainer = (theme: Theme) => css``
+const selectContainer = (theme: Theme) => css`
+  color: ${theme.selectText};
+  background-color: ${theme.selectBackground};
+  border: 2px solid ${theme.selectBorder};
+  border-radius: 4px;
+
+  &:active,
+  &:focus {
+    outline: none;
+  }
+
+  option {
+    background-color: ${theme.selectOptionBackground};
+  }
+`
