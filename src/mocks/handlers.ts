@@ -112,27 +112,33 @@ export const handlers = [
         grid: [
           {
             id: 0,
-            row: 1,
+            row: 2,
             col: 3,
             component: 'profile',
           },
           {
             id: 1,
-            row: 1,
-            col: 2,
+            row: 2,
+            col: 3,
             component: 'player',
           },
           {
             id: 2,
-            row: 1,
+            row: 2,
             col: 2,
             component: 'dday',
           },
           {
             id: 3,
-            row: 2,
-            col: 3,
+            row: 4,
+            col: 4,
             component: 'minicalendar',
+          },
+          {
+            id: 6,
+            row: 4,
+            col: 2,
+            component: 'todo',
           },
           {
             id: 4,
@@ -142,15 +148,9 @@ export const handlers = [
           },
           {
             id: 5,
-            row: 2,
+            row: 3,
             col: 2,
             component: 'timer',
-          },
-          {
-            id: 6,
-            row: 1,
-            col: 2,
-            component: 'todo',
           },
         ],
       },
@@ -164,20 +164,20 @@ export const handlers = [
           {
             id: 0,
             row: 1,
-            col: 3,
-            component: 'profile',
+            col: 2,
+            component: 'clock',
           },
           {
             id: 1,
             row: 1,
-            col: 2,
+            col: 3,
             component: 'profile',
           },
           {
             id: 2,
             row: 1,
             col: 2,
-            component: 'clock',
+            component: 'dday',
           },
           {
             id: 3,
