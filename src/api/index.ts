@@ -26,6 +26,19 @@ export const login = async (body: LoginRequestBody) => {
 }
 
 export const getBoardList = async () => {
-  const res = await instance.get('/api/boards')
+  const res = await instance.get('/api/boardList', {
+    headers: {
+      Authorization: `${localStorage.getItem('accessToken')}`,
+    },
+  })
+  return res.data
+}
+
+export const getBoard = async (boardId: number) => {
+  const res = await instance.get(`/api/board/${boardId}`, {
+    headers: {
+      Authorization: `${localStorage.getItem('accessToken')}`,
+    },
+  })
   return res.data
 }
