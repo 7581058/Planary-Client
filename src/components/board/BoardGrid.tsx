@@ -6,7 +6,7 @@ import { currentBoardQuery } from '@/store/boardState'
 export interface Item {
   row: number
   col: number
-  component: JSX.Element
+  component: string
 }
 
 export interface ContainerState {

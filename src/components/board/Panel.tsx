@@ -1,19 +1,22 @@
 import { css, useTheme } from '@emotion/react'
 import { Theme } from '@emotion/react'
 
+import { componentMap } from '@/constants/widget'
 export interface PanelProps {
   row: number
   col: number
-  component: JSX.Element
+  component: string
 }
 
 const Panel = ({ row, col, component }: PanelProps) => {
   const theme = useTheme()
 
+  const Widget = componentMap[component]
+
   return (
     <div css={panelContainer(row, col, theme)}>
       <div css={panelWrap}>
-        <div css={widget}>{component}</div>
+        <div css={widget}>{Widget && <Widget />}</div>
       </div>
     </div>
   )
