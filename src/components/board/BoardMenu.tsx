@@ -4,13 +4,13 @@ import { FaRegEdit } from 'react-icons/fa'
 import { NavLink } from 'react-router-dom'
 import BoardListSelect from './BoardListSelect'
 
+import { DASHBOARD_EDIT_PATH } from '@/constants/paths'
 import { Common } from '@/styles/common'
-
 const BoardMenu = () => {
   return (
     <div css={menuContainer}>
       <BoardListSelect />
-      <NavLink to="/dashboard/edit" css={editButton}>
+      <NavLink to={DASHBOARD_EDIT_PATH} css={editButton}>
         <FaRegEdit />
       </NavLink>
     </div>

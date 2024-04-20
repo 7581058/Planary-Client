@@ -5,6 +5,7 @@ import ErrorMessage from './ErrorMessage'
 
 import { login } from '@/api'
 import { LOGIN_FAILED_ALERT } from '@/constants/alert'
+import { DASHBOARD_PATH } from '@/constants/paths'
 import { useAlert } from '@/hooks/useAlert'
 import { Common } from '@/styles/common'
 import { loginFormValidation } from '@/utils/validation'
@@ -28,7 +29,7 @@ const LoginForm = () => {
       const res = await login({ email: data.email, password: data.password })
       if (res) {
         localStorage.setItem('accessToken', res.accessToken)
-        navigator('/board')
+        navigator(DASHBOARD_PATH)
       }
     } catch (error) {
       openAlert(LOGIN_FAILED_ALERT)
