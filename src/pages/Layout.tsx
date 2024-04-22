@@ -4,19 +4,20 @@ import { Outlet, useLocation } from 'react-router-dom'
 import CustomAlert from '@/components/alert/CustomAlert'
 import LayoutHeader from '@/components/header/LayoutHeader'
 import MainNav from '@/components/MainNav'
+import { DASHBOARD_EDIT_PATH } from '@/constants/paths'
 import { globalStyles } from '@/styles/globalStyles'
 import { themeDefault } from '@/styles/theme'
 
 const Layout = () => {
   const location = useLocation()
   const isLoginPage = location.pathname === '/'
-  const isDashboardPage = location.pathname === '/dashboard/edit'
+  const isDashboardEditPage = location.pathname === DASHBOARD_EDIT_PATH
 
   return (
     <ThemeProvider theme={themeDefault}>
       <Global styles={globalStyles} />
       <div css={container}>
-        {isLoginPage || isDashboardPage ? (
+        {isLoginPage || isDashboardEditPage ? (
           <div css={container}>
             <Outlet />
           </div>
