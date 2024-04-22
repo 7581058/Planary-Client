@@ -39,4 +39,7 @@ export const themeDefault = {
   selectBackground: Common.colors.white02,
   selectText: Common.colors.blue02,
   selectOptionBackground: Common.colors.white,
+  headerBackground: Common.colors.white,
+  headerText: Common.colors.black02,
+  headerButtons: Common.colors.blue02,
 }
