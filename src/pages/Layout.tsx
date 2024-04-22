@@ -17,7 +17,9 @@ const Layout = () => {
       <Global styles={globalStyles} />
       <div css={container}>
         {isLoginPage || isDashboardPage ? (
-          <Outlet />
+          <div css={container}>
+            <Outlet />
+          </div>
         ) : (
           <div css={container}>
             <MainNav />
