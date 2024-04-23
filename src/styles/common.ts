@@ -22,6 +22,7 @@ export const Common: Colors = {
     gray02: '#C8CCD9',
     gray03: '#9A9BA1',
     gray04: '#F5F7FC',
+    gray05: '#f4f4f4',
     green01: '#02d147',
     yellow01: '#fcc203',
   },
