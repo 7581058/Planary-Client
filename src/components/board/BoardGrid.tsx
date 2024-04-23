@@ -20,7 +20,7 @@ const BoardGrid = () => {
     <div css={boardWrap}>
       {boards &&
         boards.grid.map((item: Item, index: number) => (
-          <Panel key={index} row={item.row} col={item.col} component={item.component}></Panel>
+          <Panel key={index} row={item.row} col={item.col} component={item.component} isPreview={false}></Panel>
         ))}
     </div>
   )

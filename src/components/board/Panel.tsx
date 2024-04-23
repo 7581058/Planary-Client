@@ -1,17 +1,23 @@
 import { css, useTheme } from '@emotion/react'
 import { Theme } from '@emotion/react'
 
-import { componentMap } from '@/constants/widget'
+import { componentMap, previewMap } from '@/constants/widget'
 export interface PanelProps {
   row: number
   col: number
   component: string
+  isPreview: boolean
 }
 
-const Panel = ({ row, col, component }: PanelProps) => {
+const Panel = ({ row, col, component, isPreview }: PanelProps) => {
   const theme = useTheme()
+  let Widget
 
-  const Widget = componentMap[component]
+  if (isPreview) {
+    Widget = previewMap[component]
+  } else {
+    Widget = componentMap[component]
+  }
 
   return (
     <div css={panelContainer(row, col, theme)}>
