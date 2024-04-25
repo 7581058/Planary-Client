@@ -3,13 +3,11 @@ import { Theme } from '@emotion/react'
 
 import { componentMap, previewMap } from '@/constants/widget'
 export interface PanelProps {
-  row: number
-  col: number
   component: string
   isPreview: boolean
 }
 
-const Panel = ({ row, col, component, isPreview }: PanelProps) => {
+const Panel = ({ component, isPreview }: PanelProps) => {
   const theme = useTheme()
   let Widget
 
@@ -20,9 +18,9 @@ const Panel = ({ row, col, component, isPreview }: PanelProps) => {
   }
 
   return (
-    <div css={panelContainer(row, col, theme)}>
+    <div css={panelContainer(isPreview, theme)}>
       <div css={panelWrap}>
-        <div css={widget}>{Widget && <Widget />}</div>
+        <div css={widget}>{Widget ? <Widget /> : component}</div>
       </div>
     </div>
   )
@@ -30,13 +28,13 @@ const Panel = ({ row, col, component, isPreview }: PanelProps) => {
 
 export default Panel
 
-const panelContainer = (row: number, col: number, theme: Theme) => css`
+const panelContainer = (isPreview: boolean, theme: Theme) => css`
   position: relative;
 
-  grid-column: span ${col};
-  grid-row: span ${row};
+  width: 100%;
+  height: 100%;
 
-  background-color: ${theme.panel};
+  background-color: ${isPreview ? theme.previewPanelBackground : theme.panel};
   border: 2px solid ${theme.border};
   border-radius: 16px;
 `
