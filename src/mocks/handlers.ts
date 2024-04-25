@@ -1,4 +1,5 @@
 import { http, HttpResponse, passthrough } from 'msw'
+import { layoutData } from './data'
 
 const members = []
 
@@ -105,116 +106,14 @@ export const handlers = [
 
   //대시보드
   http.get('/api/board/:boardId', async ({ request, params }) => {
-    const data1 = {
-      boards: {
-        title: 'myboard',
-        index: 0,
-        grid: [
-          {
-            id: 0,
-            row: 2,
-            col: 3,
-            component: 'profile',
-          },
-          {
-            id: 1,
-            row: 2,
-            col: 3,
-            component: 'player',
-          },
-          {
-            id: 2,
-            row: 2,
-            col: 2,
-            component: 'dday',
-          },
-          {
-            id: 3,
-            row: 4,
-            col: 4,
-            component: 'minicalendar',
-          },
-          {
-            id: 6,
-            row: 4,
-            col: 2,
-            component: 'todo',
-          },
-          {
-            id: 4,
-            row: 1,
-            col: 2,
-            component: 'clock',
-          },
-          {
-            id: 5,
-            row: 3,
-            col: 2,
-            component: 'timer',
-          },
-        ],
-      },
-    }
-
-    const data2 = {
-      boards: {
-        title: 'board2',
-        index: 1,
-        grid: [
-          {
-            id: 0,
-            row: 1,
-            col: 2,
-            component: 'clock',
-          },
-          {
-            id: 1,
-            row: 1,
-            col: 3,
-            component: 'profile',
-          },
-          {
-            id: 2,
-            row: 1,
-            col: 2,
-            component: 'dday',
-          },
-          {
-            id: 3,
-            row: 2,
-            col: 3,
-            component: 'minicalendar',
-          },
-          {
-            id: 4,
-            row: 1,
-            col: 2,
-            component: 'clock',
-          },
-          {
-            id: 5,
-            row: 2,
-            col: 2,
-            component: 'timer',
-          },
-          {
-            id: 6,
-            row: 1,
-            col: 2,
-            component: 'todo',
-          },
-        ],
-      },
-    }
-
     const token = request.headers.get('Authorization')
     const { boardId } = params
     if (token === '12341234' && boardId === '0') {
-      return new HttpResponse(JSON.stringify(data1), {
+      return new HttpResponse(JSON.stringify(layoutData), {
         status: 200,
       })
     } else if (token === '12341234' && boardId === '1') {
-      return new HttpResponse(JSON.stringify(data2), {
+      return new HttpResponse(JSON.stringify(layoutData), {
         status: 200,
       })
     } else {
