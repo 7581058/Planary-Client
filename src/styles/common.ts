@@ -11,7 +11,6 @@ interface Colors {
 export const Common: Colors = {
   colors: {
     white: '#ffffff',
-    white02: '#edf0f6',
     black: '#000000',
     black02: '#28292E',
     blue01: '#edf0f6',
