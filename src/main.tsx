@@ -1,4 +1,6 @@
 import './configs/recoil'
+import 'react-grid-layout/css/styles.css'
+import 'react-resizable/css/styles.css'
 
 import React from 'react'
 import ReactDOM from 'react-dom/client'
@@ -6,7 +8,6 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { RecoilRoot } from 'recoil'
 
 import { routues } from '@/pages/Router.tsx'
-
 async function enableMocking() {
   if (process.env.NODE_ENV !== 'development') {
     return
