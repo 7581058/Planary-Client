@@ -2,10 +2,32 @@ import { atom, selector } from 'recoil'
 import { currentUserToken } from './userState'
 
 import { instance } from '@/api'
+export interface BoardItem {
+  i: string
+  x: number
+  y: number
+  w: number
+  h: number
+  minW: number
+  maxW: number
+  minH: number
+  maxH: number
+  component: string
+}
+export interface BoardState {
+  lg: BoardItem[]
+}
 
 export const currentBoardId = atom({
   key: 'currentBoardId',
   default: 0,
+})
+
+export const boardState = atom<BoardState>({
+  key: 'boardState',
+  default: {
+    lg: [],
+  },
 })
 
 export const currentBoardListQuery = selector({
@@ -40,7 +62,6 @@ export const currentBoardQuery = selector({
           Authorization: token,
         },
       })
-
       return res.data
     } catch (error) {
       console.error('Failed to fetch user info:', error)
