@@ -1,5 +1,5 @@
 import { http, HttpResponse, passthrough } from 'msw'
-import { layoutData } from './data'
+import { layoutData, layoutData2 } from './data'
 
 const members = []
 
@@ -113,7 +113,7 @@ export const handlers = [
         status: 200,
       })
     } else if (token === '12341234' && boardId === '1') {
-      return new HttpResponse(JSON.stringify(layoutData), {
+      return new HttpResponse(JSON.stringify(layoutData2), {
         status: 200,
       })
     } else {
