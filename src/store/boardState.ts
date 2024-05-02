@@ -1,21 +1,14 @@
+import { Layout } from 'react-grid-layout'
 import { atom, selector } from 'recoil'
 import { currentUserToken } from './userState'
 
 import { instance } from '@/api'
-export interface BoardItem {
-  i: string
-  x: number
-  y: number
-  w: number
-  h: number
-  minW: number
-  maxW: number
-  minH: number
-  maxH: number
-  component?: string
+
+export interface BoardItem extends Layout {
+  component: string
 }
 export interface BoardState {
-  lg?: BoardItem[]
+  lg: BoardItem[]
 }
 
 export const boardDirtyFlag = atom({
@@ -31,7 +24,16 @@ export const currentBoardId = atom({
 export const boardState = atom<BoardState>({
   key: 'boardState',
   default: {
-    lg: [],
+    lg: [
+      {
+        i: '',
+        x: 0,
+        y: 0,
+        w: 0,
+        h: 0,
+        component: '',
+      },
+    ],
   },
 })
 
