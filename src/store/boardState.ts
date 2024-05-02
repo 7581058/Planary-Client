@@ -12,11 +12,16 @@ export interface BoardItem {
   maxW: number
   minH: number
   maxH: number
-  component: string
+  component?: string
 }
 export interface BoardState {
-  lg: BoardItem[]
+  lg?: BoardItem[]
 }
+
+export const boardDirtyFlag = atom({
+  key: 'boardDirtyFlag',
+  default: false,
+})
 
 export const currentBoardId = atom({
   key: 'currentBoardId',
