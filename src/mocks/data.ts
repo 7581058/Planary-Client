@@ -79,7 +79,7 @@ export const layoutData = {
       maxW: WIDGET_CALENDAR_MAXW,
       minH: WIDGET_CALENDAR_MINH,
       maxH: WIDGET_CALENDAR_MAXH,
-      component: 'minicalendar',
+      component: 'calendar',
     },
     {
       i: '4',
@@ -168,7 +168,7 @@ export const layoutData2 = {
       maxW: WIDGET_CALENDAR_MAXW,
       minH: WIDGET_CALENDAR_MINH,
       maxH: WIDGET_CALENDAR_MAXH,
-      component: 'minicalendar',
+      component: 'calendar',
     },
     {
       i: '4',
