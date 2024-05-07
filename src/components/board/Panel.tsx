@@ -5,7 +5,7 @@ import { IoCloseOutline } from 'react-icons/io5'
 import { componentMap, previewMap } from '@/constants/widget'
 import { Common } from '@/styles/common'
 export interface PanelProps {
-  component: string
+  component?: string
   isPreview: boolean
   onDelete: () => void
 }
@@ -14,9 +14,9 @@ const Panel = ({ component, isPreview, onDelete }: PanelProps) => {
   const theme = useTheme()
   let Widget
 
-  if (isPreview) {
+  if (isPreview && component) {
     Widget = previewMap[component]
-  } else {
+  } else if (component) {
     Widget = componentMap[component]
   }
 

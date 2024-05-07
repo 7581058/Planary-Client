@@ -5,7 +5,7 @@ import { currentUserToken } from './userState'
 import { instance } from '@/api'
 
 export interface BoardItem extends Layout {
-  component: string
+  component?: string
 }
 export interface BoardState {
   lg: BoardItem[]
