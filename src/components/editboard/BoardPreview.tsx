@@ -30,7 +30,7 @@ const BoardPreview = () => {
     })
   }
 
-  const onLayoutChange = (currentLayout: Layout[] | BoardState) => {
+  const onLayoutChange = (currentLayout: Layout[]) => {
     const prevLayoutString = JSON.stringify(convertBoardStateToLayouts(boards).lg)
     const newLayoutString = JSON.stringify(convertBoardStateToLayouts(currentLayout).lg)
 
@@ -39,13 +39,21 @@ const BoardPreview = () => {
     }
 
     setBoards((prevBoards) => {
-      if ('lg' in currentLayout && Array.isArray(currentLayout.lg)) {
-        const updatedLayouts = currentLayout.lg.map((newItem) => {
+      if (currentLayout) {
+        const updatedLayouts = currentLayout.map((newItem) => {
           const foundItem: BoardItem | undefined = prevBoards.lg.find((prevItem: BoardItem) => prevItem.i === newItem.i)
           if (foundItem) {
             return {
               ...newItem,
               component: foundItem.component,
+              x: newItem.x,
+              y: newItem.y,
+              w: newItem.w,
+              h: newItem.h,
+              minW: foundItem.minW,
+              maxW: foundItem.maxW,
+              minH: foundItem.minH,
+              maxH: foundItem.maxH,
             }
           }
           return newItem
@@ -93,6 +101,33 @@ const BoardPreview = () => {
     return layouts
   }
 
+  const generateUniqueId = () => {
+    return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
+  }
+
+  //TODO: 드롭 추가 시 지정위치보다 +1 돼서 놓여짐 수정필요
+  //TODO: 위젯 추가 시 기존 패널위 드래그 할때 오류 발생 수정필요
+  //TODO: 위젯 추가 시 아래위로 이동 몇번 후 드롭하면 여러개 가끔 생길때 있음, 아이디 워닝 발생
+  const onDrop = (layout, layoutItem: Layout, e) => {
+    const widgetDataString = e.dataTransfer.getData('widgetData')
+    const widgetData = JSON.parse(widgetDataString)
+    setBoards((prevBoards) => {
+      const updatedLayouts = prevBoards.lg.map((item) => {
+        if (item.i === layoutItem.i) {
+          return {
+            x: item.x,
+            y: item.y,
+            i: generateUniqueId(),
+            ...widgetData,
+          }
+        }
+        return item
+      })
+
+      return { ...prevBoards, lg: updatedLayouts }
+    })
+  }
+
   return (
     <div css={container}>
       <ResponsiveGridLayout
@@ -103,6 +138,8 @@ const BoardPreview = () => {
         rowHeight={130}
         useCSSTransforms={false}
         onLayoutChange={onLayoutChange}
+        onDrop={onDrop}
+        isDroppable={true}
       >
         {boardData &&
           boards.lg.map((item: BoardItem) => (
