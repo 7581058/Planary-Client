@@ -6,6 +6,9 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import Panel from '../board/Panel'
 
 import { boardDirtyFlag, BoardItem, BoardState, boardState, currentBoardQuery } from '@/store/boardState'
+interface CustomDragEvent extends Event {
+  dataTransfer: DataTransfer
+}
 
 const ResponsiveGridLayout = WidthProvider(Responsive)
 
@@ -110,7 +113,7 @@ const BoardPreview = () => {
    * !FIX: 위젯 추가 시 기존 패널위 드래그 할때 오류 발생 수정필요
    * !FIX: 위젯 추가 시 아래위로 이동 몇번 후 드롭하면 여러개 가끔 생길때 있음, 아이디 워닝 발생
    */
-  const onDrop = (layout: Layout[], layoutItem: Layout, e: React.DragEvent<HTMLDivElement>) => {
+  const onDrop = (_layout: Layout[], layoutItem: Layout, e: CustomDragEvent) => {
     const widgetDataString = e.dataTransfer.getData('widgetData')
     const widgetData = JSON.parse(widgetDataString)
     setBoards((prevBoards) => {
