@@ -105,10 +105,12 @@ const BoardPreview = () => {
     return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
   }
 
-  //TODO: 드롭 추가 시 지정위치보다 +1 돼서 놓여짐 수정필요
-  //TODO: 위젯 추가 시 기존 패널위 드래그 할때 오류 발생 수정필요
-  //TODO: 위젯 추가 시 아래위로 이동 몇번 후 드롭하면 여러개 가끔 생길때 있음, 아이디 워닝 발생
-  const onDrop = (layout, layoutItem: Layout, e) => {
+  /**
+   * !FIX: 드롭 추가 시 지정위치보다 +1 돼서 놓여짐 수정필요
+   * !FIX: 위젯 추가 시 기존 패널위 드래그 할때 오류 발생 수정필요
+   * !FIX: 위젯 추가 시 아래위로 이동 몇번 후 드롭하면 여러개 가끔 생길때 있음, 아이디 워닝 발생
+   */
+  const onDrop = (layout: Layout[], layoutItem: Layout, e: React.DragEvent<HTMLDivElement>) => {
     const widgetDataString = e.dataTransfer.getData('widgetData')
     const widgetData = JSON.parse(widgetDataString)
     setBoards((prevBoards) => {
@@ -128,6 +130,10 @@ const BoardPreview = () => {
     })
   }
 
+  const onDropDragOver = () => {
+    return { w: 2, h: 1 }
+  }
+
   return (
     <div css={container}>
       <ResponsiveGridLayout
@@ -140,6 +146,7 @@ const BoardPreview = () => {
         onLayoutChange={onLayoutChange}
         onDrop={onDrop}
         isDroppable={true}
+        onDropDragOver={onDropDragOver}
       >
         {boardData &&
           boards.lg.map((item: BoardItem) => (
