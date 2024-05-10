@@ -1,16 +1,20 @@
 import { css, useTheme } from '@emotion/react'
 import { Theme } from '@emotion/react'
-import { useRecoilState } from 'recoil'
+import { useRecoilState, useRecoilValue } from 'recoil'
 import BoardListSelect from '../board/BoardListSelect'
 
-import { boardDirtyFlag } from '@/store/boardState'
+import { boardDirtyFlag, boardState } from '@/store/boardState'
 
 const BoardEditMenu = () => {
   const theme = useTheme()
   const [isDirty, setIsDirty] = useRecoilState(boardDirtyFlag)
+  const boards = useRecoilValue(boardState)
+
   const handleClickSave = () => {
     setIsDirty(false)
+    console.log(boards)
   }
+
   return (
     <div css={container}>
       <BoardListSelect />
