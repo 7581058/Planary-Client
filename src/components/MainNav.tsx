@@ -7,6 +7,7 @@ import { MdOutlineSpaceDashboard } from 'react-icons/md'
 import { SlNotebook } from 'react-icons/sl'
 import { NavLink } from 'react-router-dom'
 
+import { CALENDAR_PATH, DASHBOARD_PATH, NOTE_PATH, PLANNER_PATH, STORE_PATH } from '@/constants/paths'
 import { Common } from '@/styles/common'
 
 const MainNav = () => {
@@ -129,27 +130,27 @@ const menuIcon = (theme: Theme) => css`
 
 const NAV_MENU = [
   {
-    path: '/board',
+    path: DASHBOARD_PATH,
     title: 'Dashboard',
     icon: <MdOutlineSpaceDashboard />,
   },
   {
-    path: '/calendar',
+    path: CALENDAR_PATH,
     title: 'Calendar',
     icon: <FaRegCalendarAlt />,
   },
   {
-    path: '/planner',
+    path: PLANNER_PATH,
     title: 'Planner',
     icon: <GrPlan />,
   },
   {
-    path: '/note',
+    path: NOTE_PATH,
     title: 'Note',
     icon: <SlNotebook />,
   },
   {
-    path: '/store',
+    path: STORE_PATH,
     title: 'Store',
     icon: <MdOutlineStorefront />,
   },

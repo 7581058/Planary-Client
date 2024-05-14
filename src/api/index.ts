@@ -1,5 +1,6 @@
 import axios from 'axios'
 
+import { BoardState } from '@/store/boardState'
 import { LoginRequestBody } from '@/types'
 
 const { VITE_BASE_URL } = import.meta.env
@@ -22,5 +23,32 @@ export const instance = axios.create({
 
 export const login = async (body: LoginRequestBody) => {
   const res = await instance.post('/api/login', body)
+  return res.data
+}
+
+export const getBoardList = async () => {
+  const res = await instance.get('/api/boardList', {
+    headers: {
+      Authorization: `${localStorage.getItem('accessToken')}`,
+    },
+  })
+  return res.data
+}
+
+export const getBoard = async (boardId: number) => {
+  const res = await instance.get(`/api/board/${boardId}`, {
+    headers: {
+      Authorization: `${localStorage.getItem('accessToken')}`,
+    },
+  })
+  return res.data
+}
+
+export const editBoard = async (body: BoardState, boardId: number) => {
+  const res = await instance.post(`/api/board/${boardId}`, body, {
+    headers: {
+      Authorization: `${localStorage.getItem('accessToken')}`,
+    },
+  })
   return res.data
 }

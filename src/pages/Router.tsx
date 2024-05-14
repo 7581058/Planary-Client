@@ -1,5 +1,6 @@
 import { RouteObject } from 'react-router-dom'
 import Board from './Board'
+import BoardEdit from './BoardEdit'
 import Calendar from './Calendar'
 import Layout from './Layout'
 import Login from './Login'
@@ -16,7 +17,7 @@ export const routues: RouteObject[] = [
         element: <Login />,
       },
       {
-        path: '/board',
+        path: '/dashboard',
         element: <Board />,
       },
       {
@@ -34,6 +35,10 @@ export const routues: RouteObject[] = [
       {
         path: '/store',
         element: <Store />,
+      },
+      {
+        path: '/dashboard/edit',
+        element: <BoardEdit />,
       },
     ],
   },

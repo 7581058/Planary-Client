@@ -1,72 +1,34 @@
 import { css, useTheme } from '@emotion/react'
 import { Theme } from '@emotion/react'
-import type { Identifier } from 'dnd-core'
-import { useRef } from 'react'
-import { useDrag, useDrop } from 'react-dnd'
+import { IoCloseOutline } from 'react-icons/io5'
 
+import { componentMap, previewMap } from '@/constants/widget'
+import { Common } from '@/styles/common'
 export interface PanelProps {
-  id: number
-  title: string
-  index: number
-  row: number
-  col: number
-  movePanel: (dragIndex: number, hoverIndex: number) => void
-  component: JSX.Element
+  component?: string
+  isPreview: boolean
+  onDelete: () => void
 }
 
-interface DragItem {
-  index: number
-  id: string
-  type: string
-}
-
-const Panel = ({ id, title, index, row, col, movePanel, component }: PanelProps) => {
+const Panel = ({ component, isPreview, onDelete }: PanelProps) => {
   const theme = useTheme()
-  const ref = useRef<HTMLDivElement>(null)
+  let Widget
 
-  //드래그
-  const [{ isDragging }, drag] = useDrag({
-    type: 'panel',
-    item: () => {
-      return { id, index }
-    },
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
-  })
-  //드롭
-  const [{ handlerId }, drop] = useDrop<DragItem, void, { handlerId: Identifier | null }>({
-    accept: 'panel',
-    collect(monitor) {
-      return {
-        handlerId: monitor.getHandlerId(),
-      }
-    },
+  if (isPreview && component) {
+    Widget = previewMap[component]
+  } else if (component) {
+    Widget = componentMap[component]
+  }
 
-    hover(item: DragItem) {
-      if (!ref.current) {
-        return
-      }
-      const dragIndex = item.index
-      const hoverIndex = index
-
-      if (dragIndex === hoverIndex) {
-        return
-      }
-
-      movePanel(dragIndex, hoverIndex)
-
-      item.index = hoverIndex
-    },
-  })
-
-  drag(drop(ref))
   return (
-    <div ref={ref} css={panelContainer(isDragging, row, col, theme)}>
+    <div css={panelContainer(isPreview, theme)}>
       <div css={panelWrap}>
-        <div css={widget} data-handler-id={handlerId}>
-          {component}
-        </div>
+        {isPreview && (
+          <button css={deleteButton} onClick={onDelete}>
+            <IoCloseOutline />
+          </button>
+        )}
+        <div css={widget}>{Widget ? <Widget /> : component}</div>
       </div>
     </div>
   )
@@ -74,17 +36,14 @@ const Panel = ({ id, title, index, row, col, movePanel, component }: PanelProps)
 
 export default Panel
 
-const panelContainer = (isDragging: boolean, row: number, col: number, theme: Theme) => css`
+const panelContainer = (isPreview: boolean, theme: Theme) => css`
   position: relative;
 
-  grid-column: span ${col};
-  grid-row: span ${row};
+  width: 100%;
+  height: 100%;
 
-  box-sizing: border-box;
-
-  opacity: ${isDragging ? 0 : 1};
-  background-color: ${theme.panel};
-  border: 5px solid ${theme.border};
+  background-color: ${isPreview ? theme.previewPanelBackground : theme.panel};
+  border: 2px solid ${theme.border};
   border-radius: 16px;
 `
 
@@ -102,4 +61,28 @@ const widget = css`
   padding: 5px;
 
   border-radius: 16px;
+`
+
+const deleteButton = (theme: Theme) => css`
+  cursor: pointer;
+
+  position: absolute;
+  z-index: 9;
+  right: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 32px;
+  height: 32px;
+
+  font-size: ${Common.fontSize.fs14};
+  color: ${theme.previewPanelDeleteButton};
+
+  background-color: transparent;
+
+  &:hover {
+    color: ${theme.previewPanelDeleteButtonhover};
+  }
 `
