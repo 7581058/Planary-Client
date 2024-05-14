@@ -16,3 +16,19 @@ export const BOARD_EDIT_SAVE_WARNING = {
   buttonType: AlertButtonType.Close,
   notiType: AlertNotificationType.Warning,
 }
+
+export const BOARD_EDIT_SAVE_FAILED = {
+  icon: '🚨',
+  title: '경고',
+  content: '저장에 실패했습니다. 잠시 후 다시 시도해 주세요.',
+  buttonType: AlertButtonType.Close,
+  notiType: AlertNotificationType.Error,
+}
+
+export const BOARD_EDIT_SAVE_SUCCESS = {
+  icon: '👌',
+  title: '저장 완료',
+  content: '저장을 완료했습니다.',
+  buttonType: AlertButtonType.None,
+  notiType: AlertNotificationType.Success,
+}
