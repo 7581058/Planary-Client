@@ -110,18 +110,19 @@ const BoardPreview = () => {
 
   /**
    * !FIX: 드롭 추가 시 지정위치보다 +1 돼서 놓여짐 수정필요
-   * !FIX: 위젯 추가 시 기존 패널위 드래그 할때 오류 발생 수정필요
+   * !FIX: 위젯 추가 시 기존 패널위 드래그 할때(drag over안나타날때) 오류 발생 수정필요
    * !FIX: 위젯 추가 시 아래위로 이동 몇번 후 드롭하면 여러개 가끔 생길때 있음, 아이디 워닝 발생
    */
   const onDrop = (_layout: Layout[], layoutItem: Layout, e: CustomDragEvent) => {
     const widgetDataString = e.dataTransfer.getData('widgetData')
     const widgetData = JSON.parse(widgetDataString)
+
     setBoards((prevBoards) => {
       const updatedLayouts = prevBoards.lg.map((item) => {
         if (item.i === layoutItem.i) {
           return {
-            x: item.x,
-            y: item.y,
+            x: layoutItem.x,
+            y: layoutItem.y - layoutItem.h,
             i: generateUniqueId(),
             ...widgetData,
           }
