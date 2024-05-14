@@ -67,6 +67,7 @@ const deleteButton = (theme: Theme) => css`
   cursor: pointer;
 
   position: absolute;
+  z-index: 9;
   right: 0;
 
   display: flex;
