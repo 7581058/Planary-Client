@@ -127,4 +127,27 @@ export const handlers = [
   http.get('*.svg', () => passthrough()),
   http.get('/board', () => passthrough()),
   http.get('/src/assets/*', () => passthrough()),
+
+  //대시보드 저장
+  http.post('/api/board/:boardId', async ({ request, params }) => {
+    const token = request.headers.get('Authorization')
+    const { boardId } = params
+
+    const result = await request.json()
+
+    const data = {
+      success: true,
+    }
+
+    if (token === '12341234' && boardId && result) {
+      return new HttpResponse(JSON.stringify(data), {
+        status: 200,
+      })
+    } else {
+      return new HttpResponse(null, {
+        status: 400,
+        statusText: 'failed',
+      })
+    }
+  }),
 ]
