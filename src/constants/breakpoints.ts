@@ -1,0 +1,1 @@
+export const PREVIEW_BREAK_POINTS = [120, 260, 390, 520]
