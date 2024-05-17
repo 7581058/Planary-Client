@@ -30,7 +30,7 @@ const container = (theme: Theme) => css`
 
 const day = (theme: Theme) => css`
   font-size: ${Common.fontSize.fs10};
-  color: ${theme.previewText};
+  color: ${theme.previewPointText};
 `
 
 const time = (theme: Theme) => css`
