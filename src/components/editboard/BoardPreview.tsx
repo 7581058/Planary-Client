@@ -1,13 +1,18 @@
 import { Theme } from '@emotion/react'
 import { css } from '@emotion/react'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Layout, Layouts, Responsive, WidthProvider } from 'react-grid-layout'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import Panel from '../board/Panel'
 
+import { WidgetProps } from '@/constants/widget'
 import { boardDirtyFlag, BoardItem, BoardState, boardState, currentBoardQuery } from '@/store/boardState'
 interface CustomDragEvent extends Event {
   dataTransfer: DataTransfer
+}
+
+interface ItemSizeProps {
+  [key: string]: WidgetProps
 }
 
 const ResponsiveGridLayout = WidthProvider(Responsive)
@@ -16,6 +21,7 @@ const BoardPreview = () => {
   const [boards, setBoards] = useRecoilState<BoardState>(boardState)
   const boardData = useRecoilValue(currentBoardQuery)
   const setIsDirty = useSetRecoilState<boolean>(boardDirtyFlag)
+  const [itemSize, setItemSize] = useState<ItemSizeProps>({})
 
   useEffect(() => {
     if (boardData) {
@@ -109,7 +115,6 @@ const BoardPreview = () => {
   }
 
   /**
-   * !FIX: 드롭 추가 시 지정위치보다 +1 돼서 놓여짐 수정필요
    * !FIX: 위젯 추가 시 기존 패널위 드래그 할때(drag over안나타날때) 오류 발생 수정필요
    * !FIX: 위젯 추가 시 아래위로 이동 몇번 후 드롭하면 여러개 가끔 생길때 있음, 아이디 워닝 발생
    */
@@ -138,6 +143,13 @@ const BoardPreview = () => {
     return { w: 2, h: 1 }
   }
 
+  const onResize = (_layout: Layout[], _oldItem: Layout, newItem: Layout) => {
+    setItemSize((prevSize) => ({
+      ...prevSize,
+      [newItem.i]: { w: newItem.w, h: newItem.h },
+    }))
+  }
+
   return (
     <div css={container}>
       <ResponsiveGridLayout
@@ -151,6 +163,7 @@ const BoardPreview = () => {
         onDrop={onDrop}
         isDroppable={true}
         onDropDragOver={onDropDragOver}
+        onResize={onResize}
       >
         {boardData &&
           boards.lg.map((item: BoardItem) => (
@@ -160,6 +173,8 @@ const BoardPreview = () => {
                 isPreview={true}
                 component={item.component}
                 onDelete={() => handleClickDelete(item.i)}
+                w={itemSize[item.i]?.w || item.w}
+                h={itemSize[item.i]?.h || item.h}
               />
             </div>
           ))}
