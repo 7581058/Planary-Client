@@ -8,9 +8,11 @@ export interface PanelProps {
   component?: string
   isPreview: boolean
   onDelete: () => void
+  w: number
+  h: number
 }
 
-const Panel = ({ component, isPreview, onDelete }: PanelProps) => {
+const Panel = ({ component, isPreview, onDelete, w, h }: PanelProps) => {
   const theme = useTheme()
   let Widget
 
@@ -28,7 +30,7 @@ const Panel = ({ component, isPreview, onDelete }: PanelProps) => {
             <IoCloseOutline />
           </button>
         )}
-        <div css={widget}>{Widget ? <Widget /> : component}</div>
+        <div css={widget}>{Widget ? <Widget w={w} h={h} /> : component}</div>
       </div>
     </div>
   )
