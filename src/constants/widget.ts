@@ -7,8 +7,12 @@ import ProfilePreview from '@/components/widget/ProfilePreview'
 import TimerPreview from '@/components/widget/TimerPreview'
 import TodoPreview from '@/components/widget/TodoPreview'
 
+export interface WidgetProps {
+  w: number
+  h: number
+}
 interface ComponentMap {
-  [key: string]: () => JSX.Element
+  [key: string]: (props: WidgetProps) => JSX.Element
 }
 
 interface Info {
