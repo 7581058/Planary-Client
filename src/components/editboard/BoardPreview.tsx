@@ -171,7 +171,7 @@ const BoardPreview = () => {
 export default BoardPreview
 
 const container = (theme: Theme) => css`
-  overflow: hidden;
+  overflow: auto;
 
   box-sizing: border-box;
   width: 100%;
@@ -179,4 +179,8 @@ const container = (theme: Theme) => css`
   padding: 40px;
 
   background-color: ${theme.previewBackground};
+
+  &&::-webkit-scrollbar {
+    display: none;
+  }
 `
