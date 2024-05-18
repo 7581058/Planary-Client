@@ -55,6 +55,9 @@ export const themeDefault = {
   widgetListTitleText: Common.colors.blue02,
   previewBackground: Common.colors.white,
   previewText: Common.colors.gray03,
+  previewPointText: Common.colors.blue02,
+  previewSubText: Common.colors.gray02,
+  previewSubText2: Common.colors.gray05,
   previewPanelBackground: Common.colors.blue01,
   previewPanelBorder: Common.colors.gray02,
   previewPanelDeleteButton: Common.colors.gray03,
@@ -63,4 +66,8 @@ export const themeDefault = {
   previewSaveActiveButtonText: Common.colors.white,
   previewSaveButtonBackground: Common.colors.gray03,
   previewSaveButtonText: Common.colors.white,
+  //scrollbar
+  scrollbarThumb: Common.colors.gray03,
+  scrollbarTrack: Common.colors.gray02,
+  scrollbarTrackBorder: Common.colors.gray02,
 }
