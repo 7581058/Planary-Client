@@ -8,7 +8,7 @@ const WidgetList = () => {
   return (
     <div css={container}>
       <div css={wigetWrap}>
-        {Object.entries(previewMap).map(([componentKey, Component]) => (
+        {Object.entries(previewMap).map(([componentKey, Preview]) => (
           <div css={widgetContainer} key={componentKey}>
             <span css={widgetTitle}>{widgetInfo[componentKey].title}</span>
             <div
@@ -29,7 +29,7 @@ const WidgetList = () => {
                 e.dataTransfer.setData('widgetData', JSON.stringify(widgetData))
               }}
             >
-              <Component />
+              <Preview w={0} h={0} />
             </div>
           </div>
         ))}
