@@ -46,7 +46,7 @@ const container = (theme: Theme) => css`
   background-color: ${theme.widgetListBackground};
 `
 
-const wigetWrap = css`
+const wigetWrap = (theme: Theme) => css`
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -55,6 +55,19 @@ const wigetWrap = css`
   width: 100%;
   height: 100%;
   padding: 10px;
+
+  &::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: ${theme.scrollbarThumb};
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: ${theme.scrollbarTrack};
+    border: 2px solid ${theme.scrollbarTrackBorder};
+  }
 `
 
 const widgetContainer = css`
