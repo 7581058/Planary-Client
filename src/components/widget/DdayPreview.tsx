@@ -91,7 +91,7 @@ const dot = (theme: Theme) => css`
   background-color: ${theme.previewSubText};
   border-radius: 50%;
 
-  &:first-child {
+  &:first-of-type {
     background-color: ${theme.previewText};
   }
 `
