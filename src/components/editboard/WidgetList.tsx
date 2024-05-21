@@ -78,6 +78,8 @@ const widgetContainer = css`
 const widget = (theme: Theme) => css`
   width: 100%;
   height: 100px;
+
+  background-color: ${theme.previewPanelBackground};
   border: 3px solid ${theme.previewPanelBorder};
   border-radius: 16px;
 `

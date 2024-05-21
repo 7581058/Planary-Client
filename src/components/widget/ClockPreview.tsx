@@ -25,7 +25,7 @@ const ClockPreview = ({ w, h }: WidgetProps) => {
 
 export default ClockPreview
 
-const container = (theme: Theme) => css`
+const container = css`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -34,9 +34,6 @@ const container = (theme: Theme) => css`
   width: 100%;
   height: 100%;
   padding: 10px;
-
-  background-color: ${theme.previewPanelBackground};
-  border-radius: 16px;
 `
 
 const day = (theme: Theme) => css`
