@@ -40,10 +40,9 @@ const WidgetList = () => {
 
 export default WidgetList
 
-const container = (theme: Theme) => css`
+const container = css`
   width: 350px;
   height: 100%;
-  background-color: ${theme.widgetListBackground};
 `
 
 const wigetWrap = (theme: Theme) => css`
