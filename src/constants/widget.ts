@@ -80,7 +80,7 @@ export const widgetInfo: WidgetMap = {
     maxH: 3,
     maxW: 3,
     minH: 1,
-    minW: 1,
+    minW: 2,
   },
   dday: {
     title: '디데이',
@@ -120,7 +120,7 @@ export const WIDGET_CALENDAR_MAXW = 4
 export const WIDGET_CALENDAR_MINH = 1
 export const WIDGET_CALENDAR_MAXH = 3
 
-export const WIDGET_TODO_MINW = 1
+export const WIDGET_TODO_MINW = 2
 export const WIDGET_TODO_MAXW = 3
 export const WIDGET_TODO_MINH = 1
 export const WIDGET_TODO_MAXH = 3
