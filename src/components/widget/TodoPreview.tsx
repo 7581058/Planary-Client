@@ -45,7 +45,6 @@ const container = css`
 
 const inputWrap = css`
   display: flex;
-  margin-top: 20px;
 `
 
 const input = (theme: Theme) => css`
