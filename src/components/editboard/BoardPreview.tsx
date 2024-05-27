@@ -5,7 +5,9 @@ import { Layout, Layouts, Responsive, WidthProvider } from 'react-grid-layout'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import Panel from '../board/Panel'
 
+import { BOARD_EDIT_RESIZING_ERROR } from '@/constants/alert'
 import { WidgetProps } from '@/constants/widget'
+import { useAlert } from '@/hooks/useAlert'
 import { boardDirtyFlag, BoardItem, BoardState, boardState, currentBoardQuery } from '@/store/boardState'
 interface CustomDragEvent extends Event {
   dataTransfer: DataTransfer
@@ -22,6 +24,8 @@ const BoardPreview = () => {
   const boardData = useRecoilValue(currentBoardQuery)
   const setIsDirty = useSetRecoilState<boolean>(boardDirtyFlag)
   const [itemSize, setItemSize] = useState<ItemSizeProps>({})
+  let invalidResizing = false
+  const { openAlert } = useAlert()
 
   useEffect(() => {
     if (boardData) {
@@ -63,6 +67,7 @@ const BoardPreview = () => {
           const foundItem: BoardItem | undefined = prevBoards.lg.find((prevItem: BoardItem) => prevItem.i === newItem.i)
           if (foundItem) {
             if (isInvalidResizingSize(foundItem.component, newItem.w, newItem.h)) {
+              invalidResizing = true
               return {
                 ...newItem,
                 component: foundItem.component,
@@ -96,6 +101,10 @@ const BoardPreview = () => {
         return prevBoards
       }
     })
+
+    if (invalidResizing) {
+      openAlert(BOARD_EDIT_RESIZING_ERROR)
+    }
   }
 
   const convertBoardStateToLayouts = (boardState: BoardState | Layout[]): Layouts => {
