@@ -4,10 +4,17 @@ import { IoIosArrowBack } from 'react-icons/io'
 import { IoIosArrowForward } from 'react-icons/io'
 
 import { WidgetProps } from '@/constants/widget'
+import { Common } from '@/styles/common'
 import { rgba } from '@/utils/convertRGBA'
 
 const CalendarPreview = ({ w, h }: WidgetProps) => {
   const numSquares = 7 * 52
+  const getMonthAbbreviations = (locale = 'en-US') => {
+    const formatter = new Intl.DateTimeFormat(locale, { month: 'short' })
+    return Array.from({ length: 12 }, (_, i) => formatter.format(new Date(0, i)))
+  }
+
+  const months = getMonthAbbreviations()
 
   const isInvalidResizingSize = (type: string, w: number, h: number) => {
     const monthlyInvalidSizes = [
@@ -28,7 +35,7 @@ const CalendarPreview = ({ w, h }: WidgetProps) => {
   }
 
   return (
-    <div css={container}>
+    <div css={[container, responsiveContainer(w, h)]}>
       {isInvalidResizingSize('monthly', w, h) ? (
         <>
           <div css={topWrap}>
@@ -45,10 +52,17 @@ const CalendarPreview = ({ w, h }: WidgetProps) => {
       ) : isInvalidResizingSize('none', w, h) ? (
         <></>
       ) : (
-        <div css={yearGrid}>
-          {Array.from({ length: numSquares }).map((_, index) => (
-            <div css={yearGridItem} key={index}></div>
-          ))}
+        <div css={gridWrap}>
+          <div css={month}>
+            {months.map((month, index) => (
+              <div key={index}>{month}</div>
+            ))}
+          </div>
+          <div css={yearGrid}>
+            {Array.from({ length: numSquares }).map((_, index) => (
+              <div css={yearGridItem} key={index}></div>
+            ))}
+          </div>
         </div>
       )}
     </div>
@@ -58,12 +72,16 @@ const CalendarPreview = ({ w, h }: WidgetProps) => {
 export default CalendarPreview
 
 const container = css`
+  overflow: hidden;
   display: flex;
   flex-direction: column;
 
   width: 100%;
   height: 100%;
-  padding: 4px;
+`
+
+const responsiveContainer = (w: number, h: number) => css`
+  ${w === 0 && h === 0 && `padding: 5px;`}
 `
 
 const topWrap = (theme: Theme) => css`
@@ -88,6 +106,17 @@ const bottomWrap = css`
   height: 100%;
 `
 
+const gridWrap = css`
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  justify-content: center;
+
+  width: 100%;
+  height: 100%;
+`
+
 const gridItem = (theme: Theme) => css`
   background-color: ${rgba(theme.previewSubText, 0.3)};
 `
@@ -95,12 +124,28 @@ const gridItem = (theme: Theme) => css`
 const yearGrid = () => css`
   overflow: hidden;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(20px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(12px, 1fr));
+  grid-template-rows: repeat(7, 1fr);
   gap: 2px;
+
+  width: 100%;
+  height: 96px;
 `
 
 const yearGridItem = (theme: Theme) => css`
-  width: 14px;
-  height: 14px;
+  width: 12px;
+  height: 12px;
   background-color: ${theme.previewSubText};
+`
+
+const month = css`
+  overflow: hidden;
+  display: flex;
+  flex-shrink: 0;
+  gap: 50px;
+
+  margin-bottom: 5px;
+  padding-left: calc(14 * 2px);
+
+  font-size: ${Common.fontSize.fs7};
 `
