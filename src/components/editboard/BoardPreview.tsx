@@ -39,6 +39,16 @@ const BoardPreview = () => {
     })
   }
 
+  const isInvalidResizingSize = (component: string | undefined, w: number, h: number) => {
+    if (component !== 'calendar') return false
+    const invalidSizes = [
+      { w: 1, h: 3 },
+      { w: 2, h: 3 },
+      { w: 4, h: 2 },
+    ]
+    return invalidSizes.some((size) => size.w === w && size.h === h)
+  }
+
   const onLayoutChange = (currentLayout: Layout[]) => {
     const prevLayoutString = JSON.stringify(convertBoardStateToLayouts(boards).lg)
     const newLayoutString = JSON.stringify(convertBoardStateToLayouts(currentLayout).lg)
@@ -52,6 +62,20 @@ const BoardPreview = () => {
         const updatedLayouts = currentLayout.map((newItem) => {
           const foundItem: BoardItem | undefined = prevBoards.lg.find((prevItem: BoardItem) => prevItem.i === newItem.i)
           if (foundItem) {
+            if (isInvalidResizingSize(foundItem.component, newItem.w, newItem.h)) {
+              return {
+                ...newItem,
+                component: foundItem.component,
+                x: newItem.x,
+                y: newItem.y,
+                w: 2,
+                h: 1,
+                minW: foundItem.minW,
+                maxW: foundItem.maxW,
+                minH: foundItem.minH,
+                maxH: foundItem.maxH,
+              }
+            }
             return {
               ...newItem,
               component: foundItem.component,
