@@ -41,7 +41,7 @@ const WidgetList = () => {
 export default WidgetList
 
 const container = css`
-  width: 350px;
+  width: 280px;
   height: 100%;
 `
 
