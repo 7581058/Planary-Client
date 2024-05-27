@@ -38,6 +38,7 @@ const TodoPreview = () => {
 export default TodoPreview
 
 const container = css`
+  overflow: hidden;
   width: 100%;
   height: 100%;
   padding: 4px;
