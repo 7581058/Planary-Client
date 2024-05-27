@@ -63,7 +63,7 @@ const daynight = (theme: Theme) => css`
 `
 const responsiveTime = (w: number, h: number) => css`
   ${w === 0 && h === 0 && `font-size: ${Common.fontSize.fs16};`}
-  ${w === 1 && h === 1 && `font-size: ${Common.fontSize.fs10};`}
+  ${w === 1 && h === 1 && `font-size: ${Common.fontSize.fs9};`}
   ${w === 1 && h === 2 && `font-size: ${Common.fontSize.fs30};`}
   ${w === 2 && h === 2 && `font-size: ${Common.fontSize.title};`}
 `
