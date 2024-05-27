@@ -43,10 +43,13 @@ const BoardPreview = () => {
     })
   }
 
+  // !FIX: 초기 -> 변경불가사이즈 -> 지정크기 -> 변경불가사이즈 적용시 사이즈 조정안되고 변경불가 사이즈로 지정됨
+  // !FIX: 변경불가 -> 지정크기 -> 그외다른크기 -> 변경불가 시 에는 정상작동함
   const isInvalidResizingSize = (component: string | undefined, w: number, h: number) => {
     if (component !== 'calendar') return false
     const invalidSizes = [
       { w: 1, h: 3 },
+      { w: 1, h: 2 },
       { w: 2, h: 3 },
       { w: 4, h: 2 },
     ]
@@ -68,13 +71,17 @@ const BoardPreview = () => {
           if (foundItem) {
             if (isInvalidResizingSize(foundItem.component, newItem.w, newItem.h)) {
               invalidResizing = true
+              setItemSize((prevSize) => ({
+                ...prevSize,
+                [newItem.i]: { w: 3, h: 3 },
+              }))
               return {
                 ...newItem,
                 component: foundItem.component,
                 x: newItem.x,
                 y: newItem.y,
-                w: 2,
-                h: 1,
+                w: 3,
+                h: 3,
                 minW: foundItem.minW,
                 maxW: foundItem.maxW,
                 minH: foundItem.minH,
