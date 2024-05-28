@@ -74,6 +74,10 @@ const responsiveImg = (w: number, h: number) => css`
   h === 1 &&
   `width: 80px;
   height: 80px;`}
+  ${w === 3 &&
+  h === 1 &&
+  `width: 110px;
+  height: 110px;`}
   ${w === 4 &&
   h === 1 &&
   `border-radius: 0;
