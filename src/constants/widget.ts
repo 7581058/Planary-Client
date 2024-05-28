@@ -7,8 +7,12 @@ import ProfilePreview from '@/components/widget/ProfilePreview'
 import TimerPreview from '@/components/widget/TimerPreview'
 import TodoPreview from '@/components/widget/TodoPreview'
 
+export interface WidgetProps {
+  w: number
+  h: number
+}
 interface ComponentMap {
-  [key: string]: () => JSX.Element
+  [key: string]: (props: WidgetProps) => JSX.Element
 }
 
 interface Info {
@@ -58,7 +62,7 @@ export const widgetInfo: WidgetMap = {
     title: '음악 재생',
     info: '음악 재생 플레이어 입니다.',
     maxH: 2,
-    maxW: 4,
+    maxW: 3,
     minH: 1,
     minW: 1,
   },
@@ -76,7 +80,7 @@ export const widgetInfo: WidgetMap = {
     maxH: 3,
     maxW: 3,
     minH: 1,
-    minW: 1,
+    minW: 2,
   },
   dday: {
     title: '디데이',
@@ -107,7 +111,7 @@ export const WIDGET_CLOCK_MINH = 1
 export const WIDGET_CLOCK_MAXH = 2
 
 export const WIDGET_PLAYER_MINW = 1
-export const WIDGET_PLAYER_MAXW = 4
+export const WIDGET_PLAYER_MAXW = 3
 export const WIDGET_PLAYER_MINH = 1
 export const WIDGET_PLAYER_MAXH = 2
 
@@ -116,7 +120,7 @@ export const WIDGET_CALENDAR_MAXW = 4
 export const WIDGET_CALENDAR_MINH = 1
 export const WIDGET_CALENDAR_MAXH = 3
 
-export const WIDGET_TODO_MINW = 1
+export const WIDGET_TODO_MINW = 2
 export const WIDGET_TODO_MAXW = 3
 export const WIDGET_TODO_MINH = 1
 export const WIDGET_TODO_MAXH = 3

@@ -1,13 +1,20 @@
 import { Theme } from '@emotion/react'
 import { css } from '@emotion/react'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Layout, Layouts, Responsive, WidthProvider } from 'react-grid-layout'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import Panel from '../board/Panel'
 
+import { BOARD_EDIT_RESIZING_ERROR } from '@/constants/alert'
+import { WidgetProps } from '@/constants/widget'
+import { useAlert } from '@/hooks/useAlert'
 import { boardDirtyFlag, BoardItem, BoardState, boardState, currentBoardQuery } from '@/store/boardState'
 interface CustomDragEvent extends Event {
   dataTransfer: DataTransfer
+}
+
+interface ItemSizeProps {
+  [key: string]: WidgetProps
 }
 
 const ResponsiveGridLayout = WidthProvider(Responsive)
@@ -16,6 +23,9 @@ const BoardPreview = () => {
   const [boards, setBoards] = useRecoilState<BoardState>(boardState)
   const boardData = useRecoilValue(currentBoardQuery)
   const setIsDirty = useSetRecoilState<boolean>(boardDirtyFlag)
+  const [itemSize, setItemSize] = useState<ItemSizeProps>({})
+  let invalidResizing = false
+  const { openAlert } = useAlert()
 
   useEffect(() => {
     if (boardData) {
@@ -33,6 +43,19 @@ const BoardPreview = () => {
     })
   }
 
+  // !FIX: 초기 -> 변경불가사이즈 -> 지정크기 -> 변경불가사이즈 적용시 사이즈 조정안되고 변경불가 사이즈로 지정됨
+  // !FIX: 변경불가 -> 지정크기 -> 그외다른크기 -> 변경불가 시 에는 정상작동함
+  const isInvalidResizingSize = (component: string | undefined, w: number, h: number) => {
+    if (component !== 'calendar') return false
+    const invalidSizes = [
+      { w: 1, h: 3 },
+      { w: 1, h: 2 },
+      { w: 2, h: 3 },
+      { w: 4, h: 2 },
+    ]
+    return invalidSizes.some((size) => size.w === w && size.h === h)
+  }
+
   const onLayoutChange = (currentLayout: Layout[]) => {
     const prevLayoutString = JSON.stringify(convertBoardStateToLayouts(boards).lg)
     const newLayoutString = JSON.stringify(convertBoardStateToLayouts(currentLayout).lg)
@@ -46,6 +69,25 @@ const BoardPreview = () => {
         const updatedLayouts = currentLayout.map((newItem) => {
           const foundItem: BoardItem | undefined = prevBoards.lg.find((prevItem: BoardItem) => prevItem.i === newItem.i)
           if (foundItem) {
+            if (isInvalidResizingSize(foundItem.component, newItem.w, newItem.h)) {
+              invalidResizing = true
+              setItemSize((prevSize) => ({
+                ...prevSize,
+                [newItem.i]: { w: 3, h: 3 },
+              }))
+              return {
+                ...newItem,
+                component: foundItem.component,
+                x: newItem.x,
+                y: newItem.y,
+                w: 3,
+                h: 3,
+                minW: foundItem.minW,
+                maxW: foundItem.maxW,
+                minH: foundItem.minH,
+                maxH: foundItem.maxH,
+              }
+            }
             return {
               ...newItem,
               component: foundItem.component,
@@ -66,6 +108,10 @@ const BoardPreview = () => {
         return prevBoards
       }
     })
+
+    if (invalidResizing) {
+      openAlert(BOARD_EDIT_RESIZING_ERROR)
+    }
   }
 
   const convertBoardStateToLayouts = (boardState: BoardState | Layout[]): Layouts => {
@@ -109,7 +155,6 @@ const BoardPreview = () => {
   }
 
   /**
-   * !FIX: 드롭 추가 시 지정위치보다 +1 돼서 놓여짐 수정필요
    * !FIX: 위젯 추가 시 기존 패널위 드래그 할때(drag over안나타날때) 오류 발생 수정필요
    * !FIX: 위젯 추가 시 아래위로 이동 몇번 후 드롭하면 여러개 가끔 생길때 있음, 아이디 워닝 발생
    */
@@ -138,6 +183,13 @@ const BoardPreview = () => {
     return { w: 2, h: 1 }
   }
 
+  const onResize = (_layout: Layout[], _oldItem: Layout, newItem: Layout) => {
+    setItemSize((prevSize) => ({
+      ...prevSize,
+      [newItem.i]: { w: newItem.w, h: newItem.h },
+    }))
+  }
+
   return (
     <div css={container}>
       <ResponsiveGridLayout
@@ -151,6 +203,7 @@ const BoardPreview = () => {
         onDrop={onDrop}
         isDroppable={true}
         onDropDragOver={onDropDragOver}
+        onResize={onResize}
       >
         {boardData &&
           boards.lg.map((item: BoardItem) => (
@@ -160,6 +213,8 @@ const BoardPreview = () => {
                 isPreview={true}
                 component={item.component}
                 onDelete={() => handleClickDelete(item.i)}
+                w={itemSize[item.i]?.w || item.w}
+                h={itemSize[item.i]?.h || item.h}
               />
             </div>
           ))}
@@ -171,7 +226,7 @@ const BoardPreview = () => {
 export default BoardPreview
 
 const container = (theme: Theme) => css`
-  overflow: hidden;
+  overflow: auto;
 
   box-sizing: border-box;
   width: 100%;
@@ -179,4 +234,8 @@ const container = (theme: Theme) => css`
   padding: 40px;
 
   background-color: ${theme.previewBackground};
+
+  &&::-webkit-scrollbar {
+    display: none;
+  }
 `

@@ -8,7 +8,7 @@ const WidgetList = () => {
   return (
     <div css={container}>
       <div css={wigetWrap}>
-        {Object.entries(previewMap).map(([componentKey, Component]) => (
+        {Object.entries(previewMap).map(([componentKey, Preview]) => (
           <div css={widgetContainer} key={componentKey}>
             <span css={widgetTitle}>{widgetInfo[componentKey].title}</span>
             <div
@@ -29,7 +29,7 @@ const WidgetList = () => {
                 e.dataTransfer.setData('widgetData', JSON.stringify(widgetData))
               }}
             >
-              <Component />
+              <Preview w={0} h={0} />
             </div>
           </div>
         ))}
@@ -40,13 +40,12 @@ const WidgetList = () => {
 
 export default WidgetList
 
-const container = (theme: Theme) => css`
-  width: 350px;
+const container = css`
+  width: 280px;
   height: 100%;
-  background-color: ${theme.widgetListBackground};
 `
 
-const wigetWrap = css`
+const wigetWrap = (theme: Theme) => css`
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -55,6 +54,19 @@ const wigetWrap = css`
   width: 100%;
   height: 100%;
   padding: 10px;
+
+  &::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: ${theme.scrollbarThumb};
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: ${theme.scrollbarTrack};
+    border: 2px solid ${theme.scrollbarTrackBorder};
+  }
 `
 
 const widgetContainer = css`
@@ -66,6 +78,8 @@ const widgetContainer = css`
 const widget = (theme: Theme) => css`
   width: 100%;
   height: 100px;
+
+  background-color: ${theme.previewPanelBackground};
   border: 3px solid ${theme.previewPanelBorder};
   border-radius: 16px;
 `

@@ -32,3 +32,11 @@ export const BOARD_EDIT_SAVE_SUCCESS = {
   buttonType: AlertButtonType.None,
   notiType: AlertNotificationType.Success,
 }
+
+export const BOARD_EDIT_RESIZING_ERROR = {
+  icon: '❌',
+  title: '변경 불가',
+  content: '변경할 수 없는 크기 입니다.',
+  buttonType: AlertButtonType.None,
+  notiType: AlertNotificationType.Error,
+}
