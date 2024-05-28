@@ -1,8 +1,14 @@
 import { css } from '@emotion/react'
+import { useEffect } from 'react'
+import { Responsive, WidthProvider } from 'react-grid-layout'
 import { useRecoilValue } from 'recoil'
+import { useRecoilState } from 'recoil'
 
 import Panel from '@/components/board/Panel'
 import { currentBoardQuery } from '@/store/boardState'
+import { BoardItem, BoardState, boardState } from '@/store/boardState'
+import { convertBoardStateToLayouts } from '@/utils/convertBoardStateToLayouts'
+
 export interface Item {
   row: number
   col: number
@@ -12,16 +18,40 @@ export interface Item {
 export interface ContainerState {
   panels: Item[]
 }
+const ResponsiveGridLayout = WidthProvider(Responsive)
 
 const BoardGrid = () => {
-  const { boards } = useRecoilValue(currentBoardQuery)
+  const [boards, setBoards] = useRecoilState<BoardState>(boardState)
+  const boardData = useRecoilValue(currentBoardQuery)
+
+  useEffect(() => {
+    if (boardData) {
+      setBoards(boardData)
+    }
+  }, [setBoards, boardData])
 
   return (
     <div css={boardWrap}>
-      {boards &&
-        boards.grid.map((item: Item, index: number) => (
-          <Panel key={index} row={item.row} col={item.col} component={item.component} isPreview={false}></Panel>
-        ))}
+      <div css={gridWrap}>
+        <ResponsiveGridLayout
+          layouts={convertBoardStateToLayouts(boards)}
+          breakpoints={{ lg: 1000 }}
+          cols={{ lg: 7 }}
+          isResizable={false}
+          rowHeight={130}
+          useCSSTransforms={false}
+          isDraggable={false}
+          margin={[16, 16]}
+          containerPadding={[0, 0]}
+        >
+          {boardData &&
+            boards.lg.map((item: BoardItem) => (
+              <div key={item.i}>
+                <Panel key={item.i} isPreview={false} component={item.component} w={item.w} h={item.h} />
+              </div>
+            ))}
+        </ResponsiveGridLayout>
+      </div>
     </div>
   )
 }
@@ -29,14 +59,19 @@ const BoardGrid = () => {
 export default BoardGrid
 
 const boardWrap = css`
-  overflow: hidden;
-  display: grid;
-  grid-template-columns: repeat(8, 1fr);
-  grid-template-rows: repeat(6, 1fr);
-  gap: 15px;
+  overflow: auto;
+  display: flex;
 
   box-sizing: border-box;
   width: 100%;
   height: 100%;
-  padding: 0 40px 40px;
+
+  &&::-webkit-scrollbar {
+    display: none;
+  }
+`
+
+const gridWrap = css`
+  width: 100%;
+  padding: 0 40px;
 `
