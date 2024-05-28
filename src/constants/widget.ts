@@ -29,6 +29,12 @@ interface WidgetMap {
 
 export const componentMap: ComponentMap = {
   clock: Clock,
+  profile: ProfilePreview,
+  dday: DdayPreview,
+  timer: TimerPreview,
+  todo: TodoPreview,
+  player: PlayerPreview,
+  calendar: CalendarPreview,
 }
 
 export const previewMap: ComponentMap = {
