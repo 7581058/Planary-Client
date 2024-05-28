@@ -7,7 +7,7 @@ import { Common } from '@/styles/common'
 export interface PanelProps {
   component?: string
   isPreview: boolean
-  onDelete: () => void
+  onDelete?: () => void
   w: number
   h: number
 }
@@ -30,7 +30,7 @@ const Panel = ({ component, isPreview, onDelete, w, h }: PanelProps) => {
             <IoCloseOutline />
           </button>
         )}
-        <div css={widget}>{Widget ? <Widget w={w} h={h} /> : component}</div>
+        <div css={widget}>{Widget && <Widget w={w} h={h} />}</div>
       </div>
     </div>
   )

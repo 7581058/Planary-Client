@@ -1,7 +1,7 @@
 import { Theme } from '@emotion/react'
 import { css } from '@emotion/react'
 import { useEffect, useState } from 'react'
-import { Layout, Layouts, Responsive, WidthProvider } from 'react-grid-layout'
+import { Layout, Responsive, WidthProvider } from 'react-grid-layout'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import Panel from '../board/Panel'
 
@@ -9,6 +9,7 @@ import { BOARD_EDIT_RESIZING_ERROR } from '@/constants/alert'
 import { WidgetProps } from '@/constants/widget'
 import { useAlert } from '@/hooks/useAlert'
 import { boardDirtyFlag, BoardItem, BoardState, boardState, currentBoardQuery } from '@/store/boardState'
+import { convertBoardStateToLayouts } from '@/utils/convertBoardStateToLayouts'
 interface CustomDragEvent extends Event {
   dataTransfer: DataTransfer
 }
@@ -112,42 +113,6 @@ const BoardPreview = () => {
     if (invalidResizing) {
       openAlert(BOARD_EDIT_RESIZING_ERROR)
     }
-  }
-
-  const convertBoardStateToLayouts = (boardState: BoardState | Layout[]): Layouts => {
-    const layouts: Layouts = {}
-
-    if (!boardState) {
-      return layouts
-    }
-
-    if ('lg' in boardState && Array.isArray(boardState.lg)) {
-      layouts.lg = boardState.lg.map((item) => ({
-        i: item.i,
-        x: item.x,
-        y: item.y,
-        w: item.w,
-        h: item.h,
-        minW: item.minW,
-        maxW: item.maxW,
-        minH: item.minH,
-        maxH: item.maxH,
-      }))
-    } else if (Array.isArray(boardState)) {
-      layouts.lg = boardState.map((item) => ({
-        i: item.i,
-        x: item.x,
-        y: item.y,
-        w: item.w,
-        h: item.h,
-        minW: item.minW,
-        maxW: item.maxW,
-        minH: item.minH,
-        maxH: item.maxH,
-      }))
-    }
-
-    return layouts
   }
 
   const generateUniqueId = () => {
