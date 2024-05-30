@@ -1,12 +1,12 @@
 import { css, Theme } from '@emotion/react'
 import { useEffect, useState } from 'react'
 
+import { WidgetProps } from '@/constants/widget'
 import { Common } from '@/styles/common'
 
-const Clock = () => {
+const Clock = ({ w, h }: WidgetProps) => {
   const [hours, setHours] = useState('')
   const [minutes, setMinutes] = useState('')
-  const [seconds, setSeconds] = useState('')
   const [ampm, setAmPm] = useState('')
   const [date, setDate] = useState('')
   const [currentDate, setCurrentDate] = useState(new Date())
@@ -16,11 +16,9 @@ const Clock = () => {
       const date = new Date()
       const currentHours = String(date.getHours() % 12 || 12).padStart(2, '0')
       const currentMinutes = String(date.getMinutes()).padStart(2, '0')
-      const currentSeconds = String(date.getSeconds()).padStart(2, '0')
       const currentAmPm = date.getHours() >= 12 ? 'PM' : 'AM'
       setHours(currentHours)
       setMinutes(currentMinutes)
-      setSeconds(currentSeconds)
       setAmPm(currentAmPm)
 
       if (date.getHours() === 0 && date.getMinutes() === 0 && date.getSeconds() === 0) {
@@ -48,23 +46,26 @@ const Clock = () => {
   }, [currentDate])
 
   return (
-    <div css={clockContainer}>
-      <div css={dateWrap}>{date}</div>
-      <div css={timeWrap}>
-        <div>{hours}</div>
-        <span>:</span>
-        <div>{minutes}</div>
-        <span>:</span>
-        <div>{seconds}</div>
-        <div>{ampm}</div>
-      </div>
+    <div css={container}>
+      {w === 1 && h === 2 ? (
+        <>
+          <span css={[time, responsiveTime(w, h)]}>{`${hours}\n${minutes}\n`}</span>
+          <span css={daynight}>{ampm}</span>
+          <span css={[day, responsiveDay(w, h)]}>{date}</span>
+        </>
+      ) : (
+        <>
+          <span css={[day, responsiveDay(w, h)]}>{date}</span>
+          <span css={[time, responsiveTime(w, h)]}>{`${hours}:${minutes} ${ampm}`}</span>
+        </>
+      )}
     </div>
   )
 }
 
 export default Clock
 
-const clockContainer = css`
+const container = css`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -72,35 +73,37 @@ const clockContainer = css`
 
   width: 100%;
   height: 100%;
+  padding: 10px;
 `
 
-const dateWrap = (theme: Theme) => css`
-  font-size: ${Common.fontSize.fs16};
-  font-weight: 400;
-  color: ${theme.dateText};
+const day = (theme: Theme) => css`
+  font-size: ${Common.fontSize.fs10};
+  color: ${theme.previewPointText};
+  white-space: pre-line;
 `
 
-const timeWrap = (theme: Theme) => css`
-  display: flex;
-  gap: 5px;
+const responsiveDay = (w: number, h: number) => css`
+  ${w === 0 && h === 0 && `font-size: ${Common.fontSize.fs8};`}
+  ${w === 1 && h === 1 && `font-size: ${Common.fontSize.fs10};`}
+  ${w === 1 && h === 2 && `font-size: ${Common.fontSize.fs7}; margin-top: 10px;`}
+  ${w === 2 && h === 2 && `font-size: ${Common.fontSize.fs14};`}
+`
 
-  font-size: ${Common.fontSize.fs30};
+const time = (theme: Theme) => css`
+  font-size: ${Common.fontSize.fs18};
   font-weight: 700;
-  color: ${theme.clockText};
+  color: ${theme.previewText};
+  white-space: pre-line;
+`
 
-  div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 60px;
-
-    &:last-child {
-      margin-left: 5px;
-      font-size: ${Common.fontSize.title};
-    }
-  }
-
-  span {
-    padding-bottom: 10px;
-  }
+const daynight = (theme: Theme) => css`
+  font-size: ${Common.fontSize.fs26};
+  font-weight: 700;
+  color: ${theme.previewText};
+`
+const responsiveTime = (w: number, h: number) => css`
+  ${w === 0 && h === 0 && `font-size: ${Common.fontSize.fs16};`}
+  ${w === 1 && h === 1 && `font-size: ${Common.fontSize.fs16};`}
+  ${w === 1 && h === 2 && `font-size: ${Common.fontSize.fs30};`}
+  ${w === 2 && h === 2 && `font-size: ${Common.fontSize.title};`}
 `
