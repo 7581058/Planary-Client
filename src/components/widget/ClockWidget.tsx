@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { WidgetProps } from '@/constants/widget'
 import { Common } from '@/styles/common'
 
-const Clock = ({ w, h }: WidgetProps) => {
+const ClockWidget = ({ w, h }: WidgetProps) => {
   const [hours, setHours] = useState('')
   const [minutes, setMinutes] = useState('')
   const [ampm, setAmPm] = useState('')
@@ -63,7 +63,7 @@ const Clock = ({ w, h }: WidgetProps) => {
   )
 }
 
-export default Clock
+export default ClockWidget
 
 const container = css`
   display: flex;
