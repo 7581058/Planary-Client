@@ -38,6 +38,8 @@ const navContainer = (theme: Theme) => css`
   display: flex;
   flex-shrink: 0;
 
+  box-sizing: border-box;
+  width: 200px;
   height: 100%;
 
   background-color: ${theme.navBackground};
@@ -65,8 +67,8 @@ const logoWrap = (theme: Theme) => css`
   border-bottom: 3px solid ${theme.border};
 
   img {
-    width: 32px;
-    height: 32px;
+    width: 40px;
+    height: 40px;
   }
 `
 
@@ -78,13 +80,13 @@ const logoText = css`
 
 const title = css`
   margin: 0;
-  font-size: ${Common.fontSize.fs10};
+  font-size: ${Common.fontSize.fs12};
   font-weight: 700;
 `
 
 const sub = (theme: Theme) => css`
   margin: 0;
-  font-size: ${Common.fontSize.fs7};
+  font-size: ${Common.fontSize.fs8};
   color: ${theme.subText};
 `
 
@@ -99,7 +101,7 @@ const menuItem = (theme: Theme) => css`
   width: 100%;
   padding: 10px;
 
-  font-size: ${Common.fontSize.fs8};
+  font-size: ${Common.fontSize.fs10};
   font-weight: 700;
   color: ${theme.navText};
 
