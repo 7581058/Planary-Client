@@ -5,7 +5,7 @@ import { LiaCoinsSolid } from 'react-icons/lia'
 import { WidgetProps } from '@/constants/widget'
 import { Common } from '@/styles/common'
 
-const ProfilePreview = ({ w, h }: WidgetProps) => {
+const ProfileWidget = ({ w, h }: WidgetProps) => {
   return (
     <div css={[container, responsiveContainer(w, h)]}>
       <div css={leftWrap}>
@@ -32,7 +32,7 @@ const ProfilePreview = ({ w, h }: WidgetProps) => {
   )
 }
 
-export default ProfilePreview
+export default ProfileWidget
 
 const container = css`
   display: flex;

@@ -1,14 +1,26 @@
 import { Theme } from '@emotion/react'
 import { css } from '@emotion/react'
+import BoardListSelect from '../board/BoardListSelect'
+import BoardSaveButton from './BoardSaveButton'
 
-import { previewMap, widgetInfo } from '@/constants/widget'
+import { widgetInfo, widgetMap } from '@/constants/widget'
 import { Common } from '@/styles/common'
 
 const WidgetList = () => {
   return (
     <div css={container}>
+      <div css={menuWrap}>
+        <BoardSaveButton />
+        <span>보드 목록</span>
+        <BoardListSelect />
+      </div>
+      <div css={themeWrap}>
+        <span>테마 설정</span>
+        <div css={themeListWrap}></div>
+      </div>
       <div css={wigetWrap}>
-        {Object.entries(previewMap).map(([componentKey, Preview]) => (
+        <span>위젯</span>
+        {Object.entries(widgetMap).map(([componentKey, Preview]) => (
           <div css={widgetContainer} key={componentKey}>
             <span css={widgetTitle}>{widgetInfo[componentKey].title}</span>
             <div
@@ -29,7 +41,7 @@ const WidgetList = () => {
                 e.dataTransfer.setData('widgetData', JSON.stringify(widgetData))
               }}
             >
-              <Preview w={0} h={0} />
+              <Preview isPreview={true} w={0} h={0} />
             </div>
           </div>
         ))}
@@ -40,20 +52,11 @@ const WidgetList = () => {
 
 export default WidgetList
 
-const container = css`
-  width: 280px;
-  height: 100%;
-`
-
-const wigetWrap = (theme: Theme) => css`
+const container = (theme: Theme) => css`
   overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-
-  width: 100%;
+  flex-shrink: 0;
+  width: 200px;
   height: 100%;
-  padding: 10px;
 
   &::-webkit-scrollbar {
     width: 12px;
@@ -67,6 +70,32 @@ const wigetWrap = (theme: Theme) => css`
     background-color: ${theme.scrollbarTrack};
     border: 2px solid ${theme.scrollbarTrackBorder};
   }
+`
+
+const menuWrap = css`
+  display: flex;
+  flex-direction: column;
+`
+
+const themeWrap = css`
+  display: flex;
+  flex-direction: column;
+`
+
+const themeListWrap = css`
+  width: 100%;
+  height: 180px;
+  background-color: gray;
+`
+
+const wigetWrap = css`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  width: 100%;
+  height: 100%;
+  padding: 10px;
 `
 
 const widgetContainer = css`

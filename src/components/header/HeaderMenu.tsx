@@ -5,6 +5,7 @@ import { IoMenu } from 'react-icons/io5'
 import { useNavigate } from 'react-router-dom'
 import ToggleMenu from '../ToggleMenu'
 
+import { DASHBOARD_EDIT_PATH } from '@/constants/paths'
 import { Common } from '@/styles/common'
 
 const HeaderMenu = () => {
@@ -60,8 +61,8 @@ const HEADER_MENU = [
     title: 'My',
   },
   {
-    event: '/theme',
-    title: 'Theme Settings',
+    event: DASHBOARD_EDIT_PATH,
+    title: 'Board Settings',
   },
   {
     event: '/',

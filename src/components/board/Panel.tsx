@@ -2,35 +2,38 @@ import { css, useTheme } from '@emotion/react'
 import { Theme } from '@emotion/react'
 import { IoCloseOutline } from 'react-icons/io5'
 
-import { componentMap, previewMap } from '@/constants/widget'
+import { widgetMap } from '@/constants/widget'
 import { Common } from '@/styles/common'
+
 export interface PanelProps {
   component?: string
   isPreview: boolean
   onDelete?: () => void
   w: number
   h: number
+  isCovered: boolean
 }
 
-const Panel = ({ component, isPreview, onDelete, w, h }: PanelProps) => {
+const Panel = ({ component, isPreview, onDelete, w, h, isCovered }: PanelProps) => {
   const theme = useTheme()
   let Widget
 
-  if (isPreview && component) {
-    Widget = previewMap[component]
-  } else if (component) {
-    Widget = componentMap[component]
+  if (component) {
+    Widget = widgetMap[component]
   }
 
   return (
     <div css={panelContainer(isPreview, theme)}>
       <div css={panelWrap}>
-        {isPreview && (
-          <button css={deleteButton} onClick={onDelete}>
-            <IoCloseOutline />
-          </button>
+        {isCovered && (
+          <>
+            <div css={cover}></div>
+            <button css={deleteButton} onClick={onDelete}>
+              <IoCloseOutline />
+            </button>
+          </>
         )}
-        <div css={widget}>{Widget && <Widget w={w} h={h} />}</div>
+        <div css={widget}>{Widget && <Widget isPreview={isPreview} w={w} h={h} />}</div>
       </div>
     </div>
   )
@@ -87,4 +90,14 @@ const deleteButton = (theme: Theme) => css`
   &:hover {
     color: ${theme.previewPanelDeleteButtonhover};
   }
+`
+
+const cover = css`
+  position: absolute;
+  z-index: 8;
+
+  width: 100%;
+  height: 100%;
+
+  border-radius: 16px;
 `

@@ -4,7 +4,7 @@ import { css } from '@emotion/react'
 import { WidgetProps } from '@/constants/widget'
 import { Common } from '@/styles/common'
 
-const DdayPreview = ({ w, h }: WidgetProps) => {
+const DdayWidget = ({ w, h }: WidgetProps) => {
   return (
     <div css={[container, responsiveContainer(w, h)]}>
       <span css={[title, responsiveTitle(w, h)]}>디데이</span>
@@ -19,7 +19,7 @@ const DdayPreview = ({ w, h }: WidgetProps) => {
   )
 }
 
-export default DdayPreview
+export default DdayWidget
 
 const container = css`
   overflow: hidden;

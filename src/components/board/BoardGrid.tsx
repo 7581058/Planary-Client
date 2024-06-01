@@ -32,26 +32,22 @@ const BoardGrid = () => {
 
   return (
     <div css={boardWrap}>
-      <div css={gridWrap}>
-        <ResponsiveGridLayout
-          layouts={convertBoardStateToLayouts(boards)}
-          breakpoints={{ lg: 1000 }}
-          cols={{ lg: 7 }}
-          isResizable={false}
-          rowHeight={130}
-          useCSSTransforms={false}
-          isDraggable={false}
-          margin={[16, 16]}
-          containerPadding={[0, 0]}
-        >
-          {boardData &&
-            boards.lg.map((item: BoardItem) => (
-              <div key={item.i}>
-                <Panel key={item.i} isPreview={false} component={item.component} w={item.w} h={item.h} />
-              </div>
-            ))}
-        </ResponsiveGridLayout>
-      </div>
+      <ResponsiveGridLayout
+        layouts={convertBoardStateToLayouts(boards)}
+        breakpoints={{ lg: 1000 }}
+        cols={{ lg: 7 }}
+        isResizable={false}
+        rowHeight={130}
+        useCSSTransforms={false}
+        isDraggable={false}
+      >
+        {boardData &&
+          boards.lg.map((item: BoardItem) => (
+            <div key={item.i}>
+              <Panel key={item.i} isPreview={false} component={item.component} w={item.w} h={item.h} />
+            </div>
+          ))}
+      </ResponsiveGridLayout>
     </div>
   )
 }
@@ -60,18 +56,13 @@ export default BoardGrid
 
 const boardWrap = css`
   overflow: auto;
-  display: flex;
 
   box-sizing: border-box;
   width: 100%;
   height: 100%;
+  padding: 40px;
 
   &&::-webkit-scrollbar {
     display: none;
   }
-`
-
-const gridWrap = css`
-  width: 100%;
-  padding: 0 40px;
 `

@@ -2,13 +2,11 @@ import { css } from '@emotion/react'
 import React from 'react'
 
 import BoardGrid from '@/components/board/BoardGrid'
-import BoardMenu from '@/components/board/BoardMenu'
 
 const Board = () => {
   return (
     <div css={[boardContainer]}>
       <React.Suspense fallback={<></>}>
-        <BoardMenu />
         <BoardGrid />
       </React.Suspense>
     </div>

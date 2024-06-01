@@ -5,7 +5,7 @@ import { SlArrowDown } from 'react-icons/sl'
 import { WidgetProps } from '@/constants/widget'
 import { Common } from '@/styles/common'
 
-const TimerPreview = ({ w, h }: WidgetProps) => {
+const TimerWidget = ({ w, h }: WidgetProps) => {
   return (
     <div css={container}>
       {(w === 2 && h === 1) || (w === 0 && h === 0) ? (
@@ -34,7 +34,7 @@ const TimerPreview = ({ w, h }: WidgetProps) => {
   )
 }
 
-export default TimerPreview
+export default TimerWidget
 
 const container = css`
   display: flex;

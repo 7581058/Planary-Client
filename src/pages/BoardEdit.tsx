@@ -2,7 +2,6 @@ import { css } from '@emotion/react'
 import React, { useEffect } from 'react'
 import { useRecoilValue } from 'recoil'
 
-import BoardEditMenu from '@/components/editboard/BoardEditMenu'
 import BoardPreview from '@/components/editboard/BoardPreview'
 import WidgetList from '@/components/editboard/WidgetList'
 import PageHeader from '@/components/header/PageHeader'
@@ -32,7 +31,6 @@ const BoardEdit = () => {
         <div css={innerContainer}>
           <WidgetList />
           <BoardPreview />
-          <BoardEditMenu />
         </div>
       </React.Suspense>
     </div>
