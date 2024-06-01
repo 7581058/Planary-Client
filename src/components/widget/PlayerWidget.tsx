@@ -11,7 +11,7 @@ import { RxLoop } from 'react-icons/rx'
 import { WidgetProps } from '@/constants/widget'
 import { Common } from '@/styles/common'
 
-const PlayerPreview = ({ w, h }: WidgetProps) => {
+const PlayerWidget = ({ w, h }: WidgetProps) => {
   return (
     <div css={container}>
       <div css={[topWrap, responsiveTopWrap(w, h)]}>
@@ -55,7 +55,7 @@ const PlayerPreview = ({ w, h }: WidgetProps) => {
   )
 }
 
-export default PlayerPreview
+export default PlayerWidget
 
 const container = css`
   display: flex;

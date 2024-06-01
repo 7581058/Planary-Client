@@ -7,7 +7,7 @@ import { WidgetProps } from '@/constants/widget'
 import { Common } from '@/styles/common'
 import { rgba } from '@/utils/convertRGBA'
 
-const CalendarPreview = ({ w, h }: WidgetProps) => {
+const CalendarWidget = ({ w, h }: WidgetProps) => {
   const numSquares = 7 * 52
   const getMonthAbbreviations = (locale = 'en-US') => {
     const formatter = new Intl.DateTimeFormat(locale, { month: 'short' })
@@ -69,7 +69,7 @@ const CalendarPreview = ({ w, h }: WidgetProps) => {
   )
 }
 
-export default CalendarPreview
+export default CalendarWidget
 
 const container = css`
   overflow: hidden;

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { WidgetProps } from '@/constants/widget'
 import { Common } from '@/styles/common'
 
-const ClockWidget = ({ w, h }: WidgetProps) => {
+const ClockWidget = ({ w, h, isPreview }: WidgetProps) => {
   const [hours, setHours] = useState('')
   const [minutes, setMinutes] = useState('')
   const [ampm, setAmPm] = useState('')
@@ -45,20 +45,19 @@ const ClockWidget = ({ w, h }: WidgetProps) => {
     updateDate()
   }, [currentDate])
 
+  //w:1, h:2 위젯은 시계 세로 출력
+  const isSmallWidget = w === 1 && h === 2
+
+  const ampmContent = isPreview ? 'AM' : ampm
+  const dayContent = isPreview ? '2000-01-01 수' : date
+  const timeContent = isPreview ? '00:00' : isSmallWidget ? `${hours}\n${minutes}\n` : `${hours}:${minutes}`
   return (
     <div css={container}>
-      {w === 1 && h === 2 ? (
-        <>
-          <span css={[time, responsiveTime(w, h)]}>{`${hours}\n${minutes}\n`}</span>
-          <span css={daynight}>{ampm}</span>
-          <span css={[day, responsiveDay(w, h)]}>{date}</span>
-        </>
-      ) : (
-        <>
-          <span css={[day, responsiveDay(w, h)]}>{date}</span>
-          <span css={[time, responsiveTime(w, h)]}>{`${hours}:${minutes} ${ampm}`}</span>
-        </>
-      )}
+      <div css={[timeWrap, responsiveTimeWrap(w, h)]}>
+        <span css={[time, responsiveTime(w, h)]}>{timeContent}</span>
+        <span css={[daynight, responsiveDaynight(w, h)]}>{ampmContent}</span>
+      </div>
+      <span css={[day, responsiveDay(w, h)]}>{dayContent}</span>
     </div>
   )
 }
@@ -74,6 +73,17 @@ const container = css`
   width: 100%;
   height: 100%;
   padding: 10px;
+`
+
+const timeWrap = css`
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+`
+
+const responsiveTimeWrap = (w: number, h: number) => css`
+  ${w === 1 && h === 2 && `flex-direction: column;`}
 `
 
 const day = (theme: Theme) => css`
@@ -97,10 +107,18 @@ const time = (theme: Theme) => css`
 `
 
 const daynight = (theme: Theme) => css`
-  font-size: ${Common.fontSize.fs26};
+  font-size: ${Common.fontSize.fs18};
   font-weight: 700;
   color: ${theme.previewText};
 `
+
+const responsiveDaynight = (w: number, h: number) => css`
+  ${w === 0 && h === 0 && `font-size: ${Common.fontSize.fs14};`}
+  ${w === 1 && h === 1 && `font-size: ${Common.fontSize.fs16};`}
+  ${w === 1 && h === 2 && `font-size: ${Common.fontSize.fs26};`}
+  ${w === 2 && h === 2 && `font-size: ${Common.fontSize.title};`}
+`
+
 const responsiveTime = (w: number, h: number) => css`
   ${w === 0 && h === 0 && `font-size: ${Common.fontSize.fs16};`}
   ${w === 1 && h === 1 && `font-size: ${Common.fontSize.fs16};`}

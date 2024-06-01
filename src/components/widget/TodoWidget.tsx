@@ -5,7 +5,7 @@ import { MdModeEdit } from 'react-icons/md'
 import { MdDelete } from 'react-icons/md'
 
 import { Common } from '@/styles/common'
-const TodoPreview = () => {
+const TodoWidget = () => {
   return (
     <div css={container}>
       <div css={inputWrap}>
@@ -35,7 +35,7 @@ const TodoPreview = () => {
   )
 }
 
-export default TodoPreview
+export default TodoWidget
 
 const container = css`
   overflow: hidden;

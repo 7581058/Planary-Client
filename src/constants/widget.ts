@@ -1,17 +1,17 @@
-import CalendarPreview from '@/components/widget/CalendarPreview'
-import Clock from '@/components/widget/Clock'
-import ClockPreview from '@/components/widget/ClockPreview'
-import DdayPreview from '@/components/widget/DdayPreview'
-import PlayerPreview from '@/components/widget/PlayerPreview'
-import ProfilePreview from '@/components/widget/ProfilePreview'
-import TimerPreview from '@/components/widget/TimerPreview'
-import TodoPreview from '@/components/widget/TodoPreview'
+import CalendarWidget from '@/components/widget/CalendarWidget'
+import ClockWidget from '@/components/widget/ClockWidget'
+import DdayWidget from '@/components/widget/DdayWidget'
+import PlayerWidget from '@/components/widget/PlayerWidget'
+import ProfileWidget from '@/components/widget/ProfileWidget'
+import TimerWidget from '@/components/widget/TimerWidget'
+import TodoWidget from '@/components/widget/TodoWidget'
 
 export interface WidgetProps {
   w: number
   h: number
+  isPreview?: boolean
 }
-interface ComponentMap {
+interface WidgetMap {
   [key: string]: (props: WidgetProps) => JSX.Element
 }
 
@@ -23,31 +23,21 @@ interface Info {
   minH: number
   minW: number
 }
-interface WidgetMap {
+interface WidgetsMap {
   [key: string]: Info
 }
 
-export const componentMap: ComponentMap = {
-  clock: Clock,
-  profile: ProfilePreview,
-  dday: DdayPreview,
-  timer: TimerPreview,
-  todo: TodoPreview,
-  player: PlayerPreview,
-  calendar: CalendarPreview,
+export const widgetMap: WidgetMap = {
+  clock: ClockWidget,
+  profile: ProfileWidget,
+  dday: DdayWidget,
+  timer: TimerWidget,
+  todo: TodoWidget,
+  player: PlayerWidget,
+  calendar: CalendarWidget,
 }
 
-export const previewMap: ComponentMap = {
-  clock: ClockPreview,
-  profile: ProfilePreview,
-  dday: DdayPreview,
-  timer: TimerPreview,
-  todo: TodoPreview,
-  player: PlayerPreview,
-  calendar: CalendarPreview,
-}
-
-export const widgetInfo: WidgetMap = {
+export const widgetInfo: WidgetsMap = {
   clock: {
     title: '시계',
     info: '위젯 길이별 3가지 타입이 존재합니다.',
