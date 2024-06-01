@@ -175,7 +175,8 @@ const BoardPreview = () => {
             <div key={item.i}>
               <Panel
                 key={item.i}
-                isPreview={true}
+                isPreview={false}
+                isCovered={true}
                 component={item.component}
                 onDelete={() => handleClickDelete(item.i)}
                 w={itemSize[item.i]?.w || item.w}
