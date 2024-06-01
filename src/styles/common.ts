@@ -27,6 +27,7 @@ export const Common: Colors = {
   },
   fontSize: {
     fs40: '4rem',
+    fs35: '3.5rem',
     fs30: '3rem',
     fs26: '2.6rem',
     title: '2.4rem',
