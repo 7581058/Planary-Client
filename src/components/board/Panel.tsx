@@ -2,7 +2,7 @@ import { css, useTheme } from '@emotion/react'
 import { Theme } from '@emotion/react'
 import { IoCloseOutline } from 'react-icons/io5'
 
-import { componentMap } from '@/constants/widget'
+import { widgetMap } from '@/constants/widget'
 import { Common } from '@/styles/common'
 
 export interface PanelProps {
@@ -19,7 +19,7 @@ const Panel = ({ component, isPreview, onDelete, w, h, isCovered }: PanelProps) 
   let Widget
 
   if (component) {
-    Widget = componentMap[component]
+    Widget = widgetMap[component]
   }
 
   return (
