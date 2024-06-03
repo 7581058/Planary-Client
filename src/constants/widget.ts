@@ -10,6 +10,7 @@ export interface WidgetProps {
   w: number
   h: number
   isPreview?: boolean
+  isCovered?: boolean
 }
 interface WidgetMap {
   [key: string]: (props: WidgetProps) => JSX.Element

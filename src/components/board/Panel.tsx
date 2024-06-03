@@ -33,7 +33,7 @@ const Panel = ({ component, isPreview, onDelete, w, h, isCovered }: PanelProps) 
             </button>
           </>
         )}
-        <div css={widget}>{Widget && <Widget isPreview={isPreview} w={w} h={h} />}</div>
+        <div css={widget}>{Widget && <Widget isCovered={isCovered} isPreview={isPreview} w={w} h={h} />}</div>
       </div>
     </div>
   )
