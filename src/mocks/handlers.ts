@@ -1,5 +1,6 @@
 import { http, HttpResponse, passthrough } from 'msw'
 import { layoutData, layoutData2 } from './data'
+import { ddayData } from './ddayData'
 
 const members = []
 
@@ -150,4 +151,22 @@ export const handlers = [
       })
     }
   }),
+
+  //디데이 조회
+  http.get('/api/dday', async ({ request }) => {
+    const token = request.headers.get('Authorization')
+    if (token === '12341234') {
+      return new HttpResponse(JSON.stringify(ddayData), {
+        status: 200,
+      })
+    } else {
+      return new HttpResponse(null, {
+        status: 400,
+        statusText: 'authentication_failed',
+      })
+    }
+  }),
+  //디데이 추가
+  //디데이 수정
+  //디데이 삭제
 ]
