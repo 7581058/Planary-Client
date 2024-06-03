@@ -1,20 +1,51 @@
 import { Theme } from '@emotion/react'
 import { css } from '@emotion/react'
+import { useEffect, useState } from 'react'
+import Carousel from '../carousel/Carousel'
 
+import { getDdayList } from '@/api'
+import { DDAY_GET_ERROR } from '@/constants/alert'
 import { WidgetProps } from '@/constants/widget'
+import { useAlert } from '@/hooks/useAlert'
 import { Common } from '@/styles/common'
 
-const DdayWidget = ({ w, h }: WidgetProps) => {
+interface DdayItem {
+  title: string
+  date: string
+}
+
+const DdayWidget = ({ w, h, isPreview, isCovered }: WidgetProps) => {
+  const [ddayList, setDdayList] = useState([])
+  const { openAlert } = useAlert()
+
+  const getList = async () => {
+    try {
+      const res = await getDdayList()
+      if (res) {
+        setDdayList(res)
+      }
+    } catch (error) {
+      openAlert(DDAY_GET_ERROR)
+    }
+  }
+
+  useEffect(() => {
+    getList()
+  }, [])
+
+  const ddayItems = ddayList.map((item: DdayItem) => {
+    return (
+      <div css={itemWrap}>
+        <div css={[title, responsiveTitle(w, h)]}>{item.title}</div>
+        <div css={[day, responsiveDay(w, h)]}>{item.date}</div>
+        <div css={[dday, responsiveDday(w, h)]}>D-48</div>
+      </div>
+    )
+  })
+
   return (
     <div css={[container, responsiveContainer(w, h)]}>
-      <span css={[title, responsiveTitle(w, h)]}>디데이</span>
-      <span css={[day, responsiveDay(w, h)]}>2024.05.18(토)</span>
-      <span css={[dday, responsiveDday(w, h)]}>D-48</span>
-      <div css={pagenation}>
-        <div css={dot}></div>
-        <div css={dot}></div>
-        <div css={dot}></div>
-      </div>
+      {ddayList && <Carousel auto={isPreview ? !isPreview : !isCovered} items={ddayItems} />}
     </div>
   )
 }
@@ -75,23 +106,7 @@ const responsiveDay = (w: number, h: number) => css`
   ${w === 2 && h === 2 && `font-size: ${Common.fontSize.fs10};`}
 `
 
-const pagenation = css`
-  display: flex;
-  gap: 4px;
-  align-items: center;
-  justify-content: center;
-
+const itemWrap = css`
   width: 100%;
-  margin-top: 20px;
-`
-
-const dot = (theme: Theme) => css`
-  width: 6px;
-  height: 6px;
-  background-color: ${theme.previewSubText};
-  border-radius: 50%;
-
-  &:first-of-type {
-    background-color: ${theme.previewText};
-  }
+  height: 100%;
 `
