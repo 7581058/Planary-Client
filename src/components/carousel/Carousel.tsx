@@ -1,7 +1,8 @@
 import { Theme } from '@emotion/react'
 import { css, useTheme } from '@emotion/react'
 import React, { useEffect, useRef, useState } from 'react'
-
+import { GrPrevious } from 'react-icons/gr'
+import { GrNext } from 'react-icons/gr'
 interface CarouselProps {
   items: React.ReactElement[]
   auto?: boolean
@@ -72,10 +73,10 @@ const Carousel = ({ items, auto }: CarouselProps) => {
           ))}
       </div>
       <button css={[moveButton, prevButton]} onClick={prevSlide}>
-        &lt;
+        <GrPrevious />
       </button>
       <button css={[moveButton, nextButton]} onClick={nextSlide}>
-        &gt;
+        <GrNext />
       </button>
 
       <div css={paginationWrap}>
@@ -130,14 +131,14 @@ const slide = css`
   min-height: 100%;
 `
 
-const moveButton = css`
+const moveButton = (theme: Theme) => css`
   cursor: pointer;
 
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
 
-  font-size: 2rem;
+  color: ${theme.previewText};
 
   background: none;
   border: none;
