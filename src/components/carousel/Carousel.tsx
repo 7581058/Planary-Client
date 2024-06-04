@@ -26,7 +26,7 @@ const Carousel = ({ items, auto }: CarouselProps) => {
   }, [items])
 
   useEffect(() => {
-    if (auto) {
+    if (auto && items.length > 1) {
       timeoutRef.current = window.setTimeout(() => {
         nextSlide()
       }, 3000)
@@ -72,13 +72,16 @@ const Carousel = ({ items, auto }: CarouselProps) => {
             </div>
           ))}
       </div>
-      <button css={[moveButton, prevButton]} onClick={prevSlide}>
-        <GrPrevious />
-      </button>
-      <button css={[moveButton, nextButton]} onClick={nextSlide}>
-        <GrNext />
-      </button>
-
+      {items.length > 1 && (
+        <>
+          <button css={[moveButton, prevButton]} onClick={prevSlide}>
+            <GrPrevious />
+          </button>
+          <button css={[moveButton, nextButton]} onClick={nextSlide}>
+            <GrNext />
+          </button>
+        </>
+      )}
       <div css={paginationWrap}>
         {items.map((_, index) => (
           <div
