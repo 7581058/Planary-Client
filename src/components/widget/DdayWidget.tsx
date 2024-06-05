@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Theme } from '@emotion/react'
 import { css } from '@emotion/react'
 import { useEffect, useState } from 'react'
@@ -8,7 +9,8 @@ import { DDAY_GET_ERROR } from '@/constants/alert'
 import { WidgetProps } from '@/constants/widget'
 import { useAlert } from '@/hooks/useAlert'
 import { Common } from '@/styles/common'
-
+import { calculateDday } from '@/utils/calculateDday'
+import { convertDate } from '@/utils/convertDate'
 interface DdayItem {
   title: string
   date: string
@@ -33,15 +35,20 @@ const DdayWidget = ({ w, h, isPreview, isCovered }: WidgetProps) => {
     getList()
   }, [])
 
-  const ddayItems = ddayList.map((item: DdayItem) => {
-    return (
-      <div css={itemWrap}>
-        <div css={[title, responsiveTitle(w, h)]}>{item.title}</div>
-        <div css={[day, responsiveDay(w, h)]}>{item.date}</div>
-        <div css={[dday, responsiveDday(w, h)]}>D-48</div>
-      </div>
-    )
-  })
+  const ddayItems =
+    ddayList.length > 0
+      ? ddayList.map((item: DdayItem) => (
+        <div css={itemWrap} key={item.date}>
+          <div css={[title, responsiveTitle(w, h)]}>{item.title}</div>
+          <div css={[day, responsiveDay(w, h)]}>{convertDate(item.date)}</div>
+          <div css={[dday, responsiveDday(w, h)]}>{calculateDday(item.date)}</div>
+        </div>
+      ))
+      : [
+        <div css={[noData]} key="noData">
+          등록된 디데이가 없습니다.
+        </div>,
+      ]
 
   return (
     <div css={[container, responsiveContainer(w, h)]}>
@@ -107,6 +114,22 @@ const responsiveDay = (w: number, h: number) => css`
 `
 
 const itemWrap = css`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
   width: 100%;
   height: 100%;
+`
+
+const noData = (theme: Theme) => css`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 100%;
+
+  color: ${theme.previewSubText};
 `
