@@ -17,7 +17,7 @@ const Carousel = ({ items, auto }: CarouselProps) => {
   const timeoutRef = useRef<number | null>(null)
 
   useEffect(() => {
-    if (items) {
+    if (items.length > 0) {
       const slideStart = items[0]
       const slideEnd = items[items.length - 1]
       const slideNew = [slideEnd, ...items, slideStart]
@@ -83,13 +83,14 @@ const Carousel = ({ items, auto }: CarouselProps) => {
         </>
       )}
       <div css={paginationWrap}>
-        {items.map((_, index) => (
-          <div
-            css={paginationDot(theme, index + 1 === currentSlide)}
-            key={index}
-            onClick={() => moveSlide(index + 1)}
-          />
-        ))}
+        {items.length > 0 &&
+          items.map((_, index) => (
+            <div
+              css={paginationDot(theme, index + 1 === currentSlide)}
+              key={index}
+              onClick={() => moveSlide(index + 1)}
+            />
+          ))}
       </div>
     </div>
   )
