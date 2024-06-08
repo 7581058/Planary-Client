@@ -51,6 +51,7 @@ export const themeDefault = {
   headerText: Common.colors.black02,
   headerButtons: Common.colors.blue02,
   //dashboard edit
+  widgetSettingButtons: Common.colors.gray03,
   widgetListBackground: Common.colors.gray05,
   widgetListTitleText: Common.colors.blue02,
   previewBackground: Common.colors.white,
