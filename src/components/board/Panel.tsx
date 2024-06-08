@@ -1,8 +1,9 @@
 import { css, useTheme } from '@emotion/react'
 import { Theme } from '@emotion/react'
+import { IoMdSettings } from 'react-icons/io'
 import { IoCloseOutline } from 'react-icons/io5'
 
-import { widgetMap } from '@/constants/widget'
+import { widgetMaps } from '@/constants/widget'
 import { Common } from '@/styles/common'
 
 export interface PanelProps {
@@ -18,13 +19,21 @@ const Panel = ({ component, isPreview, onDelete, w, h, isCovered }: PanelProps) 
   const theme = useTheme()
   let Widget
 
-  if (component) {
-    Widget = widgetMap[component]
+  let hasSettingsButton = false
+
+  if (component && widgetMaps[component]) {
+    Widget = widgetMaps[component].component
+    hasSettingsButton = widgetMaps[component].hasSettingsButton
   }
 
   return (
     <div css={panelContainer(isPreview, theme)}>
       <div css={panelWrap}>
+        {hasSettingsButton && !isPreview && !isCovered && (
+          <button className="setting-button" css={settingButton}>
+            <IoMdSettings />
+          </button>
+        )}
         {isCovered && (
           <>
             <div css={cover}></div>
@@ -50,6 +59,10 @@ const panelContainer = (isPreview: boolean, theme: Theme) => css`
   background-color: ${isPreview ? theme.previewPanelBackground : theme.panel};
   border: 2px solid ${theme.border};
   border-radius: 16px;
+
+  &:hover .setting-button {
+    opacity: 1;
+  }
 `
 
 const panelWrap = css`
@@ -100,4 +113,24 @@ const cover = css`
   height: 100%;
 
   border-radius: 16px;
+`
+
+const settingButton = (theme: Theme) => css`
+  position: absolute;
+  z-index: 99;
+  top: 5px;
+  right: 5px;
+
+  width: 20px;
+  height: 20px;
+
+  color: ${theme.widgetSettingButtons};
+
+  background-color: transparent;
+
+  transition: opacity 0.3s ease-in-out;
+
+  &.setting-button {
+    opacity: 0;
+  }
 `
