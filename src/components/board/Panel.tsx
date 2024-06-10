@@ -30,8 +30,8 @@ const Panel = ({ component, isPreview, onDelete, w, h, isCovered }: PanelProps) 
 
   const handleClickSetting = () => {
     if (component) {
-      const Modal = modalMap[component]
-      openModal(<Modal />)
+      const Modal = modalMap[component].component
+      openModal(<Modal />, modalMap[component].hasAsync)
     }
   }
 

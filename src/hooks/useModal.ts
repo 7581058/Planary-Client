@@ -11,9 +11,10 @@ export const useModal = () => {
     })
   }
 
-  const openModal = (content: string | JSX.Element) => {
+  const openModal = (content: string | JSX.Element, hasAsync: boolean) => {
     setModalState({
       isOpen: true,
+      hasAsync: hasAsync,
       content: content,
     })
   }
