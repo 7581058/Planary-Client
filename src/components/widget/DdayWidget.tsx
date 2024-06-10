@@ -1,39 +1,22 @@
 /* eslint-disable prettier/prettier */
 import { Theme } from '@emotion/react'
 import { css } from '@emotion/react'
-import { useEffect, useState } from 'react'
+import { useRecoilValue } from 'recoil'
 import Carousel from '../carousel/Carousel'
 
-import { getDdayList } from '@/api'
-import { DDAY_GET_ERROR } from '@/constants/alert'
 import { WidgetProps } from '@/constants/widget'
-import { useAlert } from '@/hooks/useAlert'
+import { currentDdayQuery } from '@/store/ddayState'
 import { Common } from '@/styles/common'
 import { calculateDday } from '@/utils/calculateDday'
 import { convertDate } from '@/utils/convertDate'
+
 interface DdayItem {
   title: string
   date: string
 }
 
 const DdayWidget = ({ w, h, isPreview, isCovered }: WidgetProps) => {
-  const [ddayList, setDdayList] = useState([])
-  const { openAlert } = useAlert()
-
-  const getList = async () => {
-    try {
-      const res = await getDdayList()
-      if (res) {
-        setDdayList(res)
-      }
-    } catch (error) {
-      openAlert(DDAY_GET_ERROR)
-    }
-  }
-
-  useEffect(() => {
-    getList()
-  }, [])
+  const ddayList = useRecoilValue(currentDdayQuery)
 
   const ddayItems =
     ddayList.length > 0
