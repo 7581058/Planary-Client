@@ -3,7 +3,9 @@ import { Theme } from '@emotion/react'
 import { IoMdSettings } from 'react-icons/io'
 import { IoCloseOutline } from 'react-icons/io5'
 
+import { modalMap } from '@/constants/modals'
 import { widgetMaps } from '@/constants/widget'
+import { useModal } from '@/hooks/useModal'
 import { Common } from '@/styles/common'
 
 export interface PanelProps {
@@ -17,8 +19,8 @@ export interface PanelProps {
 
 const Panel = ({ component, isPreview, onDelete, w, h, isCovered }: PanelProps) => {
   const theme = useTheme()
+  const { openModal } = useModal()
   let Widget
-
   let hasSettingsButton = false
 
   if (component && widgetMaps[component]) {
@@ -26,11 +28,18 @@ const Panel = ({ component, isPreview, onDelete, w, h, isCovered }: PanelProps) 
     hasSettingsButton = widgetMaps[component].hasSettingsButton
   }
 
+  const handleClickSetting = () => {
+    if (component) {
+      const Modal = modalMap[component]
+      openModal(<Modal />)
+    }
+  }
+
   return (
     <div css={panelContainer(isPreview, theme)}>
       <div css={panelWrap}>
         {hasSettingsButton && !isPreview && !isCovered && (
-          <button className="setting-button" css={settingButton}>
+          <button className="setting-button" css={settingButton} onClick={handleClickSetting}>
             <IoMdSettings />
           </button>
         )}
@@ -116,6 +125,8 @@ const cover = css`
 `
 
 const settingButton = (theme: Theme) => css`
+  cursor: pointer;
+
   position: absolute;
   z-index: 99;
   top: 5px;
