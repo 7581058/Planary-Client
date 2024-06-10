@@ -2,10 +2,6 @@ import { useRecoilState } from 'recoil'
 
 import { currentModalState } from '@/store/modalState'
 
-type OpenModalType = {
-  content: string | JSX.Element
-}
-
 export const useModal = () => {
   const [modalState, setModalState] = useRecoilState(currentModalState)
 
@@ -15,7 +11,7 @@ export const useModal = () => {
     })
   }
 
-  const openModal = ({ content }: OpenModalType) => {
+  const openModal = (content: string | JSX.Element) => {
     setModalState({
       isOpen: true,
       content: content,
