@@ -1,20 +1,28 @@
 import { Theme } from '@emotion/react'
 import { css, useTheme } from '@emotion/react'
 import React, { useEffect, useRef, useState } from 'react'
+import { BsFillPlayFill } from 'react-icons/bs'
+import { GiPauseButton } from 'react-icons/gi'
 import { GrPrevious } from 'react-icons/gr'
 import { GrNext } from 'react-icons/gr'
+
+import { Common } from '@/styles/common'
 interface CarouselProps {
   items: React.ReactElement[]
   auto?: boolean
+  control?: boolean
 }
 
-const Carousel = ({ items, auto }: CarouselProps) => {
+const Carousel = ({ items, auto, control }: CarouselProps) => {
   const theme = useTheme()
   const [currentSlide, setCurrentSlide] = useState(1)
   const [transition, setTransition] = useState(0.5)
   const [slides, setSlides] = useState<React.ReactElement[]>([])
+  const [isAuto, setIsAuto] = useState(auto)
+  const [paginationWidth, setPaginationWidth] = useState(0)
 
   const timeoutRef = useRef<number | null>(null)
+  const paginationRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (items.length > 0) {
@@ -26,7 +34,7 @@ const Carousel = ({ items, auto }: CarouselProps) => {
   }, [items])
 
   useEffect(() => {
-    if (auto && items.length > 1) {
+    if (isAuto && items.length > 1) {
       timeoutRef.current = window.setTimeout(() => {
         nextSlide()
       }, 3000)
@@ -36,7 +44,13 @@ const Carousel = ({ items, auto }: CarouselProps) => {
         }
       }
     }
-  }, [currentSlide, auto])
+  }, [currentSlide, isAuto, items.length])
+
+  useEffect(() => {
+    if (paginationRef.current) {
+      setPaginationWidth(paginationRef.current.offsetWidth)
+    }
+  }, [items])
 
   const nextSlide = () => {
     setCurrentSlide((prev) => prev + 1)
@@ -62,6 +76,10 @@ const Carousel = ({ items, auto }: CarouselProps) => {
     }
   }
 
+  const handleClickControl = () => {
+    setIsAuto(!isAuto)
+  }
+
   return (
     <div css={container}>
       <div css={carouselWrap(currentSlide, transition)} onTransitionEnd={handleTransitionEnd}>
@@ -82,15 +100,31 @@ const Carousel = ({ items, auto }: CarouselProps) => {
           </button>
         </>
       )}
-      <div css={paginationWrap}>
-        {items.length > 0 &&
-          items.map((_, index) => (
-            <div
-              css={paginationDot(theme, index + 1 === currentSlide)}
-              key={index}
-              onClick={() => moveSlide(index + 1)}
-            />
-          ))}
+      <div css={paginationWrap} ref={paginationRef}>
+        {items.length > 0 && (
+          <>
+            {items.map((_, index) => (
+              <div
+                css={paginationDot(theme, index + 1 === currentSlide)}
+                key={index}
+                onClick={() => moveSlide(index + 1)}
+              />
+            ))}
+            {control && (
+              <div css={controlButton(theme, paginationWidth)} onClick={handleClickControl}>
+                {isAuto ? (
+                  <div css={pauseButton}>
+                    <GiPauseButton />
+                  </div>
+                ) : (
+                  <div css={playButton}>
+                    <BsFillPlayFill />
+                  </div>
+                )}
+              </div>
+            )}
+          </>
+        )}
       </div>
     </div>
   )
@@ -104,19 +138,23 @@ const container = css`
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  align-items: center;
 
   width: 100%;
   height: 100%;
 `
 
 const paginationWrap = css`
+  position: relative;
+
   display: flex;
   flex-shrink: 0;
   gap: 8px;
   align-items: center;
   justify-content: center;
 
-  width: 100%;
+  width: fit-content;
+  height: 10px;
 `
 
 const carouselWrap = (currentSlide: number, transition: number) => css`
@@ -164,4 +202,30 @@ const paginationDot = (theme: Theme, active: boolean) => css`
 
   background-color: ${active ? theme.previewText : theme.previewSubText};
   border-radius: 50%;
+`
+
+const controlButton = (theme: Theme, paginationWidth: number) => css`
+  cursor: pointer;
+
+  position: absolute;
+  left: calc(50% + ${paginationWidth / 2}px + 8px);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 8px;
+  height: 8px;
+
+  color: ${theme.previewSubText};
+`
+
+const pauseButton = css`
+  margin-top: 3px;
+  font-size: ${Common.fontSize.fs6};
+`
+
+const playButton = css`
+  margin-top: 3px;
+  font-size: ${Common.fontSize.fs8};
 `

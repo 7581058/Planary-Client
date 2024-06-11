@@ -35,7 +35,7 @@ const DdayWidget = ({ w, h, isPreview, isCovered }: WidgetProps) => {
 
   return (
     <div css={[container, responsiveContainer(w, h)]}>
-      {ddayList && <Carousel auto={isPreview ? !isPreview : !isCovered} items={ddayItems} />}
+      {ddayList && <Carousel auto={isPreview ? !isPreview : !isCovered} items={ddayItems} control={isPreview ? !isPreview : !isCovered} />}
     </div>
   )
 }
