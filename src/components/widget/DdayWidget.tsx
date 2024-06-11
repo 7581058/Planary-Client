@@ -87,7 +87,7 @@ const day = (theme: Theme) => css`
   width: 100%;
   margin-top: 5px;
 
-  font-size: ${Common.fontSize.fs6};
+  font-size: ${Common.fontSize.fs7};
   color: ${theme.previewText};
   text-align: center;
 `
