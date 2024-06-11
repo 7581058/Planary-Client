@@ -92,10 +92,10 @@ const Carousel = ({ items, auto, control }: CarouselProps) => {
       </div>
       {items.length > 1 && (
         <>
-          <button css={[moveButton, prevButton]} onClick={prevSlide}>
+          <button className="prev-button" css={[moveButton, prevButton]} onClick={prevSlide}>
             <GrPrevious />
           </button>
-          <button css={[moveButton, nextButton]} onClick={nextSlide}>
+          <button className="next-button" css={[moveButton, nextButton]} onClick={nextSlide}>
             <GrNext />
           </button>
         </>
@@ -142,6 +142,16 @@ const container = css`
 
   width: 100%;
   height: 100%;
+
+  &:hover {
+    .prev-button {
+      opacity: 1;
+    }
+
+    .next-button {
+      opacity: 1;
+    }
+  }
 `
 
 const paginationWrap = css`
@@ -188,10 +198,12 @@ const moveButton = (theme: Theme) => css`
 
 const prevButton = css`
   left: 0;
+  opacity: 0;
 `
 
 const nextButton = css`
   right: 0;
+  opacity: 0;
 `
 
 const paginationDot = (theme: Theme, active: boolean) => css`
