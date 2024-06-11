@@ -44,7 +44,14 @@ const BoardGrid = () => {
         {boardData &&
           boards.lg.map((item: BoardItem) => (
             <div key={item.i}>
-              <Panel key={item.i} isPreview={false} component={item.component} w={item.w} h={item.h} />
+              <Panel
+                key={item.i}
+                isPreview={false}
+                component={item.component}
+                w={item.w}
+                h={item.h}
+                isCovered={false}
+              />
             </div>
           ))}
       </ResponsiveGridLayout>
