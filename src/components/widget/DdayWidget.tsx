@@ -23,7 +23,7 @@ const DdayWidget = ({ w, h, isPreview, isCovered }: WidgetProps) => {
       ? ddayList.map((item: DdayItem) => (
         <div css={itemWrap} key={item.date}>
           <div css={[title, responsiveTitle(w, h)]}>{item.title}</div>
-          <div css={[day, responsiveDay(w, h)]}>{convertDate(item.date)}</div>
+          <div css={[day, responsiveDay(w, h)]}>{convertDate(item.date, 'kor')}</div>
           <div css={[dday, responsiveDday(w, h)]}>{calculateDday(item.date)}</div>
         </div>
       ))
