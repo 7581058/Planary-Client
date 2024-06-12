@@ -1,7 +1,7 @@
 import { css, useTheme } from '@emotion/react'
 import { Theme } from '@emotion/react'
 
-import { Common } from '@/styles/common'
+import { Common, noDrag } from '@/styles/common'
 
 interface SquareToggleProps {
   auto: boolean
@@ -11,7 +11,7 @@ interface SquareToggleProps {
 const SquareToggle = ({ auto, handleClickToggle }: SquareToggleProps) => {
   const theme = useTheme()
   return (
-    <div css={toggleWrap} onClick={handleClickToggle}>
+    <div css={[toggleWrap, noDrag]} onClick={handleClickToggle}>
       <div css={toggleButton(theme, auto)}></div>
       <div css={toggleLabel(theme, auto)}>ON</div>
       <div css={toggleLabel(theme, auto)}>OFF</div>
@@ -22,6 +22,8 @@ const SquareToggle = ({ auto, handleClickToggle }: SquareToggleProps) => {
 export default SquareToggle
 
 const toggleWrap = (theme: Theme) => css`
+  cursor: pointer;
+
   position: relative;
 
   display: flex;
