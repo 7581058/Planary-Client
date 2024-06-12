@@ -110,7 +110,7 @@ const Carousel = ({ items, auto, control }: CarouselProps) => {
                 onClick={() => moveSlide(index + 1)}
               />
             ))}
-            {control && (
+            {control && items.length > 1 && (
               <div css={controlButton(theme, paginationWidth)} onClick={handleClickControl}>
                 {isAuto ? (
                   <div css={pauseButton}>
