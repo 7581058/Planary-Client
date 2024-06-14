@@ -19,8 +19,8 @@ const DdayWidget = ({ w, h, isPreview, isCovered }: WidgetProps) => {
   const ddayList = useRecoilValue(currentDdayQuery)
 
   const ddayItems =
-    ddayList.length > 0
-      ? ddayList.map((item: DdayItem) => (
+    ddayList.data.length > 0
+      ? ddayList.data.map((item: DdayItem) => (
         <div css={itemWrap} key={item.date}>
           <div css={[title, responsiveTitle(w, h)]}>{item.title}</div>
           <div css={[day, responsiveDay(w, h)]}>{convertDate(item.date, 'kor')}</div>
@@ -35,7 +35,7 @@ const DdayWidget = ({ w, h, isPreview, isCovered }: WidgetProps) => {
 
   return (
     <div css={[container, responsiveContainer(w, h)]}>
-      {ddayList && <Carousel auto={isPreview ? !isPreview : !isCovered} items={ddayItems} control={isPreview ? !isPreview : !isCovered} />}
+      {ddayList && <Carousel auto={isPreview ? !isPreview : ddayList.isAuto} items={ddayItems} control={isPreview ? !isPreview : !isCovered} />}
     </div>
   )
 }
