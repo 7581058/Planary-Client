@@ -40,3 +40,11 @@ export const BOARD_EDIT_RESIZING_ERROR = {
   buttonType: AlertButtonType.None,
   notiType: AlertNotificationType.Error,
 }
+
+export const DDAY_GET_ERROR = {
+  icon: '🚨',
+  title: '불러오기 오류',
+  content: '디데이 불러오기에 실패했습니다. 잠시 후 다시 시도해 주세요.',
+  buttonType: AlertButtonType.None,
+  notiType: AlertNotificationType.Error,
+}

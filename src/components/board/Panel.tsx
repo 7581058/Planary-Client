@@ -1,8 +1,11 @@
 import { css, useTheme } from '@emotion/react'
 import { Theme } from '@emotion/react'
+import { IoMdSettings } from 'react-icons/io'
 import { IoCloseOutline } from 'react-icons/io5'
 
-import { widgetMap } from '@/constants/widget'
+import { modalMap } from '@/constants/modals'
+import { widgetMaps } from '@/constants/widget'
+import { useModal } from '@/hooks/useModal'
 import { Common } from '@/styles/common'
 
 export interface PanelProps {
@@ -16,15 +19,30 @@ export interface PanelProps {
 
 const Panel = ({ component, isPreview, onDelete, w, h, isCovered }: PanelProps) => {
   const theme = useTheme()
+  const { openModal } = useModal()
   let Widget
+  let hasSettingsButton = false
 
-  if (component) {
-    Widget = widgetMap[component]
+  if (component && widgetMaps[component]) {
+    Widget = widgetMaps[component].component
+    hasSettingsButton = widgetMaps[component].hasSettingsButton
+  }
+
+  const handleClickSetting = () => {
+    if (component) {
+      const Modal = modalMap[component].component
+      openModal(<Modal />, modalMap[component].hasAsync)
+    }
   }
 
   return (
     <div css={panelContainer(isPreview, theme)}>
       <div css={panelWrap}>
+        {hasSettingsButton && !isPreview && !isCovered && (
+          <button className="setting-button" css={settingButton} onClick={handleClickSetting}>
+            <IoMdSettings />
+          </button>
+        )}
         {isCovered && (
           <>
             <div css={cover}></div>
@@ -33,7 +51,7 @@ const Panel = ({ component, isPreview, onDelete, w, h, isCovered }: PanelProps) 
             </button>
           </>
         )}
-        <div css={widget}>{Widget && <Widget isPreview={isPreview} w={w} h={h} />}</div>
+        <div css={widget}>{Widget && <Widget isCovered={isCovered} isPreview={isPreview} w={w} h={h} />}</div>
       </div>
     </div>
   )
@@ -50,6 +68,10 @@ const panelContainer = (isPreview: boolean, theme: Theme) => css`
   background-color: ${isPreview ? theme.previewPanelBackground : theme.panel};
   border: 2px solid ${theme.border};
   border-radius: 16px;
+
+  &:hover .setting-button {
+    opacity: 1;
+  }
 `
 
 const panelWrap = css`
@@ -100,4 +122,26 @@ const cover = css`
   height: 100%;
 
   border-radius: 16px;
+`
+
+const settingButton = (theme: Theme) => css`
+  cursor: pointer;
+
+  position: absolute;
+  z-index: 99;
+  top: 5px;
+  right: 5px;
+
+  width: 20px;
+  height: 20px;
+
+  color: ${theme.widgetSettingButtons};
+
+  background-color: transparent;
+
+  transition: opacity 0.3s ease-in-out;
+
+  &.setting-button {
+    opacity: 0;
+  }
 `

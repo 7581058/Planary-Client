@@ -10,9 +10,7 @@ export interface WidgetProps {
   w: number
   h: number
   isPreview?: boolean
-}
-interface WidgetMap {
-  [key: string]: (props: WidgetProps) => JSX.Element
+  isCovered?: boolean
 }
 
 interface Info {
@@ -27,7 +25,12 @@ interface WidgetsMap {
   [key: string]: Info
 }
 
-export const widgetMap: WidgetMap = {
+export interface WidgetInfo {
+  component: (props: WidgetProps) => JSX.Element
+  hasSettingsButton: boolean
+}
+
+export const widgetMap = {
   clock: ClockWidget,
   profile: ProfileWidget,
   dday: DdayWidget,
@@ -35,6 +38,16 @@ export const widgetMap: WidgetMap = {
   todo: TodoWidget,
   player: PlayerWidget,
   calendar: CalendarWidget,
+}
+
+export const widgetMaps: { [key: string]: WidgetInfo } = {
+  clock: { component: ClockWidget, hasSettingsButton: false },
+  profile: { component: ProfileWidget, hasSettingsButton: false },
+  dday: { component: DdayWidget, hasSettingsButton: true },
+  timer: { component: TimerWidget, hasSettingsButton: false },
+  todo: { component: TodoWidget, hasSettingsButton: false },
+  player: { component: PlayerWidget, hasSettingsButton: false },
+  calendar: { component: CalendarWidget, hasSettingsButton: false },
 }
 
 export const widgetInfo: WidgetsMap = {

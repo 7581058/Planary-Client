@@ -57,3 +57,10 @@ export const flexCenter = css`
   justify-content: center;
   align-items: center;
 `
+
+export const noDrag = css`
+  user-select: none; /* 나머지 브라우저 */
+  -webkit-user-select: none; /* 사파리 */
+  -moz-user-select: none; /* 파이어폭스 */
+  -ms-user-select: none; /* 익스플로러,엣지 */
+`

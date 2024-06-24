@@ -2,12 +2,15 @@ import { Common } from './common'
 
 export const themeDefault = {
   background: Common.colors.blue01,
+  subBackground: Common.colors.gray01,
   panel: Common.colors.white,
   border: Common.colors.blue01,
   text: Common.colors.black02,
   subText: Common.colors.gray03,
   button: Common.colors.blue02,
   buttonText: Common.colors.white,
+  subButton: Common.colors.gray02,
+  subButtonText: Common.colors.gray03,
   //alert color
   errorRed: Common.colors.red01,
   successBlue: Common.colors.blue03,
@@ -46,11 +49,17 @@ export const themeDefault = {
   selectBackground: Common.colors.blue01,
   selectText: Common.colors.blue02,
   selectOptionBackground: Common.colors.white,
+  //subSelect
+  subSelectBorder: Common.colors.blue02,
+  subSelectBackground: Common.colors.white,
+  subSelectText: Common.colors.gray03,
+  subSelectOptionBackground: Common.colors.white,
   //header
   headerBackground: Common.colors.white,
   headerText: Common.colors.black02,
   headerButtons: Common.colors.blue02,
   //dashboard edit
+  widgetSettingButtons: Common.colors.gray03,
   widgetListBackground: Common.colors.gray05,
   widgetListTitleText: Common.colors.blue02,
   previewBackground: Common.colors.white,
@@ -70,4 +79,14 @@ export const themeDefault = {
   scrollbarThumb: Common.colors.gray03,
   scrollbarTrack: Common.colors.gray02,
   scrollbarTrackBorder: Common.colors.gray02,
+  //modal
+  modalBackground: Common.colors.black,
+  modalContainerBackground: Common.colors.white,
+  modalSubText: Common.colors.gray03,
+  //toggleButton
+  toggleButtonBackground: Common.colors.blue01,
+  toggleButtonActive: Common.colors.blue02,
+  toggleButton: Common.colors.gray03,
+  //react-grid-DragDropOver
+  dragDropOverBackground: Common.colors.blue02,
 }

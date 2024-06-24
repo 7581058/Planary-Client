@@ -1,20 +1,41 @@
+/* eslint-disable prettier/prettier */
 import { Theme } from '@emotion/react'
 import { css } from '@emotion/react'
+import { useRecoilValue } from 'recoil'
+import Carousel from '../carousel/Carousel'
 
 import { WidgetProps } from '@/constants/widget'
+import { currentDdayQuery } from '@/store/ddayState'
 import { Common } from '@/styles/common'
+import { calculateDday } from '@/utils/calculateDday'
+import { convertDate } from '@/utils/convertDate'
 
-const DdayWidget = ({ w, h }: WidgetProps) => {
+interface DdayItem {
+  title: string
+  date: string
+}
+
+const DdayWidget = ({ w, h, isPreview, isCovered }: WidgetProps) => {
+  const ddayList = useRecoilValue(currentDdayQuery)
+
+  const ddayItems =
+    ddayList.data.length > 0
+      ? ddayList.data.map((item: DdayItem) => (
+        <div css={itemWrap} key={item.date}>
+          <div css={[title, responsiveTitle(w, h)]}>{item.title}</div>
+          <div css={[day, responsiveDay(w, h)]}>{convertDate(item.date, 'kor')}</div>
+          <div css={[dday, responsiveDday(w, h)]}>{calculateDday(item.date)}</div>
+        </div>
+      ))
+      : [
+        <div css={[noData]} key="noData">
+          등록된 디데이가 없습니다.
+        </div>,
+      ]
+
   return (
     <div css={[container, responsiveContainer(w, h)]}>
-      <span css={[title, responsiveTitle(w, h)]}>디데이</span>
-      <span css={[day, responsiveDay(w, h)]}>2024.05.18(토)</span>
-      <span css={[dday, responsiveDday(w, h)]}>D-48</span>
-      <div css={pagenation}>
-        <div css={dot}></div>
-        <div css={dot}></div>
-        <div css={dot}></div>
-      </div>
+      {ddayList && <Carousel auto={isPreview ? !isPreview : ddayList.isAuto} items={ddayItems} control={isPreview ? !isPreview : !isCovered} />}
     </div>
   )
 }
@@ -66,7 +87,7 @@ const day = (theme: Theme) => css`
   width: 100%;
   margin-top: 5px;
 
-  font-size: ${Common.fontSize.fs6};
+  font-size: ${Common.fontSize.fs7};
   color: ${theme.previewText};
   text-align: center;
 `
@@ -75,23 +96,23 @@ const responsiveDay = (w: number, h: number) => css`
   ${w === 2 && h === 2 && `font-size: ${Common.fontSize.fs10};`}
 `
 
-const pagenation = css`
+const itemWrap = css`
   display: flex;
-  gap: 4px;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 
   width: 100%;
-  margin-top: 20px;
+  height: 100%;
 `
 
-const dot = (theme: Theme) => css`
-  width: 6px;
-  height: 6px;
-  background-color: ${theme.previewSubText};
-  border-radius: 50%;
+const noData = (theme: Theme) => css`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  &:first-of-type {
-    background-color: ${theme.previewText};
-  }
+  width: 100%;
+  height: 100%;
+
+  color: ${theme.previewSubText};
 `

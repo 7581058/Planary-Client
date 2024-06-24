@@ -52,3 +52,12 @@ export const editBoard = async (body: BoardState, boardId: number) => {
   })
   return res.data
 }
+
+export const getDdayList = async () => {
+  const res = await instance.get(`/api/dday`, {
+    headers: {
+      Authorization: `${localStorage.getItem('accessToken')}`,
+    },
+  })
+  return res.data
+}
