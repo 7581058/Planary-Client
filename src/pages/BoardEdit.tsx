@@ -4,7 +4,6 @@ import { useRecoilValue } from 'recoil'
 
 import BoardPreview from '@/components/editboard/BoardPreview'
 import WidgetList from '@/components/editboard/WidgetList'
-import PageHeader from '@/components/header/PageHeader'
 import { boardDirtyFlag } from '@/store/boardState'
 
 const BoardEdit = () => {
@@ -26,7 +25,6 @@ const BoardEdit = () => {
 
   return (
     <div css={pageContainer}>
-      <PageHeader title={'Dashboard Edit'} />
       <React.Suspense fallback={<></>}>
         <div css={innerContainer}>
           <WidgetList />
