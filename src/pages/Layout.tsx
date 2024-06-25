@@ -4,26 +4,29 @@ import { Outlet, useLocation } from 'react-router-dom'
 
 import CustomAlert from '@/components/alert/CustomAlert'
 import LayoutHeader from '@/components/header/LayoutHeader'
+import PageHeader from '@/components/header/PageHeader'
 import MainNav from '@/components/MainNav'
 import ModalBase from '@/components/modal/ModalBase'
-import { DASHBOARD_EDIT_PATH } from '@/constants/paths'
+import { LAYOUT_HEADER_PATHS, PAGE_HEADER_PATHS } from '@/constants/paths'
 import { globalStyles } from '@/styles/globalStyles'
 import { themeDefault } from '@/styles/theme'
 
 const Layout = () => {
   const location = useLocation()
-  const isLoginPage = location.pathname === '/'
-  const isDashboardEditPage = location.pathname === DASHBOARD_EDIT_PATH
+  const isPageHeaderPath = PAGE_HEADER_PATHS.find((item) => item.path === location.pathname)
+  const isLayoutHeaderPath = LAYOUT_HEADER_PATHS.includes(location.pathname)
+
   const modalEl = document.getElementById('modal')
   return (
     <ThemeProvider theme={themeDefault}>
       <Global styles={globalStyles} />
       <div css={container}>
-        {isLoginPage || isDashboardEditPage ? (
-          <div css={container}>
+        {isPageHeaderPath ? (
+          <div css={innerContainer}>
+            <PageHeader title={isPageHeaderPath.title} />
             <Outlet />
           </div>
-        ) : (
+        ) : isLayoutHeaderPath ? (
           <div css={container}>
             <MainNav />
             <div css={innerContainer}>
@@ -31,8 +34,10 @@ const Layout = () => {
               <Outlet />
             </div>
           </div>
+        ) : (
+          <Outlet />
         )}
-        <CustomAlert />
+        {modalEl && createPortal(<CustomAlert />, modalEl)}
         {modalEl && createPortal(<ModalBase />, modalEl)}
       </div>
     </ThemeProvider>
@@ -45,8 +50,6 @@ const container = css`
   position: absolute;
   top: 0;
   left: 0;
-
-  display: flex;
 
   width: 100%;
   height: 100%;
