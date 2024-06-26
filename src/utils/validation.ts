@@ -1,5 +1,9 @@
 import { LOGIN_MESSAGE } from '@/constants/message'
 
+interface ConfirmValuesType {
+  password: string
+}
+
 export const loginFormValidation = {
   email: {
     required: LOGIN_MESSAGE.email_required,
@@ -13,8 +17,7 @@ export const loginFormValidation = {
   },
 }
 
-//TODO: 회원가입 폼 구현 후 적용
-/* export const signupFormValidation = {
+export const signupFormValidation = {
   email: {
     ...loginFormValidation.email,
   },
@@ -29,6 +32,23 @@ export const loginFormValidation = {
   },
   confirmPassword: {
     required: '비밀번호 확인이 필요합니다.',
-    validate: (value: string, values: any) => value === values.password || '비밀번호가 일치하지 않습니다.',
+    validate: (value: string, values: ConfirmValuesType) =>
+      value === values.password || '비밀번호가 일치하지 않습니다.',
   },
-} */
+  username: {
+    minLength: { value: 2, message: '2~16자의 한글, 영어 대소문자, 숫자만 사용할 수 있습니다.' },
+    maxLength: { value: 16, message: '2~16자의 한글, 영어 대소문자, 숫자만 사용할 수 있습니다.' },
+    pattern: {
+      value: /^[ㄱ-힣a-zA-Z0-9]{2,20}$/,
+      message: '2~20자의 한글, 영어 대소문자, 숫자만 사용할 수 있습니다.',
+    },
+  },
+  birth: {
+    minLength: { value: 8, message: '생년월일을 YYYYMMDD 형식으로 입력해주세요. 예: 19990101' },
+    maxLength: { value: 8, message: '생년월일을 YYYYMMDD 형식으로 입력해주세요. 예: 19990101' },
+    pattern: {
+      value: /^(19|20)\d{2}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])$/,
+      message: '생년월일을 YYYYMMDD 형식으로 입력해주세요. 예: 19990101',
+    },
+  },
+}
