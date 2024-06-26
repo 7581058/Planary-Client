@@ -20,8 +20,9 @@ export const SIGNUP_SUCCESS_ALERT = {
   icon: '👌',
   title: '회원가입 성공',
   content: '회원가입을 완료했습니다. \n로그인 화면으로 이동됩니다.',
-  buttonType: AlertButtonType.None,
+  buttonType: AlertButtonType.Ok,
   notiType: AlertNotificationType.Success,
+  buttonTitle: '확인',
 }
 
 export const BOARD_EDIT_SAVE_WARNING = {
