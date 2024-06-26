@@ -10,6 +10,7 @@ export type AlertType = {
   buttonType: AlertButtonType
   notiType: AlertNotificationType
   callBack?: () => void
+  buttonTitle?: string
 }
 
 export const currentAlertState = atom<AlertType>({
@@ -20,5 +21,6 @@ export const currentAlertState = atom<AlertType>({
     content: '',
     buttonType: AlertButtonType.Close,
     notiType: AlertNotificationType.Default,
+    buttonTitle: '',
   },
 })

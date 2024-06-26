@@ -20,6 +20,13 @@ const CustomAlert = () => {
     }
   }, [alertState.buttonType, closeAlert])
 
+  const handleClickCallBack = () => {
+    if (alertState.callBack) {
+      alertState.callBack()
+    }
+    closeAlert()
+  }
+
   return (
     <div css={alertContainer(theme, alertState.isOpen)}>
       {alertState.icon && <div>{alertState.icon}</div>}
@@ -31,10 +38,15 @@ const CustomAlert = () => {
             <button onClick={closeAlert} css={alertButton}>
               취소
             </button>
-            <button onClick={alertState.callBack} css={[alertButton, okButton]}>
+            <button onClick={handleClickCallBack} css={[alertButton, okButton]}>
               확인
             </button>
           </>
+        )}
+        {alertState.buttonType === AlertButtonType.Ok && (
+          <button onClick={handleClickCallBack} css={[alertButton, alertColor(theme, alertState.notiType)]}>
+            {alertState.buttonTitle}
+          </button>
         )}
         {alertState.buttonType === AlertButtonType.Close && (
           <button onClick={closeAlert} css={[alertButton, alertColor(theme, alertState.notiType)]}>
