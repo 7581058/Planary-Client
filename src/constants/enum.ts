@@ -12,3 +12,10 @@ export enum AlertNotificationType {
   Success,
   Warning,
 }
+
+export enum CustomInputType {
+  None,
+  Clear,
+  ClearAndShow,
+  Show,
+}
