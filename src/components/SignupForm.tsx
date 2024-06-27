@@ -26,7 +26,7 @@ const SignupForm = () => {
   const methods = useForm<SignupFormType>()
   const {
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
   } = methods
 
   const handleClickConfirm = () => {
@@ -118,7 +118,7 @@ const SignupForm = () => {
         <div css={messageWrap}>
           <ErrorMessage msg={errors.birth?.message} />
         </div>
-        <button type="submit" css={signupButton}>
+        <button type="submit" css={signupButton} disabled={!isValid}>
           가입하기
         </button>
       </form>
@@ -161,6 +161,10 @@ const signupButton = (theme: Theme) => css`
 
   &:hover {
     scale: 1.01;
+  }
+
+  &:disabled {
+    background-color: ${theme.subButton};
   }
 `
 
