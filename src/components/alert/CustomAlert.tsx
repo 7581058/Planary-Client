@@ -63,11 +63,13 @@ const CustomAlert = () => {
 export default CustomAlert
 
 const alertBackground = (isOpen: boolean) => css`
-  position: absolute;
+  position: fixed;
+  z-index: 9;
   top: 0;
   left: 0;
 
   display: flex;
+  justify-content: center;
 
   width: 100%;
   height: 100%;
@@ -76,7 +78,7 @@ const alertBackground = (isOpen: boolean) => css`
 `
 
 const alertContainer = (theme: Theme, isOpen: boolean) => css`
-  position: relative;
+  position: fixed;
   z-index: 10;
   top: 30px;
 
