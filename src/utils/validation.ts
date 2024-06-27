@@ -31,12 +31,12 @@ export const signupFormValidation = {
     },
   },
   confirmPassword: {
-    require: SIGNUP_MESSAGE.password_confirm_required,
+    required: SIGNUP_MESSAGE.password_confirm_required,
     validate: (value: string, values: ConfirmValuesType) =>
       value === values.password || SIGNUP_MESSAGE.password_confirm_rex_error,
   },
   username: {
-    require: SIGNUP_MESSAGE.username_required,
+    required: SIGNUP_MESSAGE.username_required,
     minLength: { value: 2, message: SIGNUP_MESSAGE.username_rex_error },
     maxLength: { value: 16, message: SIGNUP_MESSAGE.username_rex_error },
     pattern: {
@@ -45,7 +45,7 @@ export const signupFormValidation = {
     },
   },
   birth: {
-    require: SIGNUP_MESSAGE.birth_required,
+    required: SIGNUP_MESSAGE.birth_required,
     minLength: { value: 8, message: SIGNUP_MESSAGE.birth_rex_error },
     maxLength: { value: 8, message: SIGNUP_MESSAGE.birth_rex_error },
     pattern: {
