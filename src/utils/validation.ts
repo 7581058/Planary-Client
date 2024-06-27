@@ -1,4 +1,4 @@
-import { LOGIN_MESSAGE } from '@/constants/message'
+import { LOGIN_MESSAGE, SIGNUP_MESSAGE } from '@/constants/message'
 
 interface ConfirmValuesType {
   password: string
@@ -13,7 +13,7 @@ export const loginFormValidation = {
     },
   },
   password: {
-    required: '비밀번호를 입력해 주세요.',
+    required: LOGIN_MESSAGE.password_required,
   },
 }
 
@@ -23,32 +23,34 @@ export const signupFormValidation = {
   },
   password: {
     ...loginFormValidation.password,
-    minLength: { value: 8, message: '8~16자의 영문 대/소문자, 숫자, 특수문자(!@#$%^&*)를 사용해 주세요.' },
-    maxLength: { value: 16, message: '8~16자의 영문 대/소문자, 숫자, 특수문자(!@#$%^&*)를 사용해 주세요.' },
+    minLength: { value: 8, message: SIGNUP_MESSAGE.password_rex_error },
+    maxLength: { value: 16, message: SIGNUP_MESSAGE.password_rex_error },
     pattern: {
       value: /^(?=.*[@#$%^&*])[A-Za-z0-9@#$%^&*]{8,16}$/,
-      message: '8~16자의 영문 대/소문자, 숫자, 특수문자(!@#$%^&*)를 사용해 주세요.',
+      message: SIGNUP_MESSAGE.password_rex_error,
     },
   },
   confirmPassword: {
-    required: '비밀번호 확인이 필요합니다.',
+    require: SIGNUP_MESSAGE.password_confirm_required,
     validate: (value: string, values: ConfirmValuesType) =>
-      value === values.password || '비밀번호가 일치하지 않습니다.',
+      value === values.password || SIGNUP_MESSAGE.password_confirm_rex_error,
   },
   username: {
-    minLength: { value: 2, message: '2~16자의 한글, 영어 대소문자, 숫자만 사용할 수 있습니다.' },
-    maxLength: { value: 16, message: '2~16자의 한글, 영어 대소문자, 숫자만 사용할 수 있습니다.' },
+    require: SIGNUP_MESSAGE.username_required,
+    minLength: { value: 2, message: SIGNUP_MESSAGE.username_rex_error },
+    maxLength: { value: 16, message: SIGNUP_MESSAGE.username_rex_error },
     pattern: {
       value: /^[ㄱ-힣a-zA-Z0-9]{2,20}$/,
-      message: '2~20자의 한글, 영어 대소문자, 숫자만 사용할 수 있습니다.',
+      message: SIGNUP_MESSAGE.username_rex_error,
     },
   },
   birth: {
-    minLength: { value: 8, message: '생년월일을 YYYYMMDD 형식으로 입력해주세요. 예: 19990101' },
-    maxLength: { value: 8, message: '생년월일을 YYYYMMDD 형식으로 입력해주세요. 예: 19990101' },
+    require: SIGNUP_MESSAGE.birth_required,
+    minLength: { value: 8, message: SIGNUP_MESSAGE.birth_rex_error },
+    maxLength: { value: 8, message: SIGNUP_MESSAGE.birth_rex_error },
     pattern: {
       value: /^(19|20)\d{2}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])$/,
-      message: '생년월일을 YYYYMMDD 형식으로 입력해주세요. 예: 19990101',
+      message: SIGNUP_MESSAGE.birth_rex_error,
     },
   },
 }
