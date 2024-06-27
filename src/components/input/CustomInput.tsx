@@ -31,7 +31,7 @@ const CustomInput = ({
   inputId,
   inputValidation,
 }: CustomInputProps) => {
-  const { register, reset } = useFormContext()
+  const { register, resetField } = useFormContext()
   const theme = useTheme()
   const [isShow, setIsShow] = useState(false)
   const [isChanged, setIsChanged] = useState(false)
@@ -46,7 +46,7 @@ const CustomInput = ({
   }
 
   const handleClickClear = () => {
-    reset()
+    resetField(inputId)
     setIsChanged(false)
   }
 
