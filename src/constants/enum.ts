@@ -19,3 +19,8 @@ export enum CustomInputType {
   ClearAndShow,
   Show,
 }
+
+export enum CheckBoxType {
+  Parents,
+  Child,
+}
