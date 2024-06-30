@@ -89,4 +89,14 @@ export const themeDefault = {
   toggleButton: Common.colors.gray03,
   //react-grid-DragDropOver
   dragDropOverBackground: Common.colors.blue02,
+  //checkbox
+  checkboxBackground: Common.colors.gray02,
+  checkboxActiveBackground: Common.colors.blue02,
+  checkboxText: Common.colors.gray05,
+  checkboxActiveText: Common.colors.white,
+  checkboxActiveSubText: Common.colors.blue03,
+  checkLabelText: Common.colors.black02,
+  checkLabelSubText: Common.colors.gray03,
+  //etc
+  agreeMoreButtonColor: Common.colors.gray03,
 }
