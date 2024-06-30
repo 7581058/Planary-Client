@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 import { BoardState } from '@/store/boardState'
-import { LoginRequestBody } from '@/types'
+import { LoginRequestBody, SignUpRequestBody } from '@/types'
 
 const { VITE_BASE_URL } = import.meta.env
 
@@ -23,6 +23,11 @@ export const instance = axios.create({
 
 export const login = async (body: LoginRequestBody) => {
   const res = await instance.post('/api/login', body)
+  return res.data
+}
+
+export const signUp = async (body: SignUpRequestBody) => {
+  const res = await instance.post('/api/signup', body)
   return res.data
 }
 
