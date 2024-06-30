@@ -4,6 +4,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { IoIosArrowForward } from 'react-icons/io'
 import { useNavigate } from 'react-router-dom'
 import CustomInput from './input/CustomInput'
+import SignupAgree from './modal/SignupAgree'
 import ErrorMessage from './ErrorMessage'
 
 import { signUp } from '@/api'
@@ -99,7 +100,7 @@ const SignupForm = () => {
     console.log(id)
     const term = SIGNUP_TERMS.find((term) => term.id === id)
     if (term) {
-      openModal(term.content, false)
+      openModal(<SignupAgree contents={term.content} />, false)
     }
   }
 
