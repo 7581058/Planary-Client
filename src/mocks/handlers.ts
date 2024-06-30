@@ -1,6 +1,12 @@
 import { http, HttpResponse, passthrough } from 'msw'
+import { DefaultBodyType } from 'msw'
 import { layoutData, layoutData2 } from './data'
 import { ddayData } from './ddayData'
+
+type ExtendedBodyType = DefaultBodyType & {
+  email: string
+  password: string
+}
 
 const members = []
 
@@ -11,7 +17,11 @@ export const handlers = [
 
     members.push(data)
 
-    return new HttpResponse(null, { status: 201 })
+    const res = {
+      success: true,
+    }
+
+    return new HttpResponse(JSON.stringify(res), { status: 200 })
   }),
 
   // 로그인 API
@@ -21,7 +31,7 @@ export const handlers = [
       refreshToken: '1234',
     }
 
-    const result = await request.json()
+    const result = (await request.json()) as ExtendedBodyType
 
     const email = result?.email
     const password = result?.password
@@ -37,7 +47,7 @@ export const handlers = [
       })
     }
 
-    //TODO: 회원가입 폼 생성 후 적용
+    //TODO: 회원가입 후 로그인 테스트
     /* const data = await request.json()
 
     for (const member of members) {

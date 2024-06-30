@@ -2,6 +2,7 @@ export enum AlertButtonType {
   CloseAndOk,
   Close,
   None,
+  Ok,
 }
 
 export enum AlertNotificationType {
@@ -10,4 +11,16 @@ export enum AlertNotificationType {
   Info,
   Success,
   Warning,
+}
+
+export enum CustomInputType {
+  None,
+  Clear,
+  ClearAndShow,
+  Show,
+}
+
+export enum CheckBoxType {
+  Parents,
+  Child,
 }

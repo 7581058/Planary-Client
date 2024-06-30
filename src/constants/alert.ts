@@ -8,6 +8,23 @@ export const LOGIN_FAILED_ALERT = {
   notiType: AlertNotificationType.Error,
 }
 
+export const SIGNUP_FAILED_ALERT = {
+  icon: '🚨',
+  title: '회원가입 실패',
+  content: '회원가입에 실패했습니다. \n잠시 후 다시 시도해주세요.',
+  buttonType: AlertButtonType.Close,
+  notiType: AlertNotificationType.Error,
+}
+
+export const SIGNUP_SUCCESS_ALERT = {
+  icon: '👌',
+  title: '회원가입 성공',
+  content: '회원가입을 완료했습니다. \n로그인 화면으로 이동됩니다.',
+  buttonType: AlertButtonType.Ok,
+  notiType: AlertNotificationType.Success,
+  buttonTitle: '확인',
+}
+
 export const BOARD_EDIT_SAVE_WARNING = {
   icon: '🚨',
   title: '경고',

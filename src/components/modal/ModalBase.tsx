@@ -29,7 +29,7 @@ const ModalBase = () => {
 export default ModalBase
 
 const modalBackground = (theme: Theme, isOpen: boolean) => css`
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
 
@@ -45,7 +45,10 @@ const modalBackground = (theme: Theme, isOpen: boolean) => css`
 `
 
 const modalContainer = (theme: Theme) => css`
+  position: relative;
+
   padding: 20px;
+
   background-color: ${theme.modalContainerBackground};
   border: 1px solid ${theme.border};
   border-radius: 16px;

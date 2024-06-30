@@ -20,27 +20,41 @@ const CustomAlert = () => {
     }
   }, [alertState.buttonType, closeAlert])
 
+  const handleClickCallBack = () => {
+    if (alertState.callBack) {
+      alertState.callBack()
+    }
+    closeAlert()
+  }
+
   return (
-    <div css={alertContainer(theme, alertState.isOpen)}>
-      {alertState.icon && <div>{alertState.icon}</div>}
-      <div css={titleWrap}>{alertState.title}</div>
-      <div css={contentWrap}>{alertState.content}</div>
-      <div css={buttonWrap}>
-        {alertState.buttonType === AlertButtonType.CloseAndOk && (
-          <>
-            <button onClick={closeAlert} css={alertButton}>
-              취소
+    <div css={alertBackground(alertState.isOpen)}>
+      <div css={alertContainer(theme, alertState.isOpen)}>
+        {alertState.icon && <div>{alertState.icon}</div>}
+        <div css={titleWrap}>{alertState.title}</div>
+        <div css={contentWrap}>{alertState.content}</div>
+        <div css={buttonWrap}>
+          {alertState.buttonType === AlertButtonType.CloseAndOk && (
+            <>
+              <button onClick={closeAlert} css={alertButton}>
+                취소
+              </button>
+              <button onClick={handleClickCallBack} css={[alertButton, okButton]}>
+                확인
+              </button>
+            </>
+          )}
+          {alertState.buttonType === AlertButtonType.Ok && (
+            <button onClick={handleClickCallBack} css={[alertButton, alertColor(theme, alertState.notiType)]}>
+              {alertState.buttonTitle}
             </button>
-            <button onClick={alertState.callBack} css={[alertButton, okButton]}>
-              확인
+          )}
+          {alertState.buttonType === AlertButtonType.Close && (
+            <button onClick={closeAlert} css={[alertButton, alertColor(theme, alertState.notiType)]}>
+              닫기
             </button>
-          </>
-        )}
-        {alertState.buttonType === AlertButtonType.Close && (
-          <button onClick={closeAlert} css={[alertButton, alertColor(theme, alertState.notiType)]}>
-            닫기
-          </button>
-        )}
+          )}
+        </div>
       </div>
     </div>
   )
@@ -48,8 +62,23 @@ const CustomAlert = () => {
 
 export default CustomAlert
 
+const alertBackground = (isOpen: boolean) => css`
+  position: fixed;
+  z-index: 9;
+  top: 0;
+  left: 0;
+
+  display: flex;
+  justify-content: center;
+
+  width: 100%;
+  height: 100%;
+
+  visibility: ${isOpen ? 'visible' : 'hidden'};
+`
+
 const alertContainer = (theme: Theme, isOpen: boolean) => css`
-  position: relative;
+  position: fixed;
   z-index: 10;
   top: 30px;
 

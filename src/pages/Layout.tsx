@@ -6,33 +6,32 @@ import CustomAlert from '@/components/alert/CustomAlert'
 import LayoutHeader from '@/components/header/LayoutHeader'
 import MainNav from '@/components/MainNav'
 import ModalBase from '@/components/modal/ModalBase'
-import { DASHBOARD_EDIT_PATH } from '@/constants/paths'
+import { LAYOUT_HEADER_PATHS } from '@/constants/paths'
 import { globalStyles } from '@/styles/globalStyles'
 import { themeDefault } from '@/styles/theme'
 
 const Layout = () => {
   const location = useLocation()
-  const isLoginPage = location.pathname === '/'
-  const isDashboardEditPage = location.pathname === DASHBOARD_EDIT_PATH
   const modalEl = document.getElementById('modal')
+
+  const isLayoutHeaderPath = LAYOUT_HEADER_PATHS.includes(location.pathname)
+
   return (
     <ThemeProvider theme={themeDefault}>
       <Global styles={globalStyles} />
       <div css={container}>
-        {isLoginPage || isDashboardEditPage ? (
-          <div css={container}>
-            <Outlet />
-          </div>
-        ) : (
-          <div css={container}>
+        {isLayoutHeaderPath ? (
+          <div css={navContainer}>
             <MainNav />
             <div css={innerContainer}>
               <LayoutHeader />
               <Outlet />
             </div>
           </div>
+        ) : (
+          <Outlet />
         )}
-        <CustomAlert />
+        {modalEl && createPortal(<CustomAlert />, modalEl)}
         {modalEl && createPortal(<ModalBase />, modalEl)}
       </div>
     </ThemeProvider>
@@ -46,8 +45,6 @@ const container = css`
   top: 0;
   left: 0;
 
-  display: flex;
-
   width: 100%;
   height: 100%;
   margin: 0;
@@ -59,6 +56,12 @@ const innerContainer = css`
   display: flex;
   flex-direction: column;
 
+  width: 100%;
+  height: 100%;
+`
+
+const navContainer = css`
+  display: flex;
   width: 100%;
   height: 100%;
 `

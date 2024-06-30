@@ -26,7 +26,7 @@ const BoardEdit = () => {
 
   return (
     <div css={pageContainer}>
-      <PageHeader title={'Dashboard Edit'} />
+      <PageHeader title="대시보드 편집" />
       <React.Suspense fallback={<></>}>
         <div css={innerContainer}>
           <WidgetList />

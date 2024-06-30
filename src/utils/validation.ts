@@ -1,4 +1,8 @@
-import { LOGIN_MESSAGE } from '@/constants/message'
+import { LOGIN_MESSAGE, SIGNUP_MESSAGE } from '@/constants/message'
+
+interface ConfirmValuesType {
+  password: string
+}
 
 export const loginFormValidation = {
   email: {
@@ -9,26 +13,44 @@ export const loginFormValidation = {
     },
   },
   password: {
-    required: '비밀번호를 입력해 주세요.',
+    required: LOGIN_MESSAGE.password_required,
   },
 }
 
-//TODO: 회원가입 폼 구현 후 적용
-/* export const signupFormValidation = {
+export const signupFormValidation = {
   email: {
     ...loginFormValidation.email,
   },
   password: {
     ...loginFormValidation.password,
-    minLength: { value: 8, message: '8~16자의 영문 대/소문자, 숫자, 특수문자(!@#$%^&*)를 사용해 주세요.' },
-    maxLength: { value: 16, message: '8~16자의 영문 대/소문자, 숫자, 특수문자(!@#$%^&*)를 사용해 주세요.' },
+    minLength: { value: 8, message: SIGNUP_MESSAGE.password_rex_error },
+    maxLength: { value: 16, message: SIGNUP_MESSAGE.password_rex_error },
     pattern: {
       value: /^(?=.*[@#$%^&*])[A-Za-z0-9@#$%^&*]{8,16}$/,
-      message: '8~16자의 영문 대/소문자, 숫자, 특수문자(!@#$%^&*)를 사용해 주세요.',
+      message: SIGNUP_MESSAGE.password_rex_error,
     },
   },
   confirmPassword: {
-    required: '비밀번호 확인이 필요합니다.',
-    validate: (value: string, values: any) => value === values.password || '비밀번호가 일치하지 않습니다.',
+    required: SIGNUP_MESSAGE.password_confirm_required,
+    validate: (value: string, values: ConfirmValuesType) =>
+      value === values.password || SIGNUP_MESSAGE.password_confirm_rex_error,
   },
-} */
+  username: {
+    required: SIGNUP_MESSAGE.username_required,
+    minLength: { value: 2, message: SIGNUP_MESSAGE.username_rex_error },
+    maxLength: { value: 16, message: SIGNUP_MESSAGE.username_rex_error },
+    pattern: {
+      value: /^[ㄱ-힣a-zA-Z0-9]{2,20}$/,
+      message: SIGNUP_MESSAGE.username_rex_error,
+    },
+  },
+  birth: {
+    required: SIGNUP_MESSAGE.birth_required,
+    minLength: { value: 8, message: SIGNUP_MESSAGE.birth_rex_error },
+    maxLength: { value: 8, message: SIGNUP_MESSAGE.birth_rex_error },
+    pattern: {
+      value: /^(19|20)\d{2}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])$/,
+      message: SIGNUP_MESSAGE.birth_rex_error,
+    },
+  },
+}

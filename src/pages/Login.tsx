@@ -1,6 +1,7 @@
 import { css, Theme } from '@emotion/react'
 
 import LoginForm from '@/components/LoginForm'
+import { SIGNUP_PATH } from '@/constants/paths'
 import { Common, flexCenter } from '@/styles/common'
 
 const Login = () => {
@@ -15,7 +16,7 @@ const Login = () => {
           <LoginForm />
           <p css={text}>
             Don't have an account?
-            <a href="#" css={signupButton}>
+            <a href={SIGNUP_PATH} css={signupButton}>
               Sign up here
             </a>
           </p>

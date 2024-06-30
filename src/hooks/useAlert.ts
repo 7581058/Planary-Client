@@ -10,6 +10,7 @@ type OpenAlertType = {
   buttonType: AlertButtonType
   notiType: AlertNotificationType
   callback?: () => void
+  buttonTitle?: string
 }
 
 export const useAlert = () => {
@@ -21,7 +22,7 @@ export const useAlert = () => {
     })
   }
 
-  const openAlert = ({ icon, title, content, buttonType, notiType, callback }: OpenAlertType) => {
+  const openAlert = ({ icon, title, content, buttonType, notiType, callback, buttonTitle }: OpenAlertType) => {
     setAlertState({
       isOpen: true,
       icon: icon,
@@ -30,6 +31,7 @@ export const useAlert = () => {
       buttonType: buttonType,
       notiType: notiType,
       callBack: callback,
+      buttonTitle: buttonTitle,
     })
   }
 
