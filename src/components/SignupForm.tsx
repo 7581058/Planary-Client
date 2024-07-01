@@ -24,6 +24,10 @@ interface SignupFormType {
   username: string
   birth: string
   confirmPassword: string
+  allAgree: boolean
+  agree01: boolean
+  agree02: boolean
+  agree03: boolean
 }
 
 type AgreeState = {
@@ -40,6 +44,8 @@ const SignupForm = () => {
   const {
     handleSubmit,
     formState: { errors, isValid },
+    register,
+    setValue,
   } = methods
   const [isAllAgree, setIsAllAgree] = useState(false)
   const [isAgree, setIsAgree] = useState<AgreeState>({
@@ -61,6 +67,7 @@ const SignupForm = () => {
         email: data.email,
         password: data.password,
         birth: data.birth,
+        agree: data.agree03,
       })
       if (res) {
         openAlert({
@@ -96,8 +103,14 @@ const SignupForm = () => {
     setIsAllAgree(allChecked)
   }, [isAgree])
 
+  useEffect(() => {
+    setValue('allAgree', isAllAgree)
+    setValue('agree01', isAgree['agree01'])
+    setValue('agree02', isAgree['agree02'])
+    setValue('agree03', isAgree['agree03'])
+  }, [isAllAgree, setValue, isAgree])
+
   const handleClickAgreeMore = (id: string) => {
-    console.log(id)
     const term = SIGNUP_TERMS.find((term) => term.id === id)
     if (term) {
       openModal(<SignupAgree contents={term.content} />, false)
@@ -108,7 +121,7 @@ const SignupForm = () => {
     <FormProvider {...methods}>
       <form css={formWrap} onSubmit={handleSubmit(onSubmit)}>
         {SIGNUP_INPUTS.map((input) => (
-          <>
+          <div css={inputWrap} key={input.id}>
             <label css={inputLabel} htmlFor={input.id}>
               {input.label}
             </label>
@@ -122,7 +135,7 @@ const SignupForm = () => {
             <div css={messageWrap}>
               <ErrorMessage msg={errors[input.id as keyof SignupFormType]?.message} />
             </div>
-          </>
+          </div>
         ))}
         <div css={agreeContainer}>
           {SIGNUP_CHECKBOX.map((data) => (
@@ -132,6 +145,7 @@ const SignupForm = () => {
                 id={data.id}
                 checked={data.type === CheckBoxType.Parents ? isAllAgree : isAgree[data.id]}
                 css={data.type === CheckBoxType.Parents ? AllAreeChk : areeChk}
+                {...register(data.id as keyof SignupFormType)}
                 onChange={data.type === CheckBoxType.Parents ? handleCheckAllAgree : handleCheckAgree}
               />
               <label htmlFor={data.id} css={data.type === CheckBoxType.Parents ? allAgreeLabel : agreeLabel}>
@@ -270,4 +284,9 @@ const moreButton = (theme: Theme) => css`
   color: ${theme.agreeMoreButtonColor};
 
   background-color: transparent;
+`
+
+const inputWrap = css`
+  width: 100%;
+  height: 100%;
 `
