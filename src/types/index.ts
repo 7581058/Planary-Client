@@ -8,4 +8,5 @@ export interface SignUpRequestBody {
   birth: string
   email: string
   password: string
+  agree: boolean
 }
