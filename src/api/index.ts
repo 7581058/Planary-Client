@@ -22,12 +22,13 @@ export const instance = axios.create({
 }) */
 
 export const login = async (body: LoginRequestBody) => {
-  const res = await instance.post('/api/login', body)
+  const res = await instance.post('/users/login', body)
   return res.data
 }
 
 export const signUp = async (body: SignUpRequestBody) => {
-  const res = await instance.post('/api/signup', body)
+  console.log('요청', body)
+  const res = await instance.post('/users/register', body)
   return res.data
 }
 

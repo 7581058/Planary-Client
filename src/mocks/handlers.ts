@@ -12,7 +12,7 @@ const members = []
 
 export const handlers = [
   // 회원가입 API
-  http.post('/api/signup', async ({ request }) => {
+  http.post('/users/register', async ({ request }) => {
     const data = await request.json()
 
     members.push(data)
@@ -25,7 +25,7 @@ export const handlers = [
   }),
 
   // 로그인 API
-  http.post('/api/login', async ({ request }) => {
+  http.post('/users/login', async ({ request }) => {
     const data = {
       accessToken: '12341234',
       refreshToken: '1234',
