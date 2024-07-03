@@ -43,7 +43,7 @@ const SignupForm = () => {
   })
   const {
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
     register,
     setValue,
   } = methods
@@ -54,7 +54,7 @@ const SignupForm = () => {
     agree03: false,
   })
 
-  const isFormValid = isValid && isAgree.agree01 && isAgree.agree02
+  const isFormValid = isAgree.agree01 && isAgree.agree02
 
   const handleClickConfirm = () => {
     navigator(LOGIN_PATH, { replace: true })
