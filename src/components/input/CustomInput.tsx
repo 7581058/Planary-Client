@@ -1,10 +1,11 @@
 import { css, useTheme } from '@emotion/react'
 import { Theme } from '@emotion/react'
-import { useState } from 'react'
+import { Dispatch, SetStateAction, useState } from 'react'
 import { FieldValues, RegisterOptions, useFormContext } from 'react-hook-form'
 import { IoMdEyeOff } from 'react-icons/io'
 import { IoEye } from 'react-icons/io5'
 import { TiDelete } from 'react-icons/ti'
+import { InputsChangedState } from '../SignupForm'
 
 import { CustomInputType } from '@/constants/enum'
 interface CustomInputProps {
@@ -18,6 +19,7 @@ interface CustomInputProps {
   inputBackgroundColor?: string
   inputValidation: RegisterOptions<FieldValues, string> | undefined
   inputId: string
+  setIsInputsChanged: Dispatch<SetStateAction<InputsChangedState>>
 }
 const CustomInput = ({
   customType = CustomInputType.None,
@@ -30,6 +32,7 @@ const CustomInput = ({
   inputBackgroundColor = '${theme.inputBackground}',
   inputId,
   inputValidation,
+  setIsInputsChanged,
 }: CustomInputProps) => {
   const { register, resetField } = useFormContext()
   const theme = useTheme()
@@ -43,11 +46,19 @@ const CustomInput = ({
   const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     setIsChanged(value !== '')
+    setIsInputsChanged((prevState) => ({
+      ...prevState,
+      [e.target.id]: value !== '',
+    }))
   }
 
   const handleClickClear = () => {
     resetField(inputId)
     setIsChanged(false)
+    setIsInputsChanged((prevState) => ({
+      ...prevState,
+      [inputId]: false,
+    }))
   }
 
   return (

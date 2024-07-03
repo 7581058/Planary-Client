@@ -34,6 +34,14 @@ type AgreeState = {
   [key: string]: boolean
 }
 
+export type InputsChangedState = {
+  email: boolean
+  password: boolean
+  confirmPassword: boolean
+  username: boolean
+  birth: boolean
+}
+
 const SignupForm = () => {
   const { openModal } = useModal()
   const navigator = useNavigate()
@@ -53,8 +61,24 @@ const SignupForm = () => {
     agree02: false,
     agree03: false,
   })
+  const [isInputsChanged, setIsInputsChanged] = useState<InputsChangedState>({
+    email: false,
+    password: false,
+    confirmPassword: false,
+    username: false,
+    birth: false,
+  })
+  const [isAllInputsChanged, setIsAllInputsChanged] = useState(false)
+  const [isFormValid, setIsFormValid] = useState(false)
 
-  const isFormValid = isAgree.agree01 && isAgree.agree02
+  useEffect(() => {
+    const allInputsChanged = Object.values(isInputsChanged).every((value) => value === true)
+    setIsAllInputsChanged(allInputsChanged)
+  }, [isInputsChanged])
+
+  useEffect(() => {
+    setIsFormValid(isAgree.agree01 && isAgree.agree02 && isAllInputsChanged)
+  }, [isAllInputsChanged, isAgree])
 
   const handleClickConfirm = () => {
     navigator(LOGIN_PATH, { replace: true })
@@ -131,6 +155,7 @@ const SignupForm = () => {
               inputHeight="3rem"
               customType={input.customType}
               inputValidation={input.validation}
+              setIsInputsChanged={setIsInputsChanged}
             />
             <div css={messageWrap}>
               <ErrorMessage msg={errors[input.id as keyof SignupFormType]?.message} />
