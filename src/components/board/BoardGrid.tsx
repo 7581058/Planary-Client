@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import { Responsive, WidthProvider } from 'react-grid-layout'
 import { useRecoilValue } from 'recoil'
 import { useRecoilState } from 'recoil'
+import BoardListSelect from './BoardListSelect'
 
 import Panel from '@/components/board/Panel'
 import { currentBoardQuery } from '@/store/boardState'
@@ -32,6 +33,9 @@ const BoardGrid = () => {
 
   return (
     <div css={boardWrap}>
+      <div css={selectWrap}>
+        <BoardListSelect />
+      </div>
       <ResponsiveGridLayout
         layouts={convertBoardStateToLayouts(boards)}
         breakpoints={{ lg: 1000 }}
@@ -45,6 +49,7 @@ const BoardGrid = () => {
           boards.lg.map((item: BoardItem) => (
             <div key={item.i}>
               <Panel
+                widgetId={item.widgetId}
                 key={item.i}
                 isPreview={false}
                 component={item.component}
@@ -62,6 +67,8 @@ const BoardGrid = () => {
 export default BoardGrid
 
 const boardWrap = css`
+  position: relative;
+
   overflow: auto;
 
   box-sizing: border-box;
@@ -72,4 +79,10 @@ const boardWrap = css`
   &&::-webkit-scrollbar {
     display: none;
   }
+`
+
+const selectWrap = css`
+  position: absolute;
+  top: 10px;
+  left: 10px;
 `
