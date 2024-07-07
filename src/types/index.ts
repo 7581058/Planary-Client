@@ -10,3 +10,9 @@ export interface SignUpRequestBody {
   password: string
   agree: boolean
 }
+
+export interface AddDdayRequestBody {
+  icon: number
+  title: string
+  date: string
+}
