@@ -11,6 +11,7 @@ export interface WidgetProps {
   h: number
   isPreview?: boolean
   isCovered?: boolean
+  widgetId: number
 }
 
 interface Info {
