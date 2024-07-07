@@ -6,6 +6,7 @@ import { instance } from '@/api'
 
 export interface BoardItem extends Layout {
   component?: string
+  widgetId: number
 }
 export interface BoardState {
   lg: BoardItem[]
@@ -16,24 +17,15 @@ export const boardDirtyFlag = atom({
   default: false,
 })
 
-export const currentBoardId = atom({
+export const currentBoardId = atom<number | null>({
   key: 'currentBoardId',
-  default: 0,
+  default: null,
 })
 
 export const boardState = atom<BoardState>({
   key: 'boardState',
   default: {
-    lg: [
-      {
-        i: '',
-        x: 0,
-        y: 0,
-        w: 0,
-        h: 0,
-        component: '',
-      },
-    ],
+    lg: [],
   },
 })
 
@@ -42,7 +34,7 @@ export const currentBoardListQuery = selector({
   get: async ({ get }) => {
     const token = get(currentUserToken)
     try {
-      const res = await instance.get('/api/boardList', {
+      const res = await instance.get('/dashboard/list', {
         headers: {
           Authorization: token,
         },
@@ -60,19 +52,19 @@ export const currentBoardQuery = selector({
   get: async ({ get }) => {
     const boardId = get(currentBoardId)
     const token = get(currentUserToken)
-    if (!token) {
-      return {}
+    if (!token || boardId === null) {
+      return { lg: [] }
     }
     try {
-      const res = await instance.get(`/api/board/${boardId}`, {
+      const res = await instance.get(`/dashboard/${boardId}`, {
         headers: {
           Authorization: token,
         },
       })
-      return res.data
+      return res.data || { lg: [] }
     } catch (error) {
       console.error('Failed to fetch user info:', error)
-      return {}
+      return { lg: [] }
     }
   },
 })
