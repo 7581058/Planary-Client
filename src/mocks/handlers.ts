@@ -87,7 +87,7 @@ export const handlers = [
   }),
 
   //대시보드 리스트
-  http.get('/api/boardList', async ({ request }) => {
+  http.get('/dashboard/list', async ({ request }) => {
     const data = {
       boards: [
         {
@@ -116,7 +116,7 @@ export const handlers = [
   }),
 
   //대시보드
-  http.get('/api/board/:boardId', async ({ request, params }) => {
+  http.get('/dashboard/:boardId', async ({ request, params }) => {
     const token = request.headers.get('Authorization')
     const { boardId } = params
     if (token === '12341234' && boardId === '0') {
