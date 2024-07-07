@@ -11,11 +11,12 @@ export const useModal = () => {
     })
   }
 
-  const openModal = (content: string | JSX.Element, hasAsync: boolean) => {
+  const openModal = (content: string | JSX.Element, hasAsync: boolean, widgetId?: number) => {
     setModalState({
       isOpen: true,
       hasAsync: hasAsync,
       content: content,
+      widgetId: widgetId,
     })
   }
 
