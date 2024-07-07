@@ -57,7 +57,7 @@ const BoardGrid = () => {
           {boards.lg.map((item: BoardItem) => (
             <div key={item.i}>
               <Panel
-                widgetId={item.widgetId}
+                widgetId={Number(item.i)}
                 key={item.i}
                 isPreview={false}
                 component={item.component}
