@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 import { BoardState } from '@/store/boardState'
-import { LoginRequestBody, SignUpRequestBody } from '@/types'
+import { AddDdayRequestBody, LoginRequestBody, SignUpRequestBody } from '@/types'
 
 const { VITE_BASE_URL } = import.meta.env
 
@@ -61,6 +61,16 @@ export const editBoard = async (body: BoardState, boardId: number) => {
 
 export const getDdayList = async () => {
   const res = await instance.get(`/api/dday`, {
+    headers: {
+      Authorization: `${localStorage.getItem('accessToken')}`,
+    },
+  })
+  return res.data
+}
+
+// 디데이 추가
+export const addDday = async (body: AddDdayRequestBody) => {
+  const res = await instance.post(`/dday`, body, {
     headers: {
       Authorization: `${localStorage.getItem('accessToken')}`,
     },
