@@ -1,35 +1,61 @@
 import { css } from '@emotion/react'
 import { Theme } from '@emotion/react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import RGL, { WidthProvider } from 'react-grid-layout'
 import { RxDragHandleHorizontal } from 'react-icons/rx'
-import { useRecoilValue } from 'recoil'
+import { useRecoilRefresher_UNSTABLE, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import SquareToggle from '../toggle/SquareToggle'
 
+import { addDday } from '@/api'
+import { DDAY_ADD_FAILED_ALERT } from '@/constants/alert'
+import { DDAY_ICONS } from '@/constants/icons'
+import { useAlert } from '@/hooks/useAlert'
 import { useModal } from '@/hooks/useModal'
-import { currentDdayQuery } from '@/store/ddayState'
+import { currentDdayQuery, currentDdayWidgetId, ddayState } from '@/store/ddayState'
+import { currentModalState } from '@/store/modalState'
 import { Common, noDrag } from '@/styles/common'
+import { AddDdayRequestBody } from '@/types'
 import { calculateDday } from '@/utils/calculateDday'
 import { convertDate } from '@/utils/convertDate'
 import { rgba } from '@/utils/convertRGBA'
 
 interface DdayItem {
-  icon: string
-  index: number
+  icon: number
+  id: number
   title: string
   date: string
+  order: number
 }
 
 const GridLayout = WidthProvider(RGL)
 
 const DdaySetting = () => {
   const { closeModal } = useModal()
-  const ddayList = useRecoilValue(currentDdayQuery)
-  const [auto, setAuto] = useState(ddayList.isAuto)
+  const modalState = useRecoilValue(currentModalState)
+  const setDdayWidgetId = useSetRecoilState(currentDdayWidgetId)
+  const [ddays, setDdays] = useRecoilState(ddayState)
+  const ddayData = useRecoilValue(currentDdayQuery)
+  const refreshDdayQuery = useRecoilRefresher_UNSTABLE(currentDdayQuery)
+
+  const [auto, setAuto] = useState(false)
   const [isEdit, setisEdit] = useState(false)
   const [icon, setIcon] = useState('')
   const [description, setDescription] = useState('')
   const [date, setDate] = useState('')
+  const { openAlert } = useAlert()
+
+  useEffect(() => {
+    if (modalState.widgetId) {
+      setDdayWidgetId(modalState.widgetId)
+    }
+  }, [modalState.widgetId, setDdayWidgetId])
+
+  useEffect(() => {
+    if (ddayData.ddayList) {
+      setDdays(ddayData)
+      setAuto(ddayData.isAuto === 0 ? false : true)
+    }
+  }, [ddayData, setDdays])
 
   const handleClickClose = () => {
     closeModal()
@@ -40,18 +66,40 @@ const DdaySetting = () => {
   }
 
   const convertLayouts = (data: DdayItem[]) => {
-    const layouts = data.map((item) => ({
-      i: String(item.index),
-      x: 1,
-      y: item.index,
-      w: 1,
-      h: 1,
-    }))
-    return layouts
+    if (data && data.length > 0) {
+      return data.map((item) => ({
+        i: String(item.id),
+        x: 1,
+        y: item.order,
+        w: 1,
+        h: 1,
+      }))
+    }
+    return []
+  }
+
+  const onSubmitAdd = async (body: AddDdayRequestBody) => {
+    try {
+      const res = await addDday(body)
+      if (res) {
+        refreshDdayQuery()
+        setIcon('')
+        setDescription('')
+        setDate('')
+      }
+    } catch (error) {
+      openAlert(DDAY_ADD_FAILED_ALERT)
+    }
   }
 
   const handleClickAdd = () => {
-    alert(icon + description + date)
+    const body = {
+      widgetId: modalState.widgetId,
+      icon: Number(icon),
+      title: description,
+      date,
+    }
+    onSubmitAdd(body)
   }
 
   const handleClickEdit = () => {
@@ -65,7 +113,7 @@ const DdaySetting = () => {
 
   const handleClickEditConfirm = () => { }
 
-  //todo: 디데이 수정, 삭제, 추가 구현하기
+  //todo: 디데이 수정, 삭제 구현하기
   return (
     <div css={container}>
       <span css={title}>디데이 설정</span>
@@ -78,7 +126,7 @@ const DdaySetting = () => {
           <span css={subTitle}>디데이 목록</span>
           <div css={[listWrap, noDrag]}>
             <GridLayout
-              layout={convertLayouts(ddayList.data)}
+              layout={convertLayouts(ddays.ddayList)}
               isResizable={false}
               rowHeight={40}
               useCSSTransforms={false}
@@ -88,15 +136,15 @@ const DdaySetting = () => {
               containerPadding={[0, 0]}
               margin={[2, 2]}
             >
-              {ddayList &&
-                ddayList.data.map((item: DdayItem, index: number) => (
+              {ddays.ddayList &&
+                ddays.ddayList.map((item: DdayItem, index: number) => (
                   <div css={listItem} key={index}>
                     <div css={dragHandle} className="drag-handle">
                       <RxDragHandleHorizontal />
                     </div>
-                    <span css={itemIcon}>{item.icon}</span>
-                    <span>{item.title}</span>
-                    <span>{convertDate(item.date, 'dot')}</span>
+                    <span css={itemIcon}>{DDAY_ICONS[item.icon]}</span>
+                    <span css={itemTitle}>{item.title}</span>
+                    <span css={itemDate}>{convertDate(item.date, 'dot')}</span>
                     <span>{calculateDday(item.date)}</span>
                     <div css={itemButtonWrap}>
                       <button css={itemButton} onClick={handleClickEdit}>
@@ -115,18 +163,24 @@ const DdaySetting = () => {
           <span css={subTitle}>{isEdit ? '디데이 편집' : '디데이 추가'}</span>
           <div css={formWrap}>
             <div css={inputWrap}>
-              <label htmlFor="">아이콘</label>
-              <select onChange={(e) => setIcon(e.target.value)} css={iconSelect} name="" id="">
-                <option value="">선택안함</option>
+              <label htmlFor="ddayIcon">아이콘</label>
+              <select onChange={(e) => setIcon(e.target.value)} css={iconSelect} id="ddayIcon" value={icon}>
+                <option value="0">선택안함</option>
+                <option value="1">✏️</option>
+                <option value="2">❤️</option>
+                <option value="3">💯</option>
+                <option value="4">🌟</option>
+                <option value="5">✈️</option>
+                <option value="6">💻</option>
               </select>
             </div>
             <div css={inputWrap}>
-              <label htmlFor="">제목</label>
-              <input onChange={(e) => setDescription(e.target.value)} type="text" />
+              <label htmlFor="ddayTitle">제목</label>
+              <input id="ddayTitle" onChange={(e) => setDescription(e.target.value)} type="text" value={description} />
             </div>
             <div css={inputWrap}>
-              <label htmlFor="">날짜</label>
-              <input onChange={(e) => setDate(e.target.value)} type="date" name="" id="" />
+              <label htmlFor="ddayDate">날짜</label>
+              <input id="ddayDate" onChange={(e) => setDate(e.target.value)} type="date" value={date} />
             </div>
           </div>
           <div css={rightButtonWrap}>
@@ -164,7 +218,7 @@ const container = css`
   gap: 10px;
   align-items: flex-end;
 
-  width: 740px;
+  width: 780px;
 `
 
 const wrap = css`
@@ -262,7 +316,17 @@ const itemIcon = css`
 
   width: 20px;
   height: 20px;
-  margin-right: -5px;
+`
+
+const itemTitle = css`
+  overflow: hidden;
+  width: 100px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`
+
+const itemDate = css`
+  width: 110px;
 `
 
 const dragHandle = css`

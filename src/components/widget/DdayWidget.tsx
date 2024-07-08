@@ -1,11 +1,12 @@
 /* eslint-disable prettier/prettier */
 import { Theme } from '@emotion/react'
 import { css } from '@emotion/react'
-import { useRecoilValue } from 'recoil'
+import { useEffect } from 'react'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
 import Carousel from '../carousel/Carousel'
 
 import { WidgetProps } from '@/constants/widget'
-import { currentDdayQuery } from '@/store/ddayState'
+import { currentDdayQuery, currentDdayWidgetId } from '@/store/ddayState'
 import { Common } from '@/styles/common'
 import { calculateDday } from '@/utils/calculateDday'
 import { convertDate } from '@/utils/convertDate'
@@ -15,10 +16,15 @@ interface DdayItem {
   date: string
 }
 
-const DdayWidget = ({ w, h, isPreview, isCovered }: WidgetProps) => {
+const DdayWidget = ({ w, h, isPreview, isCovered, widgetId }: WidgetProps) => {
+  const setWidgetId = useSetRecoilState(currentDdayWidgetId)
   const ddayList = useRecoilValue(currentDdayQuery)
 
-  const ddayItems =
+  useEffect(() => {
+    setWidgetId(widgetId)
+  }, [widgetId, setWidgetId])
+
+  /* const ddayItems =
     ddayList.data.length > 0
       ? ddayList.data.map((item: DdayItem) => (
         <div css={itemWrap} key={item.date}>
@@ -31,7 +37,13 @@ const DdayWidget = ({ w, h, isPreview, isCovered }: WidgetProps) => {
         <div css={[noData]} key="noData">
           등록된 디데이가 없습니다.
         </div>,
-      ]
+      ] */
+  const ddayItems = [
+    <div css={[noData]} key="noData">
+      등록된 디데이가 없습니다.
+    </div>,
+  ]
+
 
   return (
     <div css={[container, responsiveContainer(w, h)]}>
