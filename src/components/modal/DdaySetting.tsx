@@ -6,8 +6,8 @@ import { RxDragHandleHorizontal } from 'react-icons/rx'
 import { useRecoilRefresher_UNSTABLE, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import SquareToggle from '../toggle/SquareToggle'
 
-import { addDday, deleteDday } from '@/api'
-import { DDAY_ADD_FAILED_ALERT, DDAY_DELETE_FAILED_ALERT } from '@/constants/alert'
+import { addDday, deleteDday, updateDday } from '@/api'
+import { DDAY_ADD_FAILED_ALERT, DDAY_DELETE_FAILED_ALERT, DDAY_UPDATE_FAILED_ALERT } from '@/constants/alert'
 import { DDAY_ICONS } from '@/constants/icons'
 import { useAlert } from '@/hooks/useAlert'
 import { useModal } from '@/hooks/useModal'
@@ -17,7 +17,6 @@ import { Common, noDrag } from '@/styles/common'
 import { calculateDday } from '@/utils/calculateDday'
 import { convertDate } from '@/utils/convertDate'
 import { rgba } from '@/utils/convertRGBA'
-
 interface DdayItem {
   icon: number
   id: number
@@ -37,8 +36,9 @@ const DdaySetting = () => {
   const refreshDdayQuery = useRecoilRefresher_UNSTABLE(currentDdayQuery)
 
   const [auto, setAuto] = useState(false)
+  const [editDdayId, setEditDdayId] = useState<number | null>(null)
   const [isEdit, setisEdit] = useState(false)
-  const [icon, setIcon] = useState('')
+  const [icon, setIcon] = useState<string | number>('')
   const [description, setDescription] = useState('')
   const [date, setDate] = useState('')
   const { openAlert } = useAlert()
@@ -97,8 +97,12 @@ const DdaySetting = () => {
     }
   }
 
-  const handleClickEdit = () => {
+  const handleClickEdit = (icon: number, title: string, date: string, ddayId: number) => {
     setisEdit(true)
+    setEditDdayId(ddayId)
+    setIcon(icon)
+    setDescription(title)
+    setDate(date)
   }
 
   const handleClickDelete = async (ddayId: number) => {
@@ -114,11 +118,32 @@ const DdaySetting = () => {
 
   const handleClickEditCancel = () => {
     setisEdit(false)
+    setIcon('')
+    setDescription('')
+    setDate('')
   }
 
-  const handleClickEditConfirm = () => { }
+  const handleClickEditConfirm = async () => {
+    try {
+      const body = {
+        icon: Number(icon),
+        title: description,
+        date: date,
+      }
+      const res = await updateDday(editDdayId, body)
+      if (res) {
+        refreshDdayQuery()
+        setIcon('')
+        setDescription('')
+        setDate('')
+        setisEdit(false)
+      }
+    } catch (error) {
+      openAlert(DDAY_UPDATE_FAILED_ALERT)
+    }
+  }
 
-  //todo: 디데이 수정, 자동재생전환, 순서변경 구현하기
+  //todo: 디데이 자동재생전환, 순서변경 구현하기
   return (
     <div css={container}>
       <span css={title}>디데이 설정</span>
@@ -152,7 +177,10 @@ const DdaySetting = () => {
                     <span css={itemDate}>{convertDate(item.date, 'dot')}</span>
                     <span>{calculateDday(item.date)}</span>
                     <div css={itemButtonWrap}>
-                      <button css={itemButton} onClick={handleClickEdit}>
+                      <button
+                        css={itemButton}
+                        onClick={() => handleClickEdit(item.icon, item.title, item.date, item.id)}
+                      >
                         [수정]
                       </button>
                       <button css={itemButton} onClick={() => handleClickDelete(item.id)}>

@@ -11,7 +11,7 @@ export interface SignUpRequestBody {
   agree: boolean
 }
 
-export interface AddDdayRequestBody {
+export interface DdayRequestBody {
   icon: number
   title: string
   date: string

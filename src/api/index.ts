@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 import { BoardState } from '@/store/boardState'
-import { AddDdayRequestBody, LoginRequestBody, SignUpRequestBody } from '@/types'
+import { DdayRequestBody, LoginRequestBody, SignUpRequestBody } from '@/types'
 
 const { VITE_BASE_URL } = import.meta.env
 
@@ -69,7 +69,7 @@ export const getDdayList = async () => {
 }
 
 // 디데이 추가
-export const addDday = async (body: AddDdayRequestBody) => {
+export const addDday = async (body: DdayRequestBody) => {
   const res = await instance.post(`/dday`, body, {
     headers: {
       Authorization: `${localStorage.getItem('accessToken')}`,
@@ -81,6 +81,16 @@ export const addDday = async (body: AddDdayRequestBody) => {
 // 디데이 삭제
 export const deleteDday = async (ddayId: number) => {
   const res = await instance.delete(`/dday/${ddayId}`, {
+    headers: {
+      Authorization: `${localStorage.getItem('accessToken')}`,
+    },
+  })
+  return res.data
+}
+
+// 디데이 수정
+export const updateDday = async (ddayId: number | null, body: DdayRequestBody) => {
+  const res = await instance.put(`/dday/${ddayId}`, body, {
     headers: {
       Authorization: `${localStorage.getItem('accessToken')}`,
     },
