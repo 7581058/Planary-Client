@@ -6,15 +6,14 @@ import { RxDragHandleHorizontal } from 'react-icons/rx'
 import { useRecoilRefresher_UNSTABLE, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import SquareToggle from '../toggle/SquareToggle'
 
-import { addDday } from '@/api'
-import { DDAY_ADD_FAILED_ALERT } from '@/constants/alert'
+import { addDday, deleteDday } from '@/api'
+import { DDAY_ADD_FAILED_ALERT, DDAY_DELETE_FAILED_ALERT } from '@/constants/alert'
 import { DDAY_ICONS } from '@/constants/icons'
 import { useAlert } from '@/hooks/useAlert'
 import { useModal } from '@/hooks/useModal'
 import { currentDdayQuery, currentDdayWidgetId, ddayState } from '@/store/ddayState'
 import { currentModalState } from '@/store/modalState'
 import { Common, noDrag } from '@/styles/common'
-import { AddDdayRequestBody } from '@/types'
 import { calculateDday } from '@/utils/calculateDday'
 import { convertDate } from '@/utils/convertDate'
 import { rgba } from '@/utils/convertRGBA'
@@ -67,10 +66,10 @@ const DdaySetting = () => {
 
   const convertLayouts = (data: DdayItem[]) => {
     if (data && data.length > 0) {
-      return data.map((item) => ({
+      return data.map((item, index) => ({
         i: String(item.id),
         x: 1,
-        y: item.order,
+        y: index,
         w: 1,
         h: 1,
       }))
@@ -78,7 +77,13 @@ const DdaySetting = () => {
     return []
   }
 
-  const onSubmitAdd = async (body: AddDdayRequestBody) => {
+  const handleClickAdd = async () => {
+    const body = {
+      widgetId: modalState.widgetId,
+      icon: Number(icon),
+      title: description,
+      date,
+    }
     try {
       const res = await addDday(body)
       if (res) {
@@ -92,20 +97,20 @@ const DdaySetting = () => {
     }
   }
 
-  const handleClickAdd = () => {
-    const body = {
-      widgetId: modalState.widgetId,
-      icon: Number(icon),
-      title: description,
-      date,
-    }
-    onSubmitAdd(body)
-  }
-
   const handleClickEdit = () => {
     setisEdit(true)
   }
-  const handleClickDelete = () => { }
+
+  const handleClickDelete = async (ddayId: number) => {
+    try {
+      const res = await deleteDday(ddayId)
+      if (res) {
+        refreshDdayQuery()
+      }
+    } catch (error) {
+      openAlert(DDAY_DELETE_FAILED_ALERT)
+    }
+  }
 
   const handleClickEditCancel = () => {
     setisEdit(false)
@@ -113,7 +118,7 @@ const DdaySetting = () => {
 
   const handleClickEditConfirm = () => { }
 
-  //todo: 디데이 수정, 삭제 구현하기
+  //todo: 디데이 수정, 자동재생전환, 순서변경 구현하기
   return (
     <div css={container}>
       <span css={title}>디데이 설정</span>
@@ -150,7 +155,7 @@ const DdaySetting = () => {
                       <button css={itemButton} onClick={handleClickEdit}>
                         [수정]
                       </button>
-                      <button css={itemButton} onClick={handleClickDelete}>
+                      <button css={itemButton} onClick={() => handleClickDelete(item.id)}>
                         [삭제]
                       </button>
                     </div>

@@ -77,3 +77,13 @@ export const addDday = async (body: AddDdayRequestBody) => {
   })
   return res.data
 }
+
+// 디데이 삭제
+export const deleteDday = async (ddayId: number) => {
+  const res = await instance.delete(`/dday/${ddayId}`, {
+    headers: {
+      Authorization: `${localStorage.getItem('accessToken')}`,
+    },
+  })
+  return res.data
+}
