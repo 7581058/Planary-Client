@@ -9,7 +9,7 @@ import { GrNext } from 'react-icons/gr'
 import { Common } from '@/styles/common'
 interface CarouselProps {
   items: React.ReactElement[]
-  auto?: boolean
+  auto?: boolean | null
   control?: boolean
 }
 

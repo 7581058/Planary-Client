@@ -2,11 +2,11 @@
 import { Theme } from '@emotion/react'
 import { css } from '@emotion/react'
 import { useEffect } from 'react'
-import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import Carousel from '../carousel/Carousel'
 
 import { WidgetProps } from '@/constants/widget'
-import { currentDdayQuery, currentDdayWidgetId } from '@/store/ddayState'
+import { currentDdayQuery, currentDdayWidgetId, ddayState } from '@/store/ddayState'
 import { Common } from '@/styles/common'
 import { calculateDday } from '@/utils/calculateDday'
 import { convertDate } from '@/utils/convertDate'
@@ -17,16 +17,25 @@ interface DdayItem {
 }
 
 const DdayWidget = ({ w, h, isPreview, isCovered, widgetId }: WidgetProps) => {
-  const setWidgetId = useSetRecoilState(currentDdayWidgetId)
-  const ddayList = useRecoilValue(currentDdayQuery)
+  const setDdayWidgetId = useSetRecoilState(currentDdayWidgetId)
+  const [ddays, setDdays] = useRecoilState(ddayState)
+  const ddayData = useRecoilValue(currentDdayQuery)
 
   useEffect(() => {
-    setWidgetId(widgetId)
-  }, [widgetId, setWidgetId])
+    if (widgetId) {
+      setDdayWidgetId(widgetId)
+    }
+  }, [widgetId, setDdayWidgetId])
 
-  /* const ddayItems =
-    ddayList.data.length > 0
-      ? ddayList.data.map((item: DdayItem) => (
+  useEffect(() => {
+    if (ddayData.ddayList) {
+      setDdays(ddayData)
+    }
+  }, [ddayData, setDdays])
+
+  const ddayItems =
+    ddays.ddayList.length > 0
+      ? ddays.ddayList.map((item: DdayItem) => (
         <div css={itemWrap} key={item.date}>
           <div css={[title, responsiveTitle(w, h)]}>{item.title}</div>
           <div css={[day, responsiveDay(w, h)]}>{convertDate(item.date, 'kor')}</div>
@@ -37,17 +46,12 @@ const DdayWidget = ({ w, h, isPreview, isCovered, widgetId }: WidgetProps) => {
         <div css={[noData]} key="noData">
           등록된 디데이가 없습니다.
         </div>,
-      ] */
-  const ddayItems = [
-    <div css={[noData]} key="noData">
-      등록된 디데이가 없습니다.
-    </div>,
-  ]
+      ]
 
 
   return (
     <div css={[container, responsiveContainer(w, h)]}>
-      {ddayList && <Carousel auto={isPreview ? !isPreview : ddayList.isAuto} items={ddayItems} control={isPreview ? !isPreview : !isCovered} />}
+      {ddays && <Carousel auto={isPreview ? !isPreview : ddays.isAuto} items={ddayItems} control={isPreview ? !isPreview : !isCovered} />}
     </div>
   )
 }
