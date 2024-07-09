@@ -5,6 +5,7 @@ import { useEffect } from 'react'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import Carousel from '../carousel/Carousel'
 
+import { DDAY_ICONS } from '@/constants/icons'
 import { WidgetProps } from '@/constants/widget'
 import { currentDdayQuery, currentDdayWidgetId, ddayState } from '@/store/ddayState'
 import { Common } from '@/styles/common'
@@ -12,6 +13,7 @@ import { calculateDday } from '@/utils/calculateDday'
 import { convertDate } from '@/utils/convertDate'
 
 interface DdayItem {
+  icon: number
   title: string
   date: string
 }
@@ -37,7 +39,7 @@ const DdayWidget = ({ w, h, isPreview, isCovered, widgetId }: WidgetProps) => {
     ddays.ddayList.length > 0
       ? ddays.ddayList.map((item: DdayItem) => (
         <div css={itemWrap} key={item.date}>
-          <div css={[title, responsiveTitle(w, h)]}>{item.title}</div>
+          <div css={[title, responsiveTitle(w, h)]}>{DDAY_ICONS[item.icon]}{item.title}</div>
           <div css={[day, responsiveDay(w, h)]}>{convertDate(item.date, 'kor')}</div>
           <div css={[dday, responsiveDday(w, h)]}>{calculateDday(item.date)}</div>
         </div>
@@ -45,13 +47,12 @@ const DdayWidget = ({ w, h, isPreview, isCovered, widgetId }: WidgetProps) => {
       : [
         <div css={[noData]} key="noData">
           등록된 디데이가 없습니다.
-        </div>,
+        </div>
       ]
-
 
   return (
     <div css={[container, responsiveContainer(w, h)]}>
-      {ddays && <Carousel auto={isPreview ? !isPreview : ddays.isAuto} items={ddayItems} control={isPreview ? !isPreview : !isCovered} />}
+      {ddays && <Carousel auto={isPreview ? !isPreview : (Number(ddays.isAuto) === 0 ? false : true)} items={ddayItems} control={isPreview ? !isPreview : !isCovered} />}
     </div>
   )
 }

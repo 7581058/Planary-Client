@@ -3,11 +3,17 @@ import { Theme } from '@emotion/react'
 import { useEffect, useState } from 'react'
 import RGL, { WidthProvider } from 'react-grid-layout'
 import { RxDragHandleHorizontal } from 'react-icons/rx'
-import { useRecoilRefresher_UNSTABLE, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
+import { useRecoilRefresher_UNSTABLE, useRecoilState, useRecoilValue } from 'recoil'
 import SquareToggle from '../toggle/SquareToggle'
 
-import { addDday, deleteDday, updateDday } from '@/api'
-import { DDAY_ADD_FAILED_ALERT, DDAY_DELETE_FAILED_ALERT, DDAY_UPDATE_FAILED_ALERT } from '@/constants/alert'
+import { addDday, deleteDday, updateDday, updateDdayCarouselSettings } from '@/api'
+import {
+  DDAY_ADD_FAILED_ALERT,
+  DDAY_DELETE_FAILED_ALERT,
+  DDAY_UPDATE_CAROUSEL_FAILED_ALERT,
+  DDAY_UPDATE_CAROUSEL_SUCCESS_ALERT,
+  DDAY_UPDATE_FAILED_ALERT,
+} from '@/constants/alert'
 import { DDAY_ICONS } from '@/constants/icons'
 import { useAlert } from '@/hooks/useAlert'
 import { useModal } from '@/hooks/useModal'
@@ -30,7 +36,7 @@ const GridLayout = WidthProvider(RGL)
 const DdaySetting = () => {
   const { closeModal } = useModal()
   const modalState = useRecoilValue(currentModalState)
-  const setDdayWidgetId = useSetRecoilState(currentDdayWidgetId)
+  const [ddayWidgetId, setDdayWidgetId] = useRecoilState(currentDdayWidgetId)
   const [ddays, setDdays] = useRecoilState(ddayState)
   const ddayData = useRecoilValue(currentDdayQuery)
   const refreshDdayQuery = useRecoilRefresher_UNSTABLE(currentDdayQuery)
@@ -61,7 +67,20 @@ const DdaySetting = () => {
   }
 
   const handleClickToggle = () => {
-    setAuto(!auto)
+    setAuto((prevAuto) => {
+      const newAuto = !prevAuto
+      updateDdayCarouselSettings(ddayWidgetId, { isAuto: newAuto ? 1 : 0 })
+        .then((res) => {
+          if (res) {
+            openAlert(DDAY_UPDATE_CAROUSEL_SUCCESS_ALERT)
+            refreshDdayQuery()
+          }
+        })
+        .catch(() => {
+          openAlert(DDAY_UPDATE_CAROUSEL_FAILED_ALERT)
+        })
+      return newAuto
+    })
   }
 
   const convertLayouts = (data: DdayItem[]) => {
@@ -143,7 +162,7 @@ const DdaySetting = () => {
     }
   }
 
-  //todo: 디데이 자동재생전환, 순서변경 구현하기
+  //todo: 디데이 순서변경 구현하기
   return (
     <div css={container}>
       <span css={title}>디데이 설정</span>

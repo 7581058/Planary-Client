@@ -16,3 +16,7 @@ export interface DdayRequestBody {
   title: string
   date: string
 }
+
+export interface DdayCarouselSettingsRequestBody {
+  isAuto: number
+}
