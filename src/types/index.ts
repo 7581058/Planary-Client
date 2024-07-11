@@ -20,3 +20,8 @@ export interface DdayRequestBody {
 export interface DdayCarouselSettingsRequestBody {
   isAuto: number
 }
+
+export interface DdayOrderUpdateRequestBody {
+  id: number
+  order: number
+}

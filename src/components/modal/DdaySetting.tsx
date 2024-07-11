@@ -1,18 +1,19 @@
 import { css } from '@emotion/react'
 import { Theme } from '@emotion/react'
-import { useEffect, useState } from 'react'
-import RGL, { WidthProvider } from 'react-grid-layout'
+import { useEffect, useRef, useState } from 'react'
+import RGL, { Layout, WidthProvider } from 'react-grid-layout'
 import { RxDragHandleHorizontal } from 'react-icons/rx'
 import { useRecoilRefresher_UNSTABLE, useRecoilState, useRecoilValue } from 'recoil'
 import SquareToggle from '../toggle/SquareToggle'
 
-import { addDday, deleteDday, updateDday, updateDdayCarouselSettings } from '@/api'
+import { addDday, deleteDday, updateDday, updateDdayCarouselSettings, updateDdayOrder } from '@/api'
 import {
   DDAY_ADD_FAILED_ALERT,
   DDAY_DELETE_FAILED_ALERT,
   DDAY_UPDATE_CAROUSEL_FAILED_ALERT,
   DDAY_UPDATE_CAROUSEL_SUCCESS_ALERT,
   DDAY_UPDATE_FAILED_ALERT,
+  DDAY_UPDATE_ORDER_FAILED_ALERT,
 } from '@/constants/alert'
 import { DDAY_ICONS } from '@/constants/icons'
 import { useAlert } from '@/hooks/useAlert'
@@ -34,6 +35,8 @@ interface DdayItem {
 const GridLayout = WidthProvider(RGL)
 
 const DdaySetting = () => {
+  const isFirstRender = useRef(true)
+
   const { closeModal } = useModal()
   const modalState = useRecoilValue(currentModalState)
   const [ddayWidgetId, setDdayWidgetId] = useRecoilState(currentDdayWidgetId)
@@ -81,19 +84,6 @@ const DdaySetting = () => {
         })
       return newAuto
     })
-  }
-
-  const convertLayouts = (data: DdayItem[]) => {
-    if (data && data.length > 0) {
-      return data.map((item, index) => ({
-        i: String(item.id),
-        x: 1,
-        y: index,
-        w: 1,
-        h: 1,
-      }))
-    }
-    return []
   }
 
   const handleClickAdd = async () => {
@@ -162,6 +152,50 @@ const DdaySetting = () => {
     }
   }
 
+  const convertLayouts = (data: DdayItem[]) => {
+    if (data && data.length > 0) {
+      const result = data.map((item) => ({
+        i: String(item.id),
+        x: 0,
+        y: Number(item.order),
+        w: 1,
+        h: 1,
+      }))
+      return result
+    }
+    return []
+  }
+
+  const onLayoutChange = async (layout: Layout[]) => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false
+      return
+    }
+
+    const prevLayout = convertLayouts(ddays.ddayList)
+    const isLayoutChanged = layout.some((item, index) => item.y !== prevLayout[index].y)
+
+    if (isLayoutChanged) {
+      const updatedOrders = layout
+        .sort((a, b) => a.y - b.y)
+        .map((item, index) => ({
+          id: Number(item.i),
+          order: index,
+        }))
+
+      if (updatedOrders.length > 0) {
+        try {
+          const res = await updateDdayOrder(updatedOrders)
+          if (res) {
+            refreshDdayQuery()
+          }
+        } catch (error) {
+          openAlert(DDAY_UPDATE_ORDER_FAILED_ALERT)
+        }
+      }
+    }
+  }
+
   //todo: 디데이 순서변경 구현하기
   return (
     <div css={container}>
@@ -174,20 +208,21 @@ const DdaySetting = () => {
           </div>
           <span css={subTitle}>디데이 목록</span>
           <div css={[listWrap, noDrag]}>
-            <GridLayout
-              layout={convertLayouts(ddays.ddayList)}
-              isResizable={false}
-              rowHeight={40}
-              useCSSTransforms={false}
-              draggableHandle=".drag-handle"
-              cols={1}
-              isBounded={true}
-              containerPadding={[0, 0]}
-              margin={[2, 2]}
-            >
-              {ddays.ddayList &&
-                ddays.ddayList.map((item: DdayItem, index: number) => (
-                  <div css={listItem} key={index}>
+            {ddays.ddayList.length > 0 ? (
+              <GridLayout
+                layout={convertLayouts(ddays.ddayList)}
+                isResizable={false}
+                rowHeight={40}
+                useCSSTransforms={false}
+                draggableHandle=".drag-handle"
+                cols={1}
+                isBounded={true}
+                containerPadding={[0, 0]}
+                margin={[2, 2]}
+                onLayoutChange={onLayoutChange}
+              >
+                {ddays.ddayList.map((item: DdayItem) => (
+                  <div css={listItem} key={item.id}>
                     <div css={dragHandle} className="drag-handle">
                       <RxDragHandleHorizontal />
                     </div>
@@ -208,7 +243,10 @@ const DdaySetting = () => {
                     </div>
                   </div>
                 ))}
-            </GridLayout>
+              </GridLayout>
+            ) : (
+              <div css={emptyContainer}>등록된 디데이가 없습니다.</div>
+            )}
           </div>
         </div>
         <div css={rightWrap}>
@@ -517,4 +555,17 @@ const editCancelButton = (theme: Theme) => css`
 const editConfirmButton = (theme: Theme) => css`
   color: ${theme.buttonText};
   background-color: ${theme.button};
+`
+
+const emptyContainer = (theme: Theme) => css`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 100%;
+
+  color: ${theme.subText};
+
+  border: 2px solid ${theme.border};
 `

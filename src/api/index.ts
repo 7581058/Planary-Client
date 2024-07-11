@@ -1,7 +1,13 @@
 import axios from 'axios'
 
 import { BoardState } from '@/store/boardState'
-import { DdayCarouselSettingsRequestBody, DdayRequestBody, LoginRequestBody, SignUpRequestBody } from '@/types'
+import {
+  DdayCarouselSettingsRequestBody,
+  DdayOrderUpdateRequestBody,
+  DdayRequestBody,
+  LoginRequestBody,
+  SignUpRequestBody,
+} from '@/types'
 
 const { VITE_BASE_URL } = import.meta.env
 
@@ -101,6 +107,16 @@ export const updateDday = async (ddayId: number | null, body: DdayRequestBody) =
 // 디데이 캐러셀 자동 재생 전환
 export const updateDdayCarouselSettings = async (widgetId: number | null, body: DdayCarouselSettingsRequestBody) => {
   const res = await instance.put(`/dday/${widgetId}/auto`, body, {
+    headers: {
+      Authorization: `${localStorage.getItem('accessToken')}`,
+    },
+  })
+  return res.data
+}
+
+// 디데이 순서 변경
+export const updateDdayOrder = async (body: DdayOrderUpdateRequestBody[]) => {
+  const res = await instance.put(`/dday/order`, body, {
     headers: {
       Authorization: `${localStorage.getItem('accessToken')}`,
     },
