@@ -8,4 +8,20 @@ export interface SignUpRequestBody {
   birth: string
   email: string
   password: string
+  agree: boolean
+}
+
+export interface DdayRequestBody {
+  icon: number
+  title: string
+  date: string
+}
+
+export interface DdayCarouselSettingsRequestBody {
+  isAuto: number
+}
+
+export interface DdayOrderUpdateRequestBody {
+  id: number
+  order: number
 }

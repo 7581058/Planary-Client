@@ -32,9 +32,9 @@ const container = css`
 `
 
 const formWrap = css`
+  box-sizing: border-box;
   width: 500px;
-  height: 80%;
-  padding: 16px;
+  padding: 0 20px 50px;
 `
 
 const innerContainer = css`
@@ -44,7 +44,6 @@ const innerContainer = css`
   justify-content: center;
 
   width: 100%;
-  height: 100%;
 `
 
 const logo = css`
@@ -63,5 +62,7 @@ const logoWrap = css`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 20px;
+
+  margin-top: 40px;
+  margin-bottom: 40px;
 `

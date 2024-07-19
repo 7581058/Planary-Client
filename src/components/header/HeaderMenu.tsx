@@ -5,7 +5,7 @@ import { IoMenu } from 'react-icons/io5'
 import { useNavigate } from 'react-router-dom'
 import ToggleMenu from '../ToggleMenu'
 
-import { DASHBOARD_EDIT_PATH } from '@/constants/paths'
+import { DASHBOARD_EDIT_PATH, LOGIN_PATH } from '@/constants/paths'
 import { Common } from '@/styles/common'
 
 const HeaderMenu = () => {
@@ -18,6 +18,9 @@ const HeaderMenu = () => {
 
   const handleItemClick = (event: string) => {
     setIsOpen(false)
+    if (event === LOGIN_PATH) {
+      localStorage.removeItem('accessToken')
+    }
     navigate(event)
   }
 
@@ -65,7 +68,7 @@ const HEADER_MENU = [
     title: 'Board Settings',
   },
   {
-    event: '/',
+    event: LOGIN_PATH,
     title: 'Logout',
   },
 ]

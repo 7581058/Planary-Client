@@ -15,9 +15,10 @@ export interface PanelProps {
   w: number
   h: number
   isCovered: boolean
+  widgetId: number
 }
 
-const Panel = ({ component, isPreview, onDelete, w, h, isCovered }: PanelProps) => {
+const Panel = ({ component, isPreview, onDelete, w, h, isCovered, widgetId }: PanelProps) => {
   const theme = useTheme()
   const { openModal } = useModal()
   let Widget
@@ -31,7 +32,7 @@ const Panel = ({ component, isPreview, onDelete, w, h, isCovered }: PanelProps) 
   const handleClickSetting = () => {
     if (component) {
       const Modal = modalMap[component].component
-      openModal(<Modal />, modalMap[component].hasAsync)
+      openModal(<Modal />, modalMap[component].hasAsync, widgetId)
     }
   }
 
@@ -51,7 +52,9 @@ const Panel = ({ component, isPreview, onDelete, w, h, isCovered }: PanelProps) 
             </button>
           </>
         )}
-        <div css={widget}>{Widget && <Widget isCovered={isCovered} isPreview={isPreview} w={w} h={h} />}</div>
+        <div css={widget}>
+          {Widget && <Widget widgetId={widgetId} isCovered={isCovered} isPreview={isPreview} w={w} h={h} />}
+        </div>
       </div>
     </div>
   )

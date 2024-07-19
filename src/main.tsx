@@ -8,12 +8,15 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { RecoilRoot } from 'recoil'
 
 import { routues } from '@/pages/Router.tsx'
+
 async function enableMocking() {
-  if (process.env.NODE_ENV !== 'development') {
-    return
-  }
   const { worker } = await import('./mocks/browser')
-  return worker.start()
+  if (import.meta.env.MODE === 'development' && !import.meta.env.VITE_USE_BACKEND) {
+    worker.start()
+    console.log('MSW enabled for development environment.')
+  } else {
+    console.log('MSW not enabled.')
+  }
 }
 
 const router = createBrowserRouter(routues)

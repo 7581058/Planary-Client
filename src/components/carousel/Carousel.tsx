@@ -9,7 +9,7 @@ import { GrNext } from 'react-icons/gr'
 import { Common } from '@/styles/common'
 interface CarouselProps {
   items: React.ReactElement[]
-  auto?: boolean
+  auto?: boolean | null
   control?: boolean
 }
 
@@ -18,7 +18,7 @@ const Carousel = ({ items, auto, control }: CarouselProps) => {
   const [currentSlide, setCurrentSlide] = useState(1)
   const [transition, setTransition] = useState(0.5)
   const [slides, setSlides] = useState<React.ReactElement[]>([])
-  const [isAuto, setIsAuto] = useState(auto)
+  const [isAuto, setIsAuto] = useState<null | boolean | undefined>(null)
   const [paginationWidth, setPaginationWidth] = useState(0)
 
   const timeoutRef = useRef<number | null>(null)
@@ -32,6 +32,12 @@ const Carousel = ({ items, auto, control }: CarouselProps) => {
       setSlides(slideNew)
     }
   }, [items])
+
+  useEffect(() => {
+    if (auto !== null) {
+      setIsAuto(auto)
+    }
+  }, [setIsAuto, auto])
 
   useEffect(() => {
     if (isAuto && items.length > 1) {

@@ -65,3 +65,51 @@ export const DDAY_GET_ERROR = {
   buttonType: AlertButtonType.None,
   notiType: AlertNotificationType.Error,
 }
+
+export const DDAY_ADD_FAILED_ALERT = {
+  icon: '🚨',
+  title: '디데이 추가 실패',
+  content: '디데이 추가에 실패했습니다. \n잠시 후 다시 시도해주세요.',
+  buttonType: AlertButtonType.Close,
+  notiType: AlertNotificationType.Error,
+}
+
+export const DDAY_DELETE_FAILED_ALERT = {
+  icon: '🚨',
+  title: '디데이 삭제 실패',
+  content: '디데이 삭제에 실패했습니다. \n잠시 후 다시 시도해주세요.',
+  buttonType: AlertButtonType.Close,
+  notiType: AlertNotificationType.Error,
+}
+
+export const DDAY_UPDATE_FAILED_ALERT = {
+  icon: '🚨',
+  title: '디데이 수정 실패',
+  content: '디데이 수정에 실패했습니다. \n잠시 후 다시 시도해주세요.',
+  buttonType: AlertButtonType.Close,
+  notiType: AlertNotificationType.Error,
+}
+
+export const DDAY_UPDATE_CAROUSEL_FAILED_ALERT = {
+  icon: '🚨',
+  title: '디데이 자동 재생 변경 실패',
+  content: '디데이 자동 재생 변경에 실패했습니다. \n잠시 후 다시 시도해주세요.',
+  buttonType: AlertButtonType.Close,
+  notiType: AlertNotificationType.Error,
+}
+
+export const DDAY_UPDATE_CAROUSEL_SUCCESS_ALERT = {
+  icon: '👌',
+  title: '디데이 자동 재생 변경 완료',
+  content: '',
+  buttonType: AlertButtonType.None,
+  notiType: AlertNotificationType.Success,
+}
+
+export const DDAY_UPDATE_ORDER_FAILED_ALERT = {
+  icon: '🚨',
+  title: '디데이 순서 변경 실패',
+  content: '디데이 순서 변경에 실패했습니다. \n잠시 후 다시 시도해주세요.',
+  buttonType: AlertButtonType.Close,
+  notiType: AlertNotificationType.Error,
+}
