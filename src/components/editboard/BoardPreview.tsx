@@ -1,6 +1,6 @@
 import { Theme } from '@emotion/react'
 import { css } from '@emotion/react'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Layout, Responsive, WidthProvider } from 'react-grid-layout'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import Panel from '../board/Panel'
@@ -8,7 +8,7 @@ import Panel from '../board/Panel'
 import { BOARD_EDIT_RESIZING_ERROR } from '@/constants/alert'
 import { WidgetProps } from '@/constants/widget'
 import { useAlert } from '@/hooks/useAlert'
-import { boardDirtyFlag, BoardItem, BoardState, boardState, currentBoardQuery } from '@/store/boardState'
+import { boardDirtyFlag, BoardItem, boardState, currentBoardQuery } from '@/store/boardState'
 import { convertBoardStateToLayouts } from '@/utils/convertBoardStateToLayouts'
 interface CustomDragEvent extends Event {
   dataTransfer: DataTransfer
@@ -21,18 +21,26 @@ interface ItemSizeProps {
 const ResponsiveGridLayout = WidthProvider(Responsive)
 
 const BoardPreview = () => {
-  const [boards, setBoards] = useRecoilState<BoardState>(boardState)
+  const [boards, setBoards] = useRecoilState(boardState)
   const boardData = useRecoilValue(currentBoardQuery)
   const setIsDirty = useSetRecoilState<boolean>(boardDirtyFlag)
   const [itemSize, setItemSize] = useState<ItemSizeProps>({})
-  let invalidResizing = false
+  const [prevSizes, setPrevSizes] = useState<{ [key: string]: { w: number; h: number } }>({})
+  const [invalidResizing, setInvalidResizing] = useState(false)
   const { openAlert } = useAlert()
 
   useEffect(() => {
-    if (boardData) {
+    if (boardData.lg) {
       setBoards(boardData)
     }
   }, [setBoards, boardData])
+
+  /* useEffect(() => {
+    if (invalidResizing) {
+      openAlert(BOARD_EDIT_RESIZING_ERROR)
+      setInvalidResizing(false)
+    }
+  }, [invalidResizing, openAlert]) */
 
   const handleClickDelete = (itemId: string) => {
     setBoards((prevBoards) => {
@@ -57,6 +65,19 @@ const BoardPreview = () => {
     return invalidSizes.some((size) => size.w === w && size.h === h)
   }
 
+  const updateLayout = (newItem: Layout, foundItem: BoardItem) => {
+    if (isInvalidResizingSize(foundItem.component, newItem.w, newItem.h)) {
+      setInvalidResizing(true)
+      return {
+        ...newItem,
+        ...foundItem,
+        w: prevSizes[newItem.i]?.w || foundItem.w,
+        h: prevSizes[newItem.i]?.h || foundItem.h,
+      }
+    }
+    // 여기서 prevSizes 업데이트 하지 말고, onResize에서만 하자
+    return { ...newItem, ...foundItem }
+  }
   const onLayoutChange = (currentLayout: Layout[]) => {
     const prevLayoutString = JSON.stringify(convertBoardStateToLayouts(boards).lg)
     const newLayoutString = JSON.stringify(convertBoardStateToLayouts(currentLayout).lg)
@@ -68,53 +89,14 @@ const BoardPreview = () => {
     setBoards((prevBoards) => {
       if (currentLayout) {
         const updatedLayouts = currentLayout.map((newItem) => {
-          const foundItem: BoardItem | undefined = prevBoards.lg.find((prevItem: BoardItem) => prevItem.i === newItem.i)
-          if (foundItem) {
-            if (isInvalidResizingSize(foundItem.component, newItem.w, newItem.h)) {
-              invalidResizing = true
-              setItemSize((prevSize) => ({
-                ...prevSize,
-                [newItem.i]: { w: 3, h: 3 },
-              }))
-              return {
-                ...newItem,
-                component: foundItem.component,
-                x: newItem.x,
-                y: newItem.y,
-                w: 3,
-                h: 3,
-                minW: foundItem.minW,
-                maxW: foundItem.maxW,
-                minH: foundItem.minH,
-                maxH: foundItem.maxH,
-              }
-            }
-            return {
-              ...newItem,
-              component: foundItem.component,
-              x: newItem.x,
-              y: newItem.y,
-              w: newItem.w,
-              h: newItem.h,
-              minW: foundItem.minW,
-              maxW: foundItem.maxW,
-              minH: foundItem.minH,
-              maxH: foundItem.maxH,
-            }
-          }
-          return newItem
+          const foundItem = prevBoards.lg.find((prevItem) => prevItem.i === newItem.i)
+          return foundItem ? updateLayout(newItem, foundItem) : newItem
         })
         return { ...prevBoards, lg: updatedLayouts }
-      } else {
-        return prevBoards
       }
+      return prevBoards
     })
-
-    if (invalidResizing) {
-      openAlert(BOARD_EDIT_RESIZING_ERROR)
-    }
   }
-
   const generateUniqueId = () => {
     return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
   }
@@ -147,33 +129,70 @@ const BoardPreview = () => {
   const onDropDragOver = () => {
     return { w: 2, h: 1 }
   }
+  const gridRef = useRef<ReactGridLayout>(null)
 
-  const onResize = (_layout: Layout[], _oldItem: Layout, newItem: Layout) => {
-    setItemSize((prevSize) => ({
-      ...prevSize,
-      [newItem.i]: { w: newItem.w, h: newItem.h },
-    }))
+  const onResizeStop = (
+    layout: Layout[],
+    oldItem: Layout,
+    newItem: Layout,
+    _placeholder: Layout,
+    _e: MouseEvent,
+    _element: HTMLElement,
+  ) => {
+    // boards에서 현재 아이템 찾기
+    const currentItem = boards.lg.find((item) => item.i === newItem.i)
+
+    if (currentItem) {
+      // isInvalidResizingSize 체크
+      if (isInvalidResizingSize(currentItem.component, newItem.w, newItem.h)) {
+        // 유효하지 않은 크기면 이전 크기 반환 (이게 중요!)
+        setInvalidResizing(true)
+        alert('안됨' + oldItem.h + oldItem.w)
+        // 여기서 강제로 이전 크기로 설정
+        setTimeout(() => {
+          if (gridRef.current) {
+            console.log('oldItem:', oldItem)
+            const updatedLayouts = {
+              lg: layout.map((item) => (item.i === newItem.i ? { ...item, w: oldItem.w, h: oldItem.h } : item)),
+            }
+            gridRef.current.setState({ layouts: updatedLayouts })
+          }
+        }, 0)
+
+        return oldItem
+      } else {
+        // 유효한 크기면 새 크기 적용
+        setBoards((prevBoards) => ({
+          ...prevBoards,
+          lg: prevBoards.lg.map((item) => (item.i === newItem.i ? { ...item, w: newItem.w, h: newItem.h } : item)),
+        }))
+        return newItem
+      }
+    }
+    return newItem
   }
-
+  //!fix : 리사이즈막기 구현
   return (
     <div css={container}>
-      <ResponsiveGridLayout
-        layouts={convertBoardStateToLayouts(boards)}
-        breakpoints={{ lg: 1000 }}
-        cols={{ lg: 7 }}
-        isResizable={true}
-        rowHeight={130}
-        useCSSTransforms={false}
-        onLayoutChange={onLayoutChange}
-        onDrop={onDrop}
-        isDroppable={true}
-        onDropDragOver={onDropDragOver}
-        onResize={onResize}
-      >
-        {boardData &&
-          boards.lg.map((item: BoardItem) => (
+      {boards.lg ? (
+        <ResponsiveGridLayout
+          ref={gridRef}
+          layouts={convertBoardStateToLayouts(boards)}
+          breakpoints={{ lg: 1000 }}
+          cols={{ lg: 7 }}
+          isResizable={true}
+          rowHeight={130}
+          useCSSTransforms={false}
+          onLayoutChange={onLayoutChange}
+          onDrop={onDrop}
+          isDroppable={true}
+          onDropDragOver={onDropDragOver}
+          onResizeStop={onResizeStop}
+        >
+          {boards.lg.map((item: BoardItem) => (
             <div key={item.i}>
               <Panel
+                widgetId={Number(item.i)}
                 key={item.i}
                 isPreview={false}
                 isCovered={true}
@@ -184,7 +203,12 @@ const BoardPreview = () => {
               />
             </div>
           ))}
-      </ResponsiveGridLayout>
+        </ResponsiveGridLayout>
+      ) : (
+        <div css={emptyContainer}>
+          <span>등록된 대시보드가 없습니다.</span>
+        </div>
+      )}
     </div>
   )
 }
@@ -203,5 +227,20 @@ const container = (theme: Theme) => css`
 
   &&::-webkit-scrollbar {
     display: none;
+  }
+`
+
+const emptyContainer = (theme: Theme) => css`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 100%;
+
+  span {
+    color: ${theme.subText};
   }
 `
