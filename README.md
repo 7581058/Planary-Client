@@ -76,18 +76,18 @@
 
 ## :bulb: 구현된 기능 소개 (2024.8.4 기준)
 
-|                                            회원가입                                            |                                               로그인                                                |
-| :--------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------: |
-| <img src="https://github.com/7581058/images/blob/main/planary/signup.gif?raw=true" width=600/> | <img src="https://github.com/7581058/images/blob/main/planary/login%20(1).gif?raw=true" width=600/> |
+|                                            회원가입                                             |                                                로그인                                                |
+| :---------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------: |
+| <img src="https://github.com/7581058/images/blob/main/planary/signup.gif?raw=true" width=400 /> | <img src="https://github.com/7581058/images/blob/main/planary/login%20(1).gif?raw=true" width=400 /> |
 
-|                                        위젯: 디데이 추가                                         |                                         위젯: 디데이 수정                                         |
-| :----------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------: |
-| <img src="https://github.com/7581058/images/blob/main/planary/dday_add.gif?raw=true" width=600/> | <img src="https://github.com/7581058/images/blob/main/planary/dday_edit.gif?raw=true" width=600/> |
+|                                        위젯: 디데이 추가                                         |                                         위젯: 디데이 수정                                          |
+| :----------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------: |
+| <img src="https://github.com/7581058/images/blob/main/planary/dday_add.gif?raw=true" width=400/> | <img src="https://github.com/7581058/images/blob/main/planary/dday_edit.gif?raw=true" width=400 /> |
 
-|                                          위젯: 디데이 삭제                                          |                                         위젯: 디데이 재생 변경                                         |
-| :-------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------: |
-| <img src="https://github.com/7581058/images/blob/main/planary/dday_delete.gif?raw=true" width=600/> | <img src="https://github.com/7581058/images/blob/main/planary/dday_play_stop.gif?raw=true" width=600/> |
+|                                          위젯: 디데이 삭제                                           |                                         위젯: 디데이 재생 변경                                          |
+| :--------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------: |
+| <img src="https://github.com/7581058/images/blob/main/planary/dday_delete.gif?raw=true" width=400 /> | <img src="https://github.com/7581058/images/blob/main/planary/dday_play_stop.gif?raw=true" width=400 /> |
 
-|                                      대시보드 편집: 위젯 추가                                      |                                    대시보드 편집: 위젯 크기변경                                     |
-| :------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------: |
-| <img src="https://github.com/7581058/images/blob/main/planary/widget_add.gif?raw=true" width=600/> | <img src="https://github.com/7581058/images/blob/main/planary/edit_resize.gif?raw=true" width=600/> |
+|                                      대시보드 편집: 위젯 추가                                       |                                     대시보드 편집: 위젯 크기변경                                     |
+| :-------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------: |
+| <img src="https://github.com/7581058/images/blob/main/planary/widget_add.gif?raw=true" width=400 /> | <img src="https://github.com/7581058/images/blob/main/planary/edit_resize.gif?raw=true" width=400 /> |
