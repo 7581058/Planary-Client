@@ -1,6 +1,4 @@
-# Planary
-
-생산성 관리 웹 서비스
+<img src="https://raw.githubusercontent.com/7581058/images/af10833dd3f44550eaa493d26d9ed9b34c4d9578/planary/logo_primary.svg" width=200 />
 
 </br>
 
@@ -80,7 +78,7 @@
 
 |                                            회원가입                                             |                                                로그인                                                |
 | :---------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------: |
-| <img src="https://github.com/7581058/images/blob/main/planary/signup.gif?raw=true" width=400 /> | <img src="https://github.com/7581058/images/blob/main/planary/login%20(1).gif?raw=true" width=400 /> |
+| <img src="https://github.com/7581058/images/blob/main/planary/signup.gif?raw=true" width=300 /> | <img src="https://github.com/7581058/images/blob/main/planary/login%20(1).gif?raw=true" width=300 /> |
 
 </br>
 
@@ -88,14 +86,14 @@
 
 |                                         위젯: 디데이 추가                                         |                                         위젯: 디데이 수정                                          |
 | :-----------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------: |
-| <img src="https://github.com/7581058/images/blob/main/planary/dday_add.gif?raw=true" width=400 /> | <img src="https://github.com/7581058/images/blob/main/planary/dday_edit.gif?raw=true" width=400 /> |
+| <img src="https://github.com/7581058/images/blob/main/planary/dday_add.gif?raw=true" width=300 /> | <img src="https://github.com/7581058/images/blob/main/planary/dday_edit.gif?raw=true" width=300 /> |
 
 |                                          위젯: 디데이 삭제                                           |                                         위젯: 디데이 재생 변경                                          |
 | :--------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------: |
-| <img src="https://github.com/7581058/images/blob/main/planary/dday_delete.gif?raw=true" width=400 /> | <img src="https://github.com/7581058/images/blob/main/planary/dday_play_stop.gif?raw=true" width=400 /> |
+| <img src="https://github.com/7581058/images/blob/main/planary/dday_delete.gif?raw=true" width=300 /> | <img src="https://github.com/7581058/images/blob/main/planary/dday_play_stop.gif?raw=true" width=300 /> |
 
 </br>
 
 |                                      대시보드 편집: 위젯 추가                                       |                                     대시보드 편집: 위젯 크기변경                                     |
 | :-------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------: |
-| <img src="https://github.com/7581058/images/blob/main/planary/widget_add.gif?raw=true" width=400 /> | <img src="https://github.com/7581058/images/blob/main/planary/edit_resize.gif?raw=true" width=400 /> |
+| <img src="https://github.com/7581058/images/blob/main/planary/widget_add.gif?raw=true" width=300 /> | <img src="https://github.com/7581058/images/blob/main/planary/edit_resize.gif?raw=true" width=300 /> |
