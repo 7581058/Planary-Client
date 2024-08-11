@@ -1,69 +1,66 @@
 import { http, HttpResponse, passthrough } from 'msw'
 import { DefaultBodyType } from 'msw'
+import {
+  RES_INTERNAL_SERVER_ERROR,
+  RES_USER_LOGIN_FAIL_INVAILD,
+  RES_USER_LOGIN_FAIL_NO_USER,
+  RES_USER_LOGIN_SUCCESS,
+  RES_USER_REGIST_FAIL_REQUIRED,
+  RES_USER_REGIST_SUCCESS,
+} from './constant'
 import { layoutData, layoutData2 } from './data'
 import { ddayData } from './ddayData'
 
-type ExtendedBodyType = DefaultBodyType & {
+interface User {
+  username: string
+  email: string
+  password: string
+  birth: string
+  agree: boolean
+}
+
+type LoginBody = DefaultBodyType & {
   email: string
   password: string
 }
 
-const members = []
+const testAccounts = [
+  { username: 'test', email: 'test@planary.com', password: '1q2w3e4r#', birth: '1995-05-05', agree: true },
+]
+
+const members: User[] = []
 
 export const handlers = [
   // 회원가입 API
   http.post('/users/register', async ({ request }) => {
-    const data = await request.json()
+    const data = (await request.json()) as User
+
+    if (!data.username || !data.email || !data.password || !data.birth || !data.agree) {
+      return HttpResponse.json(RES_USER_REGIST_FAIL_REQUIRED.res, { status: RES_USER_REGIST_FAIL_REQUIRED.code })
+    }
 
     members.push(data)
 
-    const res = {
-      success: true,
-    }
-
-    return new HttpResponse(JSON.stringify(res), { status: 200 })
+    return HttpResponse.json(RES_USER_REGIST_SUCCESS.res, { status: RES_USER_REGIST_SUCCESS.code })
   }),
 
   // 로그인 API
-  http.post('/users/login', async ({ request }) => {
-    const data = {
-      accessToken: '12341234',
-      refreshToken: '1234',
+  http.post<never, LoginBody>('/users/login', async ({ request }) => {
+    const { email, password } = (await request.json()) as LoginBody
+    const user = [...testAccounts, ...members].find((m) => m.email === email)
+
+    if (!user) {
+      return HttpResponse.json(RES_USER_LOGIN_FAIL_NO_USER.res, { status: RES_USER_LOGIN_FAIL_NO_USER.code })
     }
 
-    const result = (await request.json()) as ExtendedBodyType
-
-    const email = result?.email
-    const password = result?.password
-
-    if (email === 'admin@planary.com' && password === '1q2w3e4r') {
-      return new HttpResponse(JSON.stringify(data), {
-        status: 200,
-      })
-    } else {
-      return new HttpResponse(null, {
-        status: 400,
-        statusText: 'authentication_failed',
-      })
+    if (user.password !== password) {
+      return HttpResponse.json(RES_USER_LOGIN_FAIL_INVAILD.res, { status: RES_USER_LOGIN_FAIL_INVAILD.code })
     }
 
-    //TODO: 회원가입 후 로그인 테스트
-    /* const data = await request.json()
-
-    for (const member of members) {
-      if (data.email === member.email && data.password === member.password) {
-        return new HttpResponse(null, {
-          status: 200,
-          headers: {
-            "Set-Cookie": `token=1`,
-          },
-        })
-      }
-    }
-
-    return new HttpResponse(null, { status: 404 }) */
+    return HttpResponse.json(RES_USER_LOGIN_SUCCESS.res, { status: RES_USER_LOGIN_SUCCESS.code })
   }),
 
+  // 내 정보 조회 (프로필, 마이페이지에서 사용)
   http.get('/api/myPage', async ({ request }) => {
     const data = {
       email: 'admin@planary.com',
