@@ -115,7 +115,7 @@ export const RES_DASHBOARD_RETRIEVED_SUCCESS = {
   code: 200,
 }
 
-//대시보드 조회 성공 : 대시보드에 위젯 없음, 빈배열 반환
+//대시보드 조회 성공: 대시보드에 위젯 없음, 빈배열 반환
 export const RES_DASHBOARD_RETRIEVED_SUCCESS_EMPTY = {
   res: {
     success: true,
@@ -124,20 +124,11 @@ export const RES_DASHBOARD_RETRIEVED_SUCCESS_EMPTY = {
   code: 200,
 }
 
-//대시보드 조회 실패: 비인가
-export const RES_DASHBOARD_RETRIEVED_FAIL_UNAUTHORIZED = {
-  res: {
-    success: false,
-    message: 'Unauthorized access',
-  },
-  code: 401,
-}
-
-//대시보드 아이디 유효성 검사 실패
+//대시보드 조회 실패: 유효하지 않은 대시보드 아이디
 export const RES_DASHBOARD_ID_FAIL_INVALID = {
   res: {
     success: false,
     message: 'Invalid board ID',
   },
-  code: 400,
+  code: 404,
 }
