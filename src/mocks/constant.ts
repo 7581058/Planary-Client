@@ -7,6 +7,24 @@ export const RES_INTERNAL_SERVER_ERROR = {
   code: 500,
 }
 
+//공통 토큰 인증 실패: 유효하지 않은 토큰
+export const RES_TOKEN_FAIL_INVALID = {
+  res: {
+    success: false,
+    message: 'Invalid token',
+  },
+  code: 500,
+}
+
+//공통 토큰 인증 실패: 헤더에 Authorization 없음
+export const RES_TOKEN_FAIL_MISSING = {
+  res: {
+    success: false,
+    message: 'Authorization header missing',
+  },
+  code: 500,
+}
+
 //회원가입 성공
 export const RES_USER_REGIST_SUCCESS = {
   res: {
@@ -98,7 +116,7 @@ export const RES_DASHBOARD_RETRIEVED_SUCCESS = {
 }
 
 //대시보드 조회 성공 : 대시보드에 위젯 없음, 빈배열 반환
-export const RES_DASHBOARD_RETRIEVED_SUCCESS_NO_WIDGETS = {
+export const RES_DASHBOARD_RETRIEVED_SUCCESS_EMPTY = {
   res: {
     success: true,
     message: 'No widgets found for this dashboard',
