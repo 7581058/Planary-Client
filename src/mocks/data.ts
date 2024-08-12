@@ -41,6 +41,7 @@ export interface LayoutDataType {
   maxH: number
   component: string
 }
+
 // 대시보드
 ///TODO: 반응형작업 md 등 추가 필요
 export const layoutData = [

@@ -132,3 +132,12 @@ export const RES_DASHBOARD_RETRIEVED_FAIL_UNAUTHORIZED = {
   },
   code: 401,
 }
+
+//대시보드 아이디 유효성 검사 실패
+export const RES_DASHBOARD_ID_FAIL_INVALID = {
+  res: {
+    success: false,
+    message: 'Invalid board ID',
+  },
+  code: 400,
+}
