@@ -5,10 +5,12 @@ import Calendar from './Calendar'
 import Layout from './Layout'
 import Login from './Login'
 import Note from './Note'
+import NotFound from './NotFound'
 import Planner from './Planner'
 import Signup from './Signup'
 import Store from './Store'
 
+import { RedirectRoute } from '@/components/RedirectRoute'
 import {
   CALENDAR_PATH,
   DASHBOARD_EDIT_PATH,
@@ -34,7 +36,7 @@ export const routues: RouteObject[] = [
       },
       {
         path: DASHBOARD_PATH,
-        element: <Board />,
+        element: <RedirectRoute path="/dashboard" element={Board} />,
       },
       {
         path: CALENDAR_PATH,
@@ -59,6 +61,10 @@ export const routues: RouteObject[] = [
       {
         path: SIGNUP_PATH,
         element: <Signup />,
+      },
+      {
+        path: '*',
+        element: <NotFound />,
       },
     ],
   },
