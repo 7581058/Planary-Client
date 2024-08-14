@@ -12,8 +12,8 @@ import { routues } from '@/pages/Router.tsx'
 async function enableMocking() {
   const { worker } = await import('./mocks/browser')
   if (import.meta.env.MODE === 'development' && !import.meta.env.VITE_USE_BACKEND) {
-    worker.start()
     console.log('MSW enabled for development environment.')
+    return worker.start()
   } else {
     console.log('MSW not enabled.')
   }
