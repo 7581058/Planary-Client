@@ -42,54 +42,54 @@ export const signUp = async (body: SignUpRequestBody) => {
 
 //대시보드 목록 조회
 export const getBoardList = async () => {
-  const res = await instance.get('/dashboard/list')
+  const res = await authInstance.get('/dashboard/list')
   return res.data
 }
 
 //대시보드 아이디로 대시보드 조회(해당 대시보드 전체 위젯 정보)
 export const getBoard = async (boardId: number | null) => {
-  const res = await instance.get(`/dashboard/${boardId}`)
+  const res = await authInstance.get(`/dashboard/${boardId}`)
   return res.data
 }
 
 //대시보드 수정
 export const editBoard = async (body: BoardState, boardId: number) => {
-  const res = await instance.post(`/api/board/${boardId}`, body)
+  const res = await authInstance.post(`/api/board/${boardId}`, body)
   return res.data
 }
 
 //디데이 목록 조회
 export const getDdayList = async (widgetId: number | null) => {
-  const res = await instance.get(`/dday/${widgetId}`)
+  const res = await authInstance.get(`/dday/${widgetId}`)
   return res.data
 }
 
 // 디데이 추가
 export const addDday = async (body: DdayRequestBody) => {
-  const res = await instance.post(`/dday`, body)
+  const res = await authInstance.post(`/dday`, body)
   return res.data
 }
 
 // 디데이 삭제
 export const deleteDday = async (ddayId: number) => {
-  const res = await instance.delete(`/dday/${ddayId}`)
+  const res = await authInstance.delete(`/dday/${ddayId}`)
   return res.data
 }
 
 // 디데이 수정
 export const updateDday = async (ddayId: number | null, body: DdayRequestBody) => {
-  const res = await instance.put(`/dday/${ddayId}`, body)
+  const res = await authInstance.put(`/dday/${ddayId}`, body)
   return res.data
 }
 
 // 디데이 캐러셀 자동 재생 전환
 export const updateDdayCarouselSettings = async (widgetId: number | null, body: DdayCarouselSettingsRequestBody) => {
-  const res = await instance.put(`/dday/${widgetId}/auto`, body)
+  const res = await authInstance.put(`/dday/${widgetId}/auto`, body)
   return res.data
 }
 
 // 디데이 순서 변경
 export const updateDdayOrder = async (body: DdayOrderUpdateRequestBody[]) => {
-  const res = await instance.put(`/dday/order`, body)
+  const res = await authInstance.put(`/dday/order`, body)
   return res.data
 }
