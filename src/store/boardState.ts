@@ -1,8 +1,7 @@
 import { Layout } from 'react-grid-layout'
 import { atom, selector } from 'recoil'
-import { currentUserToken } from './userState'
 
-import { instance } from '@/api'
+import { getBoard } from '@/api'
 
 export interface BoardItem extends Layout {
   component?: string
@@ -10,6 +9,16 @@ export interface BoardItem extends Layout {
 }
 export interface BoardState {
   lg: BoardItem[]
+}
+
+export interface BoardListItem {
+  id: number
+  theme: string
+  title: string
+}
+
+export interface BoardListState {
+  boardList: BoardListItem[]
 }
 
 export const boardDirtyFlag = atom({
@@ -29,42 +38,26 @@ export const boardState = atom<BoardState>({
   },
 })
 
-export const currentBoardListQuery = selector({
-  key: 'currentBoardListQuery',
-  get: async ({ get }) => {
-    const token = get(currentUserToken)
-    try {
-      const res = await instance.get('/dashboard/list', {
-        headers: {
-          Authorization: token,
-        },
-      })
-      return res.data
-    } catch (error) {
-      console.error('Failed to fetch user info:', error)
-      return {}
-    }
-  },
+export const boardListState = atom({
+  key: 'boardListState',
+  default: [],
 })
 
 export const currentBoardQuery = selector({
   key: 'currentBoardQuery',
   get: async ({ get }) => {
     const boardId = get(currentBoardId)
-    const token = get(currentUserToken)
-    if (!token || boardId === null) {
+
+    if (boardId === null) {
       return { lg: [] }
     }
+
     try {
-      const res = await instance.get(`/dashboard/${boardId}`, {
-        headers: {
-          Authorization: token,
-        },
-      })
-      return res.data || { lg: [] }
+      const res = await getBoard(boardId)
+      return res || { lg: [] }
     } catch (error) {
-      console.error('Failed to fetch user info:', error)
-      return { lg: [] }
+      console.error('Failed to fetch dashboard:', error)
+      throw error
     }
   },
 })
