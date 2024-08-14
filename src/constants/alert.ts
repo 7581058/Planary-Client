@@ -113,3 +113,11 @@ export const DDAY_UPDATE_ORDER_FAILED_ALERT = {
   buttonType: AlertButtonType.Close,
   notiType: AlertNotificationType.Error,
 }
+
+export const DASHBOARD_GET_ERROR = {
+  icon: '🚨',
+  title: '불러오기 오류',
+  content: '대시보드 불러오기에 실패했습니다. 잠시 후 다시 시도해 주세요.',
+  buttonType: AlertButtonType.None,
+  notiType: AlertNotificationType.Error,
+}
