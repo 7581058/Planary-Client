@@ -3,8 +3,8 @@ import { Theme } from '@emotion/react'
 import React, { useEffect } from 'react'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 
-import { currentBoardId, currentBoardListQuery } from '@/store/boardState'
-
+import { useBoardListFetch } from '@/hooks/useBoardListFetch'
+import { boardListState, currentBoardId } from '@/store/boardState'
 interface Option {
   id: number
   title: string
@@ -13,7 +13,8 @@ interface Option {
 
 const BoardListSelect = () => {
   const setId = useSetRecoilState(currentBoardId)
-  const { boardList } = useRecoilValue(currentBoardListQuery)
+  const boardList = useRecoilValue(boardListState)
+  const { fetchBoardList } = useBoardListFetch()
 
   const handleChangeValue = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value
@@ -21,14 +22,14 @@ const BoardListSelect = () => {
   }
 
   useEffect(() => {
-    if (boardList.length > 0) {
-      setId(boardList[0].id)
-    }
-  }, [boardList, setId])
+    fetchBoardList()
+  }, [])
+
+  if (boardList.length === 0) return null
 
   return (
     <select onChange={handleChangeValue} css={selectContainer}>
-      {boardList &&
+      {boardList.length > 0 &&
         boardList.map((option: Option, index: number) => (
           <option key={index} value={option.id}>
             {option.title}
