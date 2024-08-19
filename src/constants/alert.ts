@@ -1,5 +1,13 @@
 import { AlertButtonType, AlertNotificationType } from './enum'
 
+export const COMMON_FAILED_ALERT = {
+  icon: '🚨',
+  title: '오류 발생',
+  content: '예상치 못한 오류가 발생했습니다. \n잠시 후 다시 시도해주세요.',
+  buttonType: AlertButtonType.Close,
+  notiType: AlertNotificationType.Error,
+}
+
 export const LOGIN_FAILED_ALERT = {
   icon: '🔒',
   title: '로그인 실패',
