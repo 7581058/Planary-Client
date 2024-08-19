@@ -4,6 +4,7 @@ import { BoardState } from '@/store/boardState'
 import {
   DdayCarouselSettingsRequestBody,
   DdayOrderUpdateRequestBody,
+  DdayPostRequestBody,
   DdayRequestBody,
   LoginRequestBody,
   SignUpRequestBody,
@@ -77,7 +78,7 @@ export const deleteDday = async (ddayId: number) => {
 }
 
 // 디데이 수정
-export const updateDday = async (ddayId: number | null, body: DdayRequestBody) => {
+export const updateDday = async (ddayId: number | null, body: DdayPostRequestBody) => {
   const res = await authInstance.put(`/dday/${ddayId}`, body)
   return res.data
 }
