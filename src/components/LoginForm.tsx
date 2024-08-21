@@ -28,6 +28,7 @@ const LoginForm = () => {
     try {
       const res = await login({ email: data.email, password: data.password })
       if (res) {
+        localStorage.removeItem('accessToken')
         localStorage.setItem('accessToken', 'Bearer ' + res.token)
         navigator(DASHBOARD_PATH, { replace: true })
       }
