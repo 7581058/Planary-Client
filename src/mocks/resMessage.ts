@@ -132,3 +132,93 @@ export const RES_DASHBOARD_ID_FAIL_INVALID = {
   },
   code: 404,
 }
+
+//디데이 목록 조회 성공
+export const RES_DDAY_LIST_RETRIEVED_SUCCESS = {
+  res: {
+    success: true,
+    message: 'Dday list retrieved successfully',
+  },
+  code: 200,
+}
+
+//디데이 목록 조회 성공: 디데이 목록 없음, 빈배열 반환
+export const RES_DDAY_LIST_RETRIEVED_SUCCESS_EMPTY = {
+  res: {
+    success: true,
+    message: 'No ddays found',
+  },
+  code: 200,
+}
+
+//디데이 추가 성공
+export const RES_DDAY_CREATE_SUCCESS = {
+  res: {
+    success: true,
+    message: 'Dday created successfully',
+  },
+  code: 200,
+}
+
+//디데이 추가 실패
+export const RES_DDAY_CREATE_FAIL = {
+  res: {
+    success: false,
+    message: 'Failed to create dday',
+  },
+  code: 400,
+}
+
+//디데이 추가 실패: 필수 입력 항목 누락
+export const RES_DDAY_CREATE_FAIL_REQUIRED = {
+  res: {
+    success: false,
+    message: 'WidgetId, title, icon, date are required',
+  },
+  code: 400,
+}
+
+//디데이 삭제 성공
+export const RES_DDAY_DELETE_SUCCESS = {
+  res: {
+    success: true,
+    message: 'Dday deleted successfully',
+  },
+  code: 200,
+}
+
+//디데이 삭제 실패
+export const RES_DDAY_DELETE_FAIL = {
+  res: {
+    success: false,
+    message: 'Failed to delete dday',
+  },
+  code: 400,
+}
+
+//디데이 수정 성공
+export const RES_DDAY_UPDATE_SUCCESS = {
+  res: {
+    success: true,
+    message: 'Dday updated successfully',
+  },
+  code: 200,
+}
+
+//디데이 수정 실패
+export const RES_DDAY_UPDATE_FAIL = {
+  res: {
+    success: false,
+    message: 'Failed to update dday',
+  },
+  code: 400,
+}
+
+//디데이 수정 실패: 해당 아이디 없음
+export const RES_DDAY_FAIL_NOT_FOUND = {
+  res: {
+    success: false,
+    message: 'D-day not found',
+  },
+  code: 404,
+}
