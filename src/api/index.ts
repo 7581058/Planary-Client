@@ -1,5 +1,6 @@
 import axios from 'axios'
 
+import { LocalStorageKeys } from '@/constants/enum'
 import { BoardState } from '@/store/boardState'
 import {
   DdayCarouselSettingsRequestBody,
@@ -20,13 +21,11 @@ const baseConfig = {
 }
 
 export const instance = axios.create(baseConfig)
+export const authInstance = axios.create(baseConfig)
 
-export const authInstance = axios.create({
-  ...baseConfig,
-  headers: {
-    ...baseConfig.headers,
-    Authorization: `${localStorage.getItem('accessToken')}`,
-  },
+authInstance.interceptors.request.use((config) => {
+  config.headers.Authorization = localStorage.getItem(LocalStorageKeys.AccessToken)
+  return config
 })
 
 //로그인

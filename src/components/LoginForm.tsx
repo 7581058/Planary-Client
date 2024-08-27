@@ -5,6 +5,7 @@ import ErrorMessage from './ErrorMessage'
 
 import { login } from '@/api'
 import { LOGIN_FAILED_ALERT } from '@/constants/alert'
+import { LocalStorageKeys } from '@/constants/enum'
 import { DASHBOARD_PATH } from '@/constants/paths'
 import { useAlert } from '@/hooks/useAlert'
 import { Common } from '@/styles/common'
@@ -23,13 +24,12 @@ const LoginForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormType>()
-
   const onSubmit = async (data: LoginFormType) => {
     try {
       const res = await login({ email: data.email, password: data.password })
       if (res) {
-        localStorage.removeItem('accessToken')
-        localStorage.setItem('accessToken', 'Bearer ' + res.token)
+        const newToken = 'Bearer ' + res.token
+        localStorage.setItem(LocalStorageKeys.AccessToken, newToken)
         navigator(DASHBOARD_PATH, { replace: true })
       }
     } catch (error) {
