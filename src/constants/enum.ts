@@ -24,3 +24,7 @@ export enum CheckBoxType {
   Parents,
   Child,
 }
+
+export const enum LocalStorageKeys {
+  AccessToken = 'accessToken',
+}
