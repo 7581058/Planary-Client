@@ -8,7 +8,10 @@
     "dev:backend": "vite --mode backend",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest",
+    "coverage": "vitest run --coverage",
+    "test:ui": "vitest --ui"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
@@ -31,12 +34,15 @@
     "@typescript-eslint/eslint-plugin": "^7.1.1",
     "@typescript-eslint/parser": "^7.1.1",
     "@vitejs/plugin-react": "^4.2.1",
+    "@vitest/coverage-v8": "^2.0.5",
+    "@vitest/ui": "^2.0.5",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.3",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
     "eslint-plugin-simple-import-sort": "^12.0.0",
+    "jsdom": "^24.1.1",
     "msw": "^2.2.7",
     "postcss": "^8.4.38",
     "postcss-syntax": "^0.36.2",
@@ -45,7 +51,8 @@
     "stylelint-config-clean-order": "^5.4.2",
     "stylelint-config-standard": "^36.0.0",
     "typescript": "^5.2.2",
-    "vite": "^5.1.6"
+    "vite": "^5.1.6",
+    "vitest": "^2.0.5"
   },
   "msw": {
     "workerDirectory": [

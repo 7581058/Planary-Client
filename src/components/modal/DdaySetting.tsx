@@ -1,24 +1,26 @@
 import { css } from '@emotion/react'
 import { Theme } from '@emotion/react'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import RGL, { Layout, WidthProvider } from 'react-grid-layout'
 import { RxDragHandleHorizontal } from 'react-icons/rx'
-import { useRecoilRefresher_UNSTABLE, useRecoilState, useRecoilValue } from 'recoil'
+import { useRecoilRefresher_UNSTABLE, useRecoilValue } from 'recoil'
 import SquareToggle from '../toggle/SquareToggle'
 
 import { addDday, deleteDday, updateDday, updateDdayCarouselSettings, updateDdayOrder } from '@/api'
 import {
+  COMMON_FAILED_ALERT,
   DDAY_ADD_FAILED_ALERT,
   DDAY_DELETE_FAILED_ALERT,
   DDAY_UPDATE_CAROUSEL_FAILED_ALERT,
   DDAY_UPDATE_CAROUSEL_SUCCESS_ALERT,
   DDAY_UPDATE_FAILED_ALERT,
   DDAY_UPDATE_ORDER_FAILED_ALERT,
+  DDAY_UPDATE_ORDER_SUCCESS_ALERT,
 } from '@/constants/alert'
 import { DDAY_ICONS } from '@/constants/icons'
 import { useAlert } from '@/hooks/useAlert'
 import { useModal } from '@/hooks/useModal'
-import { currentDdayQuery, currentDdayWidgetId, ddayState } from '@/store/ddayState'
+import { currentDdayQuery, currentDdayWidgetId } from '@/store/ddayState'
 import { currentModalState } from '@/store/modalState'
 import { Common, noDrag } from '@/styles/common'
 import { calculateDday } from '@/utils/calculateDday'
@@ -35,12 +37,9 @@ interface DdayItem {
 const GridLayout = WidthProvider(RGL)
 
 const DdaySetting = () => {
-  const isFirstRender = useRef(true)
-
   const { closeModal } = useModal()
   const modalState = useRecoilValue(currentModalState)
-  const [ddayWidgetId, setDdayWidgetId] = useRecoilState(currentDdayWidgetId)
-  const [ddays, setDdays] = useRecoilState(ddayState)
+  const ddayWidgetId = useRecoilValue(currentDdayWidgetId)
   const ddayData = useRecoilValue(currentDdayQuery)
   const refreshDdayQuery = useRecoilRefresher_UNSTABLE(currentDdayQuery)
 
@@ -53,40 +52,35 @@ const DdaySetting = () => {
   const { openAlert } = useAlert()
 
   useEffect(() => {
-    if (modalState.widgetId) {
-      setDdayWidgetId(modalState.widgetId)
-    }
-  }, [modalState.widgetId, setDdayWidgetId])
-
-  useEffect(() => {
     if (ddayData.ddayList) {
-      setDdays(ddayData)
-      setAuto(ddayData.isAuto === 0 ? false : true)
+      setAuto(ddayData.isAuto ? true : false)
     }
-  }, [ddayData, setDdays])
+  }, [ddayData])
 
   const handleClickClose = () => {
     closeModal()
   }
 
-  const handleClickToggle = () => {
-    setAuto((prevAuto) => {
-      const newAuto = !prevAuto
-      updateDdayCarouselSettings(ddayWidgetId, { isAuto: newAuto ? 1 : 0 })
-        .then((res) => {
-          if (res) {
-            openAlert(DDAY_UPDATE_CAROUSEL_SUCCESS_ALERT)
-            refreshDdayQuery()
-          }
-        })
-        .catch(() => {
-          openAlert(DDAY_UPDATE_CAROUSEL_FAILED_ALERT)
-        })
-      return newAuto
-    })
+  const handleClickToggle = async () => {
+    try {
+      const res = await updateDdayCarouselSettings(ddayWidgetId, { isAuto: auto ? 1 : 0 })
+
+      if (res) {
+        openAlert(DDAY_UPDATE_CAROUSEL_SUCCESS_ALERT)
+        refreshDdayQuery()
+      }
+    } catch (error) {
+      openAlert(DDAY_UPDATE_CAROUSEL_FAILED_ALERT)
+      setAuto(false)
+    }
   }
 
   const handleClickAdd = async () => {
+    if (!modalState.widgetId) {
+      openAlert(COMMON_FAILED_ALERT)
+      return
+    }
+
     const body = {
       widgetId: modalState.widgetId,
       icon: Number(icon),
@@ -166,13 +160,9 @@ const DdaySetting = () => {
     return []
   }
 
-  const onLayoutChange = async (layout: Layout[]) => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false
-      return
-    }
+  const onListOrderChange = async (layout: Layout[]) => {
 
-    const prevLayout = convertLayouts(ddays.ddayList)
+    const prevLayout = convertLayouts(ddayData.ddayList)
     const isLayoutChanged = layout.some((item, index) => item.y !== prevLayout[index].y)
 
     if (isLayoutChanged) {
@@ -187,6 +177,7 @@ const DdaySetting = () => {
         try {
           const res = await updateDdayOrder(updatedOrders)
           if (res) {
+            openAlert(DDAY_UPDATE_ORDER_SUCCESS_ALERT)
             refreshDdayQuery()
           }
         } catch (error) {
@@ -196,7 +187,6 @@ const DdaySetting = () => {
     }
   }
 
-  //todo: 디데이 순서변경 구현하기
   return (
     <div css={container}>
       <span css={title}>디데이 설정</span>
@@ -208,9 +198,9 @@ const DdaySetting = () => {
           </div>
           <span css={subTitle}>디데이 목록</span>
           <div css={[listWrap, noDrag]}>
-            {ddays.ddayList.length > 0 ? (
+            {ddayData.ddayList && ddayData.ddayList.length > 0 ? (
               <GridLayout
-                layout={convertLayouts(ddays.ddayList)}
+                layout={convertLayouts(ddayData.ddayList)}
                 isResizable={false}
                 rowHeight={40}
                 useCSSTransforms={false}
@@ -219,9 +209,9 @@ const DdaySetting = () => {
                 isBounded={true}
                 containerPadding={[0, 0]}
                 margin={[2, 2]}
-                onLayoutChange={onLayoutChange}
+                onDragStop={onListOrderChange}
               >
-                {ddays.ddayList.map((item: DdayItem) => (
+                {ddayData.ddayList.map((item: DdayItem) => (
                   <div css={listItem} key={item.id}>
                     <div css={dragHandle} className="drag-handle">
                       <RxDragHandleHorizontal />

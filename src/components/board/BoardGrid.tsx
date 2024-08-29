@@ -1,16 +1,14 @@
 import { css } from '@emotion/react'
 import { Theme } from '@emotion/react'
-import { useEffect } from 'react'
 import { Responsive, WidthProvider } from 'react-grid-layout'
 import { useNavigate } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
-import { useRecoilState } from 'recoil'
 import BoardListSelect from './BoardListSelect'
 
 import Panel from '@/components/board/Panel'
 import { DASHBOARD_EDIT_PATH } from '@/constants/paths'
-import { currentBoardQuery } from '@/store/boardState'
-import { BoardItem, boardState } from '@/store/boardState'
+import { boardDataSelector, currentBoardIdAtom } from '@/store/boardState'
+import { BoardItem } from '@/store/boardState'
 import { convertBoardStateToLayouts } from '@/utils/convertBoardStateToLayouts'
 
 export interface Item {
@@ -26,14 +24,8 @@ const ResponsiveGridLayout = WidthProvider(Responsive)
 
 const BoardGrid = () => {
   const navigate = useNavigate()
-  const [boards, setBoards] = useRecoilState(boardState)
-  const boardData = useRecoilValue(currentBoardQuery)
-
-  useEffect(() => {
-    if (boardData.lg) {
-      setBoards(boardData)
-    }
-  }, [setBoards, boardData])
+  const boardId = useRecoilValue(currentBoardIdAtom)
+  const boardData = useRecoilValue(boardDataSelector(boardId))
 
   const handleClickAdd = () => {
     navigate(DASHBOARD_EDIT_PATH)
@@ -44,9 +36,9 @@ const BoardGrid = () => {
       <div css={selectWrap}>
         <BoardListSelect />
       </div>
-      {boards.lg ? (
+      {boardData.lg ? (
         <ResponsiveGridLayout
-          layouts={convertBoardStateToLayouts(boards)}
+          layouts={convertBoardStateToLayouts(boardData.lg)}
           breakpoints={{ lg: 1000 }}
           cols={{ lg: 7 }}
           isResizable={false}
@@ -54,7 +46,7 @@ const BoardGrid = () => {
           useCSSTransforms={false}
           isDraggable={false}
         >
-          {boards.lg.map((item: BoardItem) => (
+          {boardData.lg.map((item: BoardItem) => (
             <div key={item.i}>
               <Panel
                 widgetId={Number(item.i)}
@@ -72,7 +64,7 @@ const BoardGrid = () => {
         <div css={emptyContainer}>
           <span>등록된 대시보드가 없습니다.</span>
           <button onClick={handleClickAdd} css={addButton}>
-            대시보드 추가 하러 가기
+            대시보드 추가 하기
           </button>
         </div>
       )}
@@ -119,8 +111,14 @@ const emptyContainer = (theme: Theme) => css`
 `
 
 const addButton = (theme: Theme) => css`
+  cursor: pointer;
+
+  box-sizing: border-box;
   height: 40px;
+  padding: 10px;
+
   color: ${theme.buttonText};
+
   background-color: ${theme.button};
   border-radius: 8px;
 `

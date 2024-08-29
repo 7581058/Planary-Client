@@ -1,5 +1,13 @@
 import { AlertButtonType, AlertNotificationType } from './enum'
 
+export const COMMON_FAILED_ALERT = {
+  icon: '🚨',
+  title: '오류 발생',
+  content: '예상치 못한 오류가 발생했습니다. \n잠시 후 다시 시도해주세요.',
+  buttonType: AlertButtonType.Close,
+  notiType: AlertNotificationType.Error,
+}
+
 export const LOGIN_FAILED_ALERT = {
   icon: '🔒',
   title: '로그인 실패',
@@ -110,6 +118,22 @@ export const DDAY_UPDATE_ORDER_FAILED_ALERT = {
   icon: '🚨',
   title: '디데이 순서 변경 실패',
   content: '디데이 순서 변경에 실패했습니다. \n잠시 후 다시 시도해주세요.',
-  buttonType: AlertButtonType.Close,
+  buttonType: AlertButtonType.None,
+  notiType: AlertNotificationType.Error,
+}
+
+export const DDAY_UPDATE_ORDER_SUCCESS_ALERT = {
+  icon: '👌',
+  title: '디데이 순서 변경 완료',
+  content: '',
+  buttonType: AlertButtonType.None,
+  notiType: AlertNotificationType.Success,
+}
+
+export const DASHBOARD_GET_ERROR = {
+  icon: '🚨',
+  title: '불러오기 오류',
+  content: '대시보드 불러오기에 실패했습니다. 잠시 후 다시 시도해 주세요.',
+  buttonType: AlertButtonType.None,
   notiType: AlertNotificationType.Error,
 }

@@ -8,7 +8,7 @@ import Panel from '../board/Panel'
 import { BOARD_EDIT_RESIZING_ERROR } from '@/constants/alert'
 import { WidgetProps } from '@/constants/widget'
 import { useAlert } from '@/hooks/useAlert'
-import { boardDirtyFlag, BoardItem, BoardState, boardState, currentBoardQuery } from '@/store/boardState'
+import { boardDirtyFlag, BoardItem, BoardState, boardDataSelector, editableBoardDataAtom, currentBoardIdAtom } from '@/store/boardState'
 import { convertBoardStateToLayouts } from '@/utils/convertBoardStateToLayouts'
 interface CustomDragEvent extends Event {
   dataTransfer: DataTransfer
@@ -21,8 +21,9 @@ interface ItemSizeProps {
 const ResponsiveGridLayout = WidthProvider(Responsive)
 
 const BoardPreview = () => {
-  const [boards, setBoards] = useRecoilState<BoardState>(boardState)
-  const boardData = useRecoilValue(currentBoardQuery)
+  const [boards, setBoards] = useRecoilState<BoardState>(editableBoardDataAtom)
+  const boardId = useRecoilValue(currentBoardIdAtom)
+  const boardData = useRecoilValue(boardDataSelector(boardId))
   const setIsDirty = useSetRecoilState<boolean>(boardDirtyFlag)
   const [itemSize, setItemSize] = useState<ItemSizeProps>({})
   let invalidResizing = false

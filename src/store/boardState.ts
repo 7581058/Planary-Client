@@ -1,8 +1,7 @@
 import { Layout } from 'react-grid-layout'
-import { atom, selector } from 'recoil'
-import { currentUserToken } from './userState'
+import { atom, selectorFamily } from 'recoil'
 
-import { instance } from '@/api'
+import { getBoard } from '@/api'
 
 export interface BoardItem extends Layout {
   component?: string
@@ -12,59 +11,53 @@ export interface BoardState {
   lg: BoardItem[]
 }
 
+export interface BoardListItem {
+  id: number
+  theme: string
+  title: string
+}
+
+export interface BoardListState {
+  boardList: BoardListItem[]
+}
+
 export const boardDirtyFlag = atom({
   key: 'boardDirtyFlag',
   default: false,
 })
 
-export const currentBoardId = atom<number | null>({
-  key: 'currentBoardId',
+export const boardListAtom = atom({
+  key: 'boardListAtom',
+  default: [],
+})
+
+export const currentBoardIdAtom = atom<number | null>({
+  key: 'currentBoardIdAtom',
   default: null,
 })
 
-export const boardState = atom<BoardState>({
-  key: 'boardState',
-  default: {
-    lg: [],
-  },
+// 수정 가능한 보드 데이터
+export const editableBoardDataAtom = atom({
+  key: 'editableBoardDataAtom',
+  default: {},
 })
 
-export const currentBoardListQuery = selector({
-  key: 'currentBoardListQuery',
-  get: async ({ get }) => {
-    const token = get(currentUserToken)
-    try {
-      const res = await instance.get('/dashboard/list', {
-        headers: {
-          Authorization: token,
-        },
-      })
-      return res.data
-    } catch (error) {
-      console.error('Failed to fetch user info:', error)
-      return {}
-    }
-  },
-})
-
-export const currentBoardQuery = selector({
-  key: 'currentBoardQuery',
-  get: async ({ get }) => {
-    const boardId = get(currentBoardId)
-    const token = get(currentUserToken)
-    if (!token || boardId === null) {
-      return { lg: [] }
-    }
-    try {
-      const res = await instance.get(`/dashboard/${boardId}`, {
-        headers: {
-          Authorization: token,
-        },
-      })
-      return res.data || { lg: [] }
-    } catch (error) {
-      console.error('Failed to fetch user info:', error)
-      return { lg: [] }
-    }
-  },
+export const boardDataSelector = selectorFamily({
+  key: 'boardDataSelector',
+  get:
+    (boardId: number | null) =>
+      async ({ get }) => {
+        if (boardId === null) {
+          return { lg: [] }
+        }
+        const currentData = await getBoard(boardId)
+        const editedData = get(editableBoardDataAtom);
+        return { ...currentData, ...editedData };
+      },
+  set:
+    (boardId: number | null) =>
+      ({ set }, newValue) => {
+        set(editableBoardDataAtom, newValue)
+        //updateBoardData(boardId, newValue)
+      },
 })

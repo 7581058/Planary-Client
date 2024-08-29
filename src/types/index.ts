@@ -10,11 +10,13 @@ export interface SignUpRequestBody {
   password: string
   agree: boolean
 }
-
-export interface DdayRequestBody {
+export interface DdayPostRequestBody {
   icon: number
   title: string
   date: string
+}
+export interface DdayRequestBody extends DdayPostRequestBody {
+  widgetId: number
 }
 
 export interface DdayCarouselSettingsRequestBody {
