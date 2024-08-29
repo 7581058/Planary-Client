@@ -4,7 +4,7 @@ import React, { useEffect } from 'react'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 
 import { useBoardListFetch } from '@/hooks/useBoardListFetch'
-import { boardListState, currentBoardId } from '@/store/boardState'
+import { boardListAtom, currentBoardIdAtom } from '@/store/boardState'
 interface Option {
   id: number
   title: string
@@ -12,8 +12,8 @@ interface Option {
 }
 
 const BoardListSelect = () => {
-  const setId = useSetRecoilState(currentBoardId)
-  const boardList = useRecoilValue(boardListState)
+  const setId = useSetRecoilState(currentBoardIdAtom)
+  const boardList = useRecoilValue(boardListAtom)
   const { fetchBoardList } = useBoardListFetch()
 
   const handleChangeValue = (event: React.ChangeEvent<HTMLSelectElement>) => {

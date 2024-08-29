@@ -1,5 +1,5 @@
 import { Layout } from 'react-grid-layout'
-import { atom, selector } from 'recoil'
+import { atom, selectorFamily } from 'recoil'
 
 import { getBoard } from '@/api'
 
@@ -26,38 +26,38 @@ export const boardDirtyFlag = atom({
   default: false,
 })
 
-export const currentBoardId = atom<number | null>({
-  key: 'currentBoardId',
-  default: null,
-})
-
-export const boardState = atom<BoardState>({
-  key: 'boardState',
-  default: {
-    lg: [],
-  },
-})
-
-export const boardListState = atom({
-  key: 'boardListState',
+export const boardListAtom = atom({
+  key: 'boardListAtom',
   default: [],
 })
 
-export const currentBoardQuery = selector({
-  key: 'currentBoardQuery',
-  get: async ({ get }) => {
-    const boardId = get(currentBoardId)
+export const currentBoardIdAtom = atom<number | null>({
+  key: 'currentBoardIdAtom',
+  default: null,
+})
 
-    if (boardId === null) {
-      return { lg: [] }
-    }
+// 수정 가능한 보드 데이터
+export const editableBoardDataAtom = atom({
+  key: 'editableBoardDataAtom',
+  default: {},
+})
 
-    try {
-      const res = await getBoard(boardId)
-      return res || { lg: [] }
-    } catch (error) {
-      console.error('Failed to fetch dashboard:', error)
-      throw error
-    }
-  },
+export const boardDataSelector = selectorFamily({
+  key: 'boardDataSelector',
+  get:
+    (boardId: number | null) =>
+      async ({ get }) => {
+        if (boardId === null) {
+          return { lg: [] }
+        }
+        const currentData = await getBoard(boardId)
+        const editedData = get(editableBoardDataAtom);
+        return { ...currentData, ...editedData };
+      },
+  set:
+    (boardId: number | null) =>
+      ({ set }, newValue) => {
+        set(editableBoardDataAtom, newValue)
+        //updateBoardData(boardId, newValue)
+      },
 })

@@ -7,7 +7,7 @@ import BoardListSelect from './BoardListSelect'
 
 import Panel from '@/components/board/Panel'
 import { DASHBOARD_EDIT_PATH } from '@/constants/paths'
-import { currentBoardQuery } from '@/store/boardState'
+import { boardDataSelector, currentBoardIdAtom } from '@/store/boardState'
 import { BoardItem } from '@/store/boardState'
 import { convertBoardStateToLayouts } from '@/utils/convertBoardStateToLayouts'
 
@@ -24,7 +24,8 @@ const ResponsiveGridLayout = WidthProvider(Responsive)
 
 const BoardGrid = () => {
   const navigate = useNavigate()
-  const boardData = useRecoilValue(currentBoardQuery)
+  const boardId = useRecoilValue(currentBoardIdAtom)
+  const boardData = useRecoilValue(boardDataSelector(boardId))
 
   const handleClickAdd = () => {
     navigate(DASHBOARD_EDIT_PATH)

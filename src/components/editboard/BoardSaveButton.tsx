@@ -5,14 +5,14 @@ import { useRecoilState, useRecoilValue } from 'recoil'
 import { editBoard } from '@/api'
 import { BOARD_EDIT_SAVE_FAILED, BOARD_EDIT_SAVE_SUCCESS } from '@/constants/alert'
 import { useAlert } from '@/hooks/useAlert'
-import { boardDirtyFlag, boardState, currentBoardId } from '@/store/boardState'
+import { boardDirtyFlag, currentBoardIdAtom, editableBoardDataAtom } from '@/store/boardState'
 
 const BoardSaveButton = () => {
   const theme = useTheme()
   const [isDirty, setIsDirty] = useRecoilState(boardDirtyFlag)
-  const boards = useRecoilValue(boardState)
+  const boards = useRecoilValue(editableBoardDataAtom)
   const { openAlert } = useAlert()
-  const boardId = useRecoilValue(currentBoardId)
+  const boardId = useRecoilValue(currentBoardIdAtom)
 
   const onSave = async () => {
     try {
