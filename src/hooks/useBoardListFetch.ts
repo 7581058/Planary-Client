@@ -3,11 +3,11 @@ import { useAlert } from './useAlert'
 
 import { getBoardList } from '@/api'
 import { DASHBOARD_GET_ERROR } from '@/constants/alert'
-import { boardListState, currentBoardId } from '@/store/boardState'
+import { boardListAtom, currentBoardIdAtom } from '@/store/boardState'
 
 export const useBoardListFetch = () => {
-  const setBoardList = useSetRecoilState(boardListState)
-  const setBoardId = useSetRecoilState(currentBoardId)
+  const setBoardList = useSetRecoilState(boardListAtom)
+  const setBoardId = useSetRecoilState(currentBoardIdAtom)
   const { openAlert } = useAlert()
 
   const fetchBoardList = async () => {
