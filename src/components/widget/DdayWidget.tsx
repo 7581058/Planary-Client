@@ -2,12 +2,12 @@
 import { Theme } from '@emotion/react'
 import { css } from '@emotion/react'
 import { useEffect } from 'react'
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
 import Carousel from '../carousel/Carousel'
 
 import { DDAY_ICONS } from '@/constants/icons'
 import { WidgetProps } from '@/constants/widget'
-import { currentDdayQuery, currentDdayWidgetId, ddayState } from '@/store/ddayState'
+import { currentDdayQuery, currentDdayWidgetId } from '@/store/ddayState'
 import { Common } from '@/styles/common'
 import { calculateDday } from '@/utils/calculateDday'
 import { convertDate } from '@/utils/convertDate'
@@ -20,7 +20,6 @@ interface DdayItem {
 
 const DdayWidget = ({ w, h, isPreview, isCovered, widgetId }: WidgetProps) => {
   const setDdayWidgetId = useSetRecoilState(currentDdayWidgetId)
-  const [ddays, setDdays] = useRecoilState(ddayState)
   const ddayData = useRecoilValue(currentDdayQuery)
 
   useEffect(() => {
@@ -29,15 +28,9 @@ const DdayWidget = ({ w, h, isPreview, isCovered, widgetId }: WidgetProps) => {
     }
   }, [widgetId, setDdayWidgetId])
 
-  useEffect(() => {
-    if (ddayData.ddayList) {
-      setDdays(ddayData)
-    }
-  }, [ddayData, setDdays])
-
   const ddayItems =
-    ddays.ddayList.length > 0
-      ? ddays.ddayList.map((item: DdayItem) => (
+    ddayData.ddayList.length > 0
+      ? ddayData.ddayList.map((item: DdayItem) => (
         <div css={itemWrap} key={item.date}>
           <div css={[title, responsiveTitle(w, h)]}>{DDAY_ICONS[item.icon]}{item.title}</div>
           <div css={[day, responsiveDay(w, h)]}>{convertDate(item.date, 'kor')}</div>
@@ -52,7 +45,7 @@ const DdayWidget = ({ w, h, isPreview, isCovered, widgetId }: WidgetProps) => {
 
   return (
     <div css={[container, responsiveContainer(w, h)]}>
-      {ddays && <Carousel auto={isPreview ? !isPreview : (Number(ddays.isAuto) === 0 ? false : true)} items={ddayItems} control={isPreview ? !isPreview : !isCovered} />}
+      <Carousel auto={isPreview ? !isPreview : (Number(ddayData.isAuto) === 0 ? false : true)} items={ddayItems} control={isPreview ? !isPreview : !isCovered} />
     </div>
   )
 }
