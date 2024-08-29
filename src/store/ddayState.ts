@@ -1,15 +1,6 @@
 import { atom, selector } from 'recoil'
-import { currentUserToken } from './userState'
 
-import { instance } from '@/api'
-
-export const ddayState = atom({
-  key: 'ddayState',
-  default: {
-    ddayList: [],
-    isAuto: null,
-  },
-})
+import { getDdayList } from '@/api'
 
 export const currentDdayWidgetId = atom<number | null>({
   key: 'currentDdayWidgetId',
@@ -20,20 +11,15 @@ export const currentDdayQuery = selector({
   key: 'currentDdayQuery',
   get: async ({ get }) => {
     const widgetId = get(currentDdayWidgetId)
-    const token = get(currentUserToken)
-    if (!token || widgetId === null) {
-      return { ddayList: [], isAuto: null }
+    if (widgetId === null) {
+      return { ddayList: [], isAuto: false }
     }
     try {
-      const res = await instance.get(`/dday/${widgetId}`, {
-        headers: {
-          Authorization: token,
-        },
-      })
-      return res.data || { ddayList: [], isAuto: null }
+      const res = await getDdayList(widgetId)
+      return res || { ddayList: [], isAuto: false }
     } catch (error) {
       console.error('Failed to fetch dday list:', error)
-      return { ddayList: [], isAuto: null }
+      throw error
     }
   },
 })
