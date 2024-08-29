@@ -214,11 +214,47 @@ export const RES_DDAY_UPDATE_FAIL = {
   code: 400,
 }
 
-//디데이 수정 실패: 해당 아이디 없음
+//디데이 수정,삭제 실패: 해당 아이디 없음
 export const RES_DDAY_FAIL_NOT_FOUND = {
   res: {
     success: false,
     message: 'D-day not found',
   },
   code: 404,
+}
+
+//디데이 자동재생 변경 성공 
+export const RES_DDAY_CAROUSEL_SETTING_UPDATE_SUCCESS = {
+  res: {
+    success: true,
+    message: 'Dday carousel setting updated successfully',
+  },
+  code: 200,
+}
+
+//디데이 자동재생 변경 실패 
+export const RES_DDAY_CAROUSEL_SETTING_UPDATE_FAIL = {
+  res: {
+    success: false,
+    message: 'Failed to update carousel setting',
+  },
+  code: 400,
+}
+
+//디데이 순서 변경 성공 
+export const RES_DDAY_ORDER_UPDATE_SUCCESS = {
+  res: {
+    success: true,
+    message: 'Dday Order updated successfully',
+  },
+  code: 200,
+}
+
+//디데이 순서 변경 실패 
+export const RES_DDAY_ORDER_UPDATE_FAIL = {
+  res: {
+    success: false,
+    message: 'Failed to update dday order',
+  },
+  code: 400,
 }
