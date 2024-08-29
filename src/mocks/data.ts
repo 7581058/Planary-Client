@@ -133,7 +133,7 @@ export const layoutData = [
 
 export const layoutData2 = [
   {
-    i: '0',
+    i: '7',
     x: 0,
     y: 0,
     w: 3,
@@ -145,7 +145,7 @@ export const layoutData2 = [
     component: 'profile',
   },
   {
-    i: '1',
+    i: '8',
     x: 3,
     y: 0,
     w: 2,
@@ -157,7 +157,7 @@ export const layoutData2 = [
     component: 'dday',
   },
   {
-    i: '2',
+    i: '9',
     x: 5,
     y: 0,
     w: 2,
@@ -169,7 +169,7 @@ export const layoutData2 = [
     component: 'player',
   },
   {
-    i: '3',
+    i: '10',
     x: 0,
     y: 1,
     w: 3,
@@ -181,7 +181,7 @@ export const layoutData2 = [
     component: 'calendar',
   },
   {
-    i: '4',
+    i: '11',
     x: 3,
     y: 1,
     w: 2,
@@ -194,7 +194,7 @@ export const layoutData2 = [
   },
 
   {
-    i: '5',
+    i: '12',
     x: 5,
     y: 1,
     w: 2,
@@ -207,7 +207,7 @@ export const layoutData2 = [
   },
 
   {
-    i: '6',
+    i: '13',
     x: 5,
     y: 2,
     w: 2,
