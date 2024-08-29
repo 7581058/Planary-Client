@@ -118,8 +118,16 @@ export const DDAY_UPDATE_ORDER_FAILED_ALERT = {
   icon: '🚨',
   title: '디데이 순서 변경 실패',
   content: '디데이 순서 변경에 실패했습니다. \n잠시 후 다시 시도해주세요.',
-  buttonType: AlertButtonType.Close,
+  buttonType: AlertButtonType.None,
   notiType: AlertNotificationType.Error,
+}
+
+export const DDAY_UPDATE_ORDER_SUCCESS_ALERT = {
+  icon: '👌',
+  title: '디데이 순서 변경 완료',
+  content: '',
+  buttonType: AlertButtonType.None,
+  notiType: AlertNotificationType.Success,
 }
 
 export const DASHBOARD_GET_ERROR = {
