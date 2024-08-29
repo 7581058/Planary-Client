@@ -3,6 +3,7 @@ module.exports = {
   env: { browser: true, es2020: true, jest: true, },
   extends: [
     "eslint:recommended",
+    "prettier/@typescript-eslint",
     "plugin:@typescript-eslint/recommended",
     "plugin:react-hooks/recommended",
     "plugin:prettier/recommended",
