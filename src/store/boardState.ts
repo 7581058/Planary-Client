@@ -5,7 +5,7 @@ import { getBoard } from '@/api'
 
 export interface BoardItem extends Layout {
   component?: string
-  widgetId: number
+  widgetId?: number
 }
 export interface BoardState {
   lg: BoardItem[]
@@ -37,9 +37,11 @@ export const currentBoardIdAtom = atom<number | null>({
 })
 
 // 수정 가능한 보드 데이터
-export const editableBoardDataAtom = atom({
+export const editableBoardDataAtom = atom<BoardState>({
   key: 'editableBoardDataAtom',
-  default: {},
+  default: {
+    lg: []
+  },
 })
 
 export const boardDataSelector = selectorFamily({
@@ -51,8 +53,7 @@ export const boardDataSelector = selectorFamily({
           return { lg: [] }
         }
         const currentData = await getBoard(boardId)
-        const editedData = get(editableBoardDataAtom);
-        return { ...currentData, ...editedData };
+        return currentData;
       },
   set:
     (boardId: number | null) =>
