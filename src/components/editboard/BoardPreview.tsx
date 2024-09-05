@@ -6,22 +6,25 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import Panel from '../board/Panel'
 
 import { BOARD_EDIT_RESIZING_ERROR } from '@/constants/alert'
-import { WidgetProps } from '@/constants/widget'
 import { useAlert } from '@/hooks/useAlert'
-import { boardDirtyFlag, BoardItem, BoardState, boardDataSelector, editableBoardDataAtom, currentBoardIdAtom } from '@/store/boardState'
+import { boardDirtyFlag, BoardItem, boardDataSelector, editableBoardDataAtom, currentBoardIdAtom, BoardState } from '@/store/boardState'
 import { convertBoardStateToLayouts } from '@/utils/convertBoardStateToLayouts'
 interface CustomDragEvent extends Event {
   dataTransfer: DataTransfer
 }
 
+interface ResizingItem {
+  w: number
+  h: number
+}
 interface ItemSizeProps {
-  [key: string]: WidgetProps
+  [key: string]: ResizingItem
 }
 
 const ResponsiveGridLayout = WidthProvider(Responsive)
 
 const BoardPreview = () => {
-  const [boards, setBoards] = useRecoilState<BoardState>(editableBoardDataAtom)
+  const [editableBoard, setEditableBoard] = useRecoilState(editableBoardDataAtom)
   const boardId = useRecoilValue(currentBoardIdAtom)
   const boardData = useRecoilValue(boardDataSelector(boardId))
   const setIsDirty = useSetRecoilState<boolean>(boardDirtyFlag)
@@ -31,12 +34,13 @@ const BoardPreview = () => {
 
   useEffect(() => {
     if (boardData) {
-      setBoards(boardData)
+      setEditableBoard(boardData)
     }
-  }, [setBoards, boardData])
+  }, [boardData])
+
 
   const handleClickDelete = (itemId: string) => {
-    setBoards((prevBoards) => {
+    setEditableBoard((prevBoards) => {
       const updatedBoards = {
         ...prevBoards,
         lg: prevBoards.lg.filter((item: BoardItem) => item.i !== itemId),
@@ -45,8 +49,8 @@ const BoardPreview = () => {
     })
   }
 
-  // !FIX: 초기 -> 변경불가사이즈 -> 지정크기 -> 변경불가사이즈 적용시 사이즈 조정안되고 변경불가 사이즈로 지정됨
-  // !FIX: 변경불가 -> 지정크기 -> 그외다른크기 -> 변경불가 시 에는 정상작동함
+  //!FIX: 변경가능 사이즈 -> 변경불가 사이즈 변경시 정상동작
+  //! 변경불가 -> 변경불가 변경시 변경불가 인데도 변경되고있음 
   const isInvalidResizingSize = (component: string | undefined, w: number, h: number) => {
     if (component !== 'calendar') return false
     const invalidSizes = [
@@ -59,14 +63,14 @@ const BoardPreview = () => {
   }
 
   const onLayoutChange = (currentLayout: Layout[]) => {
-    const prevLayoutString = JSON.stringify(convertBoardStateToLayouts(boards).lg)
+    const prevLayoutString = JSON.stringify(convertBoardStateToLayouts(editableBoard).lg)
     const newLayoutString = JSON.stringify(convertBoardStateToLayouts(currentLayout).lg)
 
     if (prevLayoutString !== newLayoutString) {
       setIsDirty(true)
     }
 
-    setBoards((prevBoards) => {
+    setEditableBoard((prevBoards: BoardState) => {
       if (currentLayout) {
         const updatedLayouts = currentLayout.map((newItem) => {
           const foundItem: BoardItem | undefined = prevBoards.lg.find((prevItem: BoardItem) => prevItem.i === newItem.i)
@@ -80,6 +84,7 @@ const BoardPreview = () => {
               return {
                 ...newItem,
                 component: foundItem.component,
+                i: foundItem.i,
                 x: newItem.x,
                 y: newItem.y,
                 w: 3,
@@ -128,7 +133,7 @@ const BoardPreview = () => {
     const widgetDataString = e.dataTransfer.getData('widgetData')
     const widgetData = JSON.parse(widgetDataString)
 
-    setBoards((prevBoards) => {
+    setEditableBoard((prevBoards) => {
       const updatedLayouts = prevBoards.lg.map((item) => {
         if (item.i === layoutItem.i) {
           return {
@@ -159,7 +164,7 @@ const BoardPreview = () => {
   return (
     <div css={container}>
       <ResponsiveGridLayout
-        layouts={convertBoardStateToLayouts(boards)}
+        layouts={convertBoardStateToLayouts(editableBoard.lg)}
         breakpoints={{ lg: 1000 }}
         cols={{ lg: 7 }}
         isResizable={true}
@@ -171,10 +176,11 @@ const BoardPreview = () => {
         onDropDragOver={onDropDragOver}
         onResize={onResize}
       >
-        {boardData &&
-          boards.lg.map((item: BoardItem) => (
+        {editableBoard &&
+          editableBoard.lg.map((item: BoardItem) => (
             <div key={item.i}>
               <Panel
+                widgetId={Number(item.i)}
                 key={item.i}
                 isPreview={false}
                 isCovered={true}
@@ -192,15 +198,13 @@ const BoardPreview = () => {
 
 export default BoardPreview
 
-const container = (theme: Theme) => css`
+const container = css`
   overflow: auto;
 
   box-sizing: border-box;
   width: 100%;
   height: 100%;
   padding: 40px;
-
-  background-color: ${theme.previewBackground};
 
   &&::-webkit-scrollbar {
     display: none;
