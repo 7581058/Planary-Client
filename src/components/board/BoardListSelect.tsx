@@ -42,7 +42,10 @@ const BoardListSelect = () => {
 export default BoardListSelect
 
 const selectContainer = (theme: Theme) => css`
+  flex-shrink: 0;
+
   color: ${theme.selectText};
+
   background-color: ${theme.selectBackground};
   border: 2px solid ${theme.selectBorder};
   border-radius: 4px;
