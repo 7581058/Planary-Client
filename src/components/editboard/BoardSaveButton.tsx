@@ -42,6 +42,8 @@ export default BoardSaveButton
 const saveButton = (theme: Theme, isDirty: boolean) => css`
   cursor: pointer;
 
+  flex-shrink: 0;
+
   width: 100%;
   height: 40px;
 
