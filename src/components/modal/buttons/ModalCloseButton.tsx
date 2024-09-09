@@ -1,18 +1,24 @@
-import { css } from '@emotion/react'
+import { css, useTheme } from '@emotion/react'
 import { Theme } from '@emotion/react'
 
 import { useModal } from '@/hooks/useModal'
 import { Common } from '@/styles/common'
 
-const ModalCloseButton = () => {
+interface ModalCloseButtonProps {
+  isAbsolute: boolean
+  isRight?: boolean | undefined
+}
+
+const ModalCloseButton = ({ isAbsolute, isRight }: ModalCloseButtonProps) => {
   const { closeModal } = useModal()
+  const theme = useTheme()
 
   const handleClickClose = () => {
     closeModal()
   }
 
   return (
-    <button css={modalCloseButton} onClick={handleClickClose}>
+    <button css={modalCloseButton(theme, isAbsolute, isRight)} onClick={handleClickClose}>
       닫기
     </button>
   )
@@ -20,10 +26,12 @@ const ModalCloseButton = () => {
 
 export default ModalCloseButton
 
-const modalCloseButton = (theme: Theme) => css`
+const modalCloseButton = (theme: Theme, isAbsolute: boolean, isRight: boolean | undefined) => css`
   cursor: pointer;
 
-  position: absolute;
+  position: ${isAbsolute ? 'absolute' : 'relative'};
+  ${isRight && 'right: 0;'}
+
   bottom: 0;
 
   width: 50px;
