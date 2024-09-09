@@ -26,7 +26,7 @@ export const boardDirtyFlag = atom({
   default: false,
 })
 
-export const boardListAtom = atom({
+export const boardListAtom = atom<BoardListItem[]>({
   key: 'boardListAtom',
   default: [],
 })
@@ -40,7 +40,7 @@ export const currentBoardIdAtom = atom<number | null>({
 export const editableBoardDataAtom = atom<BoardState>({
   key: 'editableBoardDataAtom',
   default: {
-    lg: []
+    lg: [],
   },
 })
 
@@ -48,17 +48,17 @@ export const boardDataSelector = selectorFamily({
   key: 'boardDataSelector',
   get:
     (boardId: number | null) =>
-      async ({ get }) => {
-        if (boardId === null) {
-          return { lg: [] }
-        }
-        const currentData = await getBoard(boardId)
-        return currentData;
-      },
+    async ({ get }) => {
+      if (boardId === null) {
+        return { lg: [] }
+      }
+      const currentData = await getBoard(boardId)
+      return currentData
+    },
   set:
     (boardId: number | null) =>
-      ({ set }, newValue) => {
-        set(editableBoardDataAtom, newValue)
-        //updateBoardData(boardId, newValue)
-      },
+    ({ set }, newValue) => {
+      set(editableBoardDataAtom, newValue)
+      //updateBoardData(boardId, newValue)
+    },
 })
