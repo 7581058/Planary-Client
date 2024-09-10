@@ -10,6 +10,12 @@ export interface SignUpRequestBody {
   password: string
   agree: boolean
 }
+
+export interface DashboardRequestBody {
+  title: string
+  theme: string
+  userId: string
+}
 export interface DdayPostRequestBody {
   icon: number
   title: string
