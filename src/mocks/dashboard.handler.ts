@@ -1,6 +1,10 @@
 import { http, HttpResponse } from 'msw'
 import { MSW_DASHBOARD_LAYOUTS } from './constants'
+import { boardListData } from './dashboardListData'
+import { defaultBoardData } from './data'
 import {
+  RES_DASHBOARD_CREATE_FAIL,
+  RES_DASHBOARD_CREATE_SUCCESS,
   RES_DASHBOARD_ID_FAIL_INVALID,
   RES_DASHBOARD_LIST_RETRIEVED_SUCCESS,
   RES_DASHBOARD_LIST_RETRIEVED_SUCCESS_EMPTY,
@@ -10,6 +14,11 @@ import {
 } from './resMessage'
 import { authenticateRequest } from './utils'
 
+interface DashboardBody {
+  title: string
+  userId: string
+  theme: string
+}
 export const dashboardHandlers = [
   //대시보드 목록 조회
   http.get('/dashboard/list', async ({ request }) => {
@@ -38,10 +47,7 @@ export const dashboardHandlers = [
         return HttpResponse.json(
           {
             ...RES_DASHBOARD_LIST_RETRIEVED_SUCCESS.res,
-            boardList: [
-              { title: 'myboard', theme: 'default', id: 1 },
-              { title: 'myboard2', theme: 'default', id: 2 },
-            ],
+            boardList: boardListData,
           },
           { status: RES_DASHBOARD_LIST_RETRIEVED_SUCCESS.code },
         )
@@ -89,6 +95,30 @@ export const dashboardHandlers = [
           },
         )
     }
+  }),
+
+  // 대시보드 추가
+  http.post('/dashboard/create', async ({ request }) => {
+    const data = (await request.json()) as DashboardBody
+
+    if (!data.title || !data.userId || !data.theme) {
+      return HttpResponse.json(RES_DASHBOARD_CREATE_FAIL.res, { status: RES_DASHBOARD_CREATE_FAIL.code })
+    }
+
+    //TODO:유저 아이디 검증 로직 필요하다면 추가
+
+    const newBoard = {
+      title: data.title,
+      theme: data.theme,
+      id: boardListData.length + 1,
+    }
+
+    boardListData.push(newBoard)
+
+    const newKey: number = Object.keys(MSW_DASHBOARD_LAYOUTS).length + 1
+    MSW_DASHBOARD_LAYOUTS[newKey] = defaultBoardData
+
+    return HttpResponse.json(RES_DASHBOARD_CREATE_SUCCESS.res, { status: RES_DASHBOARD_CREATE_SUCCESS.code })
   }),
 
   //대시보드 수정
