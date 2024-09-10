@@ -276,7 +276,7 @@ const DdaySetting = () => {
           </div>
         </div>
       </div>
-      <ModalCloseButton />
+      <ModalCloseButton isAbsolute={true} isRight={true} />
     </div>
   )
 }
