@@ -12,6 +12,7 @@ import {
   RES_DDAY_UPDATE_SUCCESS,
 } from './resMessage'
 import { authenticateRequest } from './utils'
+
 import { DdayOrderUpdateRequestBody } from '@/types'
 
 type DdayBody = DefaultBodyType & {
@@ -59,7 +60,7 @@ export const ddayHandlers = [
       title: data.title,
       date: data.date,
       id: Date.now(),
-      order: filteredDdays.length + 1
+      order: filteredDdays.length + 1,
     }
 
     ddayData.ddayList.push(newDday)
@@ -110,10 +111,11 @@ export const ddayHandlers = [
     return HttpResponse.json(RES_DDAY_UPDATE_SUCCESS.res, { status: RES_DDAY_UPDATE_SUCCESS.code })
   }),
 
-  //디데이 자동재생 변경 
+  //디데이 자동재생 변경
   http.put('/dday/:widgetId/auto', async () => {
     ddayData.isAuto = !ddayData.isAuto
-    return HttpResponse.json(RES_DDAY_CAROUSEL_SETTING_UPDATE_SUCCESS.res, { status: RES_DDAY_CAROUSEL_SETTING_UPDATE_SUCCESS.code })
+    return HttpResponse.json(RES_DDAY_CAROUSEL_SETTING_UPDATE_SUCCESS.res, {
+      status: RES_DDAY_CAROUSEL_SETTING_UPDATE_SUCCESS.code,
+    })
   }),
-
 ]

@@ -1,7 +1,6 @@
 import { Theme } from '@emotion/react'
 import { css } from '@emotion/react'
-import BoardListSelect from '../board/BoardListSelect'
-import BoardSaveButton from './BoardSaveButton'
+import SubHeader from './SubHeader'
 
 import { widgetInfo, widgetMap } from '@/constants/widget'
 import { Common } from '@/styles/common'
@@ -9,17 +8,8 @@ import { Common } from '@/styles/common'
 const WidgetList = () => {
   return (
     <div css={container}>
-      <div css={menuWrap}>
-        <BoardSaveButton />
-        <span>보드 목록</span>
-        <BoardListSelect />
-      </div>
-      <div css={themeWrap}>
-        <span>테마 설정</span>
-        <div css={themeListWrap}></div>
-      </div>
+      <SubHeader title="위젯" />
       <div css={wigetWrap}>
-        <span>위젯</span>
         {Object.entries(widgetMap).map(([componentKey, Preview]) => (
           <div css={widgetContainer} key={componentKey}>
             <span css={widgetTitle}>{widgetInfo[componentKey].title}</span>
@@ -52,11 +42,25 @@ const WidgetList = () => {
 
 export default WidgetList
 
-const container = (theme: Theme) => css`
-  overflow-y: auto;
+const container = css`
+  display: flex;
+  flex-direction: column;
   flex-shrink: 0;
+
   width: 200px;
   height: 100%;
+`
+
+const wigetWrap = (theme: Theme) => css`
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
 
   &::-webkit-scrollbar {
     width: 12px;
@@ -64,38 +68,13 @@ const container = (theme: Theme) => css`
 
   &::-webkit-scrollbar-thumb {
     background-color: ${theme.scrollbarThumb};
+    border-radius: 4px;
   }
 
   &::-webkit-scrollbar-track {
     background-color: ${theme.scrollbarTrack};
     border: 2px solid ${theme.scrollbarTrackBorder};
   }
-`
-
-const menuWrap = css`
-  display: flex;
-  flex-direction: column;
-`
-
-const themeWrap = css`
-  display: flex;
-  flex-direction: column;
-`
-
-const themeListWrap = css`
-  width: 100%;
-  height: 180px;
-  background-color: gray;
-`
-
-const wigetWrap = css`
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-
-  width: 100%;
-  height: 100%;
-  padding: 10px;
 `
 
 const widgetContainer = css`

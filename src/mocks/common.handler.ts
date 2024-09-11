@@ -2,12 +2,14 @@ import { http, HttpResponse } from 'msw'
 import { DefaultBodyType } from 'msw'
 import { MSW_TEST_ACCOUNTS, MSW_TEST_TOKEN } from './constants'
 import {
+  RES_MY_RETRIEVED_SUCCESS,
   RES_USER_LOGIN_FAIL_INVAILD,
   RES_USER_LOGIN_FAIL_NO_USER,
   RES_USER_LOGIN_SUCCESS,
   RES_USER_REGIST_FAIL_REQUIRED,
   RES_USER_REGIST_SUCCESS,
 } from './resMessage'
+import { authenticateRequest } from './utils'
 
 interface User {
   username: string
@@ -53,6 +55,25 @@ export const commonHandlers = [
     return HttpResponse.json(
       { ...RES_USER_LOGIN_SUCCESS.res, token: MSW_TEST_TOKEN },
       { status: RES_USER_LOGIN_SUCCESS.code },
+    )
+  }),
+
+  // 내정보 조회
+  http.get('/users/my', async ({ request }) => {
+    const authResponse = authenticateRequest(request)
+    if (authResponse) return authResponse
+
+    return HttpResponse.json(
+      {
+        ...RES_MY_RETRIEVED_SUCCESS.res,
+        userId: MSW_TEST_ACCOUNTS[0].userId,
+        email: MSW_TEST_ACCOUNTS[0].email,
+        birth: MSW_TEST_ACCOUNTS[0].userId,
+        name: MSW_TEST_ACCOUNTS[0].username,
+      },
+      {
+        status: RES_MY_RETRIEVED_SUCCESS.code,
+      },
     )
   }),
 ]

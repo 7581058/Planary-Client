@@ -3,6 +3,7 @@ import axios from 'axios'
 import { LocalStorageKeys } from '@/constants/enum'
 import { BoardState } from '@/store/boardState'
 import {
+  DashboardRequestBody,
   DdayCarouselSettingsRequestBody,
   DdayOrderUpdateRequestBody,
   DdayPostRequestBody,
@@ -40,9 +41,21 @@ export const signUp = async (body: SignUpRequestBody) => {
   return res.data
 }
 
+//내정보조회
+export const getMyInfo = async () => {
+  const res = await authInstance.get('/users/my')
+  return res.data
+}
+
 //대시보드 목록 조회
 export const getBoardList = async () => {
   const res = await authInstance.get('/dashboard/list')
+  return res.data
+}
+
+// 대시보드 추가
+export const addDashboard = async (body: DashboardRequestBody) => {
+  const res = await authInstance.post(`/dashboard/create`, body)
   return res.data
 }
 

@@ -5,6 +5,7 @@ import RGL, { Layout, WidthProvider } from 'react-grid-layout'
 import { RxDragHandleHorizontal } from 'react-icons/rx'
 import { useRecoilRefresher_UNSTABLE, useRecoilValue } from 'recoil'
 import SquareToggle from '../toggle/SquareToggle'
+import ModalCloseButton from './buttons/ModalCloseButton'
 
 import { addDday, deleteDday, updateDday, updateDdayCarouselSettings, updateDdayOrder } from '@/api'
 import {
@@ -19,13 +20,13 @@ import {
 } from '@/constants/alert'
 import { DDAY_ICONS } from '@/constants/icons'
 import { useAlert } from '@/hooks/useAlert'
-import { useModal } from '@/hooks/useModal'
 import { currentDdayQuery, currentDdayWidgetId } from '@/store/ddayState'
 import { currentModalState } from '@/store/modalState'
 import { Common, noDrag } from '@/styles/common'
 import { calculateDday } from '@/utils/calculateDday'
 import { convertDate } from '@/utils/convertDate'
 import { rgba } from '@/utils/convertRGBA'
+
 interface DdayItem {
   icon: number
   id: number
@@ -37,7 +38,6 @@ interface DdayItem {
 const GridLayout = WidthProvider(RGL)
 
 const DdaySetting = () => {
-  const { closeModal } = useModal()
   const modalState = useRecoilValue(currentModalState)
   const ddayWidgetId = useRecoilValue(currentDdayWidgetId)
   const ddayData = useRecoilValue(currentDdayQuery)
@@ -56,10 +56,6 @@ const DdaySetting = () => {
       setAuto(ddayData.isAuto ? true : false)
     }
   }, [ddayData])
-
-  const handleClickClose = () => {
-    closeModal()
-  }
 
   const handleClickToggle = async () => {
     try {
@@ -161,7 +157,6 @@ const DdaySetting = () => {
   }
 
   const onListOrderChange = async (layout: Layout[]) => {
-
     const prevLayout = convertLayouts(ddayData.ddayList)
     const isLayoutChanged = layout.some((item, index) => item.y !== prevLayout[index].y)
 
@@ -281,9 +276,7 @@ const DdaySetting = () => {
           </div>
         </div>
       </div>
-      <button css={modalCloseButton} onClick={handleClickClose}>
-        닫기
-      </button>
+      <ModalCloseButton isAbsolute={true} isRight={true} />
     </div>
   )
 }
@@ -454,22 +447,6 @@ const toggleWrap = css`
   display: flex;
   width: 100%;
   margin-bottom: 10px;
-`
-
-const modalCloseButton = (theme: Theme) => css`
-  cursor: pointer;
-
-  position: absolute;
-  bottom: 0;
-
-  width: 50px;
-  height: 30px;
-
-  font-size: ${Common.fontSize.fs9};
-  color: ${theme.buttonText};
-
-  background-color: ${theme.subButton};
-  border-radius: 8px;
 `
 
 const ddayAddButton = (theme: Theme) => css`

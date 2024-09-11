@@ -137,3 +137,11 @@ export const DASHBOARD_GET_ERROR = {
   buttonType: AlertButtonType.None,
   notiType: AlertNotificationType.Error,
 }
+
+export const DASHBOARD_ADD_FAILED_ALERT = {
+  icon: '🚨',
+  title: '대시보드 추가 실패',
+  content: '대시보드 추가에 실패했습니다. \n잠시 후 다시 시도해주세요.',
+  buttonType: AlertButtonType.Close,
+  notiType: AlertNotificationType.Error,
+}
