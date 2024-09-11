@@ -14,7 +14,7 @@ export interface SignUpRequestBody {
 export interface DashboardRequestBody {
   title: string
   theme: string
-  userId: string
+  userId: number
 }
 export interface DdayPostRequestBody {
   icon: number
