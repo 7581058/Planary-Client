@@ -41,6 +41,12 @@ export const signUp = async (body: SignUpRequestBody) => {
   return res.data
 }
 
+//내정보조회
+export const getMyInfo = async () => {
+  const res = await authInstance.get('/users/my')
+  return res.data
+}
+
 //대시보드 목록 조회
 export const getBoardList = async () => {
   const res = await authInstance.get('/dashboard/list')
