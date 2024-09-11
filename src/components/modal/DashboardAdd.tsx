@@ -1,17 +1,55 @@
 import { css, Theme } from '@emotion/react'
+import React, { useState } from 'react'
+import { useRecoilValue } from 'recoil'
 import ModalCloseButton from './buttons/ModalCloseButton'
 
+import { addDashboard } from '@/api'
+import { DASHBOARD_ADD_FAILED_ALERT } from '@/constants/alert'
+import { useAlert } from '@/hooks/useAlert'
+import { useBoardListFetch } from '@/hooks/useBoardListFetch'
+import { useModal } from '@/hooks/useModal'
+import { currentUserQuery } from '@/store/userState'
 import { Common } from '@/styles/common'
 
 const DashboardAdd = () => {
-  const handleClickAdd = () => {}
+  const [boardTitle, setBoardTitle] = useState('')
+  const { openAlert } = useAlert()
+  const { fetchBoardList } = useBoardListFetch()
+  const { closeModal } = useModal()
+  const currentUserData = useRecoilValue(currentUserQuery)
+
+  const handleClickAdd = async (e: React.FormEvent) => {
+    e.preventDefault()
+    const body = {
+      title: boardTitle,
+      theme: 'default',
+      userId: currentUserData.userId,
+    }
+
+    try {
+      const res = await addDashboard(body)
+      if (res) {
+        fetchBoardList()
+        setBoardTitle('')
+        closeModal()
+      }
+    } catch (error) {
+      openAlert(DASHBOARD_ADD_FAILED_ALERT)
+    }
+  }
 
   return (
     <div css={container}>
       <span css={title}>새 대시보드 추가</span>
-      <form>
+      <form onSubmit={handleClickAdd}>
         <span css={subTitle}>대시보드 이름</span>
-        <input css={titleInput} type="text" />
+        <input
+          css={titleInput}
+          autoFocus={true}
+          onChange={(e) => setBoardTitle(e.target.value)}
+          type="text"
+          value={boardTitle}
+        />
       </form>
       <div css={buttonWrap}>
         <ModalCloseButton isAbsolute={false} />
