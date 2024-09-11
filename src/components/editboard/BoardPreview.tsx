@@ -1,13 +1,20 @@
-import { Theme } from '@emotion/react'
 import { css } from '@emotion/react'
 import { useEffect, useState } from 'react'
 import { Layout, Responsive, WidthProvider } from 'react-grid-layout'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import Panel from '../board/Panel'
+import BoardTitle from './BoardTitle'
 
 import { BOARD_EDIT_RESIZING_ERROR } from '@/constants/alert'
 import { useAlert } from '@/hooks/useAlert'
-import { boardDirtyFlag, BoardItem, boardDataSelector, editableBoardDataAtom, currentBoardIdAtom, BoardState } from '@/store/boardState'
+import {
+  boardDataSelector,
+  boardDirtyFlag,
+  BoardItem,
+  BoardState,
+  currentBoardIdAtom,
+  editableBoardDataAtom,
+} from '@/store/boardState'
 import { convertBoardStateToLayouts } from '@/utils/convertBoardStateToLayouts'
 interface CustomDragEvent extends Event {
   dataTransfer: DataTransfer
@@ -36,8 +43,7 @@ const BoardPreview = () => {
     if (boardData) {
       setEditableBoard(boardData)
     }
-  }, [boardData])
-
+  }, [boardData, setEditableBoard])
 
   const handleClickDelete = (itemId: string) => {
     setEditableBoard((prevBoards) => {
@@ -50,7 +56,7 @@ const BoardPreview = () => {
   }
 
   //!FIX: 변경가능 사이즈 -> 변경불가 사이즈 변경시 정상동작
-  //! 변경불가 -> 변경불가 변경시 변경불가 인데도 변경되고있음 
+  //! 변경불가 -> 변경불가 변경시 변경불가 인데도 변경되고있음
   const isInvalidResizingSize = (component: string | undefined, w: number, h: number) => {
     if (component !== 'calendar') return false
     const invalidSizes = [
@@ -163,6 +169,7 @@ const BoardPreview = () => {
 
   return (
     <div css={container}>
+      <BoardTitle />
       <ResponsiveGridLayout
         layouts={convertBoardStateToLayouts(editableBoard.lg)}
         breakpoints={{ lg: 1000 }}
@@ -176,7 +183,7 @@ const BoardPreview = () => {
         onDropDragOver={onDropDragOver}
         onResize={onResize}
       >
-        {editableBoard &&
+        {editableBoard.lg.length > 0 ? (
           editableBoard.lg.map((item: BoardItem) => (
             <div key={item.i}>
               <Panel
@@ -190,7 +197,10 @@ const BoardPreview = () => {
                 h={itemSize[item.i]?.h || item.h}
               />
             </div>
-          ))}
+          ))
+        ) : (
+          <div>배치된 위젯이 없습니다</div>
+        )}
       </ResponsiveGridLayout>
     </div>
   )
@@ -204,7 +214,7 @@ const container = css`
   box-sizing: border-box;
   width: 100%;
   height: 100%;
-  padding: 40px;
+  padding: 10px;
 
   &&::-webkit-scrollbar {
     display: none;
