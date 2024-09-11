@@ -223,7 +223,7 @@ export const RES_DDAY_FAIL_NOT_FOUND = {
   code: 404,
 }
 
-//디데이 자동재생 변경 성공 
+//디데이 자동재생 변경 성공
 export const RES_DDAY_CAROUSEL_SETTING_UPDATE_SUCCESS = {
   res: {
     success: true,
@@ -232,7 +232,7 @@ export const RES_DDAY_CAROUSEL_SETTING_UPDATE_SUCCESS = {
   code: 200,
 }
 
-//디데이 자동재생 변경 실패 
+//디데이 자동재생 변경 실패
 export const RES_DDAY_CAROUSEL_SETTING_UPDATE_FAIL = {
   res: {
     success: false,
@@ -241,7 +241,7 @@ export const RES_DDAY_CAROUSEL_SETTING_UPDATE_FAIL = {
   code: 400,
 }
 
-//디데이 순서 변경 성공 
+//디데이 순서 변경 성공
 export const RES_DDAY_ORDER_UPDATE_SUCCESS = {
   res: {
     success: true,
@@ -250,11 +250,29 @@ export const RES_DDAY_ORDER_UPDATE_SUCCESS = {
   code: 200,
 }
 
-//디데이 순서 변경 실패 
+//디데이 순서 변경 실패
 export const RES_DDAY_ORDER_UPDATE_FAIL = {
   res: {
     success: false,
     message: 'Failed to update dday order',
+  },
+  code: 400,
+}
+
+//내정보 조회 성공
+export const RES_MY_RETRIEVED_SUCCESS = {
+  res: {
+    success: true,
+    message: 'My info retrieved successfully',
+  },
+  code: 200,
+}
+
+//내정보 조회 실패
+export const RES_MY_RETRIEVED_FAIL = {
+  res: {
+    success: false,
+    message: 'Failed to retrieved My info',
   },
   code: 400,
 }
