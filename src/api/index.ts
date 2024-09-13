@@ -71,6 +71,12 @@ export const editBoard = async (body: BoardState, boardId: number) => {
   return res.data
 }
 
+// 대시보드 삭제
+export const deleteDashboard = async (boardId: number) => {
+  const res = await authInstance.delete(`/dashboard/${boardId}`)
+  return res.data
+}
+
 //디데이 목록 조회
 export const getDdayList = async (widgetId: number | null) => {
   const res = await authInstance.get(`/dday/${widgetId}`)
