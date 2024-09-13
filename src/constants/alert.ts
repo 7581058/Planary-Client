@@ -145,3 +145,27 @@ export const DASHBOARD_ADD_FAILED_ALERT = {
   buttonType: AlertButtonType.Close,
   notiType: AlertNotificationType.Error,
 }
+
+export const DASHBOARD_DELETE_COMFIRM_ALERT = {
+  icon: '🔔',
+  title: '대시보드를 삭제하시겠습니까?',
+  content: '저장된 대시보드 정보가 전부 삭제되며 복구할 수 없습니다. \n정말 삭제하시겠습니까?',
+  buttonType: AlertButtonType.CloseAndOk,
+  notiType: AlertNotificationType.Warning,
+}
+
+export const DASHBOARD_DELETE_FAIL_ALERT = {
+  icon: '🚨',
+  title: '대시보드 삭제 실패',
+  content: '대시보드 삭제에 실패했습니다. \n잠시 후 다시 시도해주세요.',
+  buttonType: AlertButtonType.Close,
+  notiType: AlertNotificationType.Error,
+}
+
+export const DASHBOARD_DELETE_SUCCESS_ALERT = {
+  icon: '👌',
+  title: '대시보드 삭제 완료',
+  content: '',
+  buttonType: AlertButtonType.None,
+  notiType: AlertNotificationType.Success,
+}

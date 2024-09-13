@@ -5,6 +5,8 @@ import { defaultBoardData } from './data'
 import {
   RES_DASHBOARD_CREATE_FAIL,
   RES_DASHBOARD_CREATE_SUCCESS,
+  RES_DASHBOARD_DELETE_SUCCESS,
+  RES_DASHBOARD_FAIL_NOT_FOUND,
   RES_DASHBOARD_ID_FAIL_INVALID,
   RES_DASHBOARD_LIST_RETRIEVED_SUCCESS,
   RES_DASHBOARD_LIST_RETRIEVED_SUCCESS_EMPTY,
@@ -119,6 +121,20 @@ export const dashboardHandlers = [
     MSW_DASHBOARD_LAYOUTS[newKey] = defaultBoardData
 
     return HttpResponse.json(RES_DASHBOARD_CREATE_SUCCESS.res, { status: RES_DASHBOARD_CREATE_SUCCESS.code })
+  }),
+
+  //대시보드 삭제
+  http.delete('/dashboard/:boardId', async ({ params }) => {
+    const { boardId } = params
+    const index = boardListData.findIndex((board) => board.id === Number(boardId))
+
+    if (index === -1) {
+      return HttpResponse.json(RES_DASHBOARD_FAIL_NOT_FOUND.res, { status: RES_DASHBOARD_FAIL_NOT_FOUND.code })
+    }
+
+    boardListData.splice(index, 1)
+
+    return HttpResponse.json(RES_DASHBOARD_DELETE_SUCCESS.res, { status: RES_DASHBOARD_DELETE_SUCCESS.code })
   }),
 
   //대시보드 수정
