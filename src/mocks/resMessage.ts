@@ -88,6 +88,33 @@ export const RES_DASHBOARD_CREATE_SUCCESS = {
   code: 201,
 }
 
+//대시보드 삭제 실패
+export const RES_DASHBOARD_DELETE_FAIL = {
+  res: {
+    success: false,
+    message: 'Failed to delete dashboard',
+  },
+  code: 400,
+}
+
+//대시보드 삭제 성공
+export const RES_DASHBOARD_DELETE_SUCCESS = {
+  res: {
+    success: true,
+    message: 'Dashboard deleted successfully',
+  },
+  code: 201,
+}
+
+//대시보드 수정,삭제 실패: 해당 아이디 없음
+export const RES_DASHBOARD_FAIL_NOT_FOUND = {
+  res: {
+    success: false,
+    message: 'Dashboard not found',
+  },
+  code: 404,
+}
+
 //대시보드 목록 조회 성공
 export const RES_DASHBOARD_LIST_RETRIEVED_SUCCESS = {
   res: {
