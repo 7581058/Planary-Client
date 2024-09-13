@@ -2,12 +2,13 @@ import { css, useTheme } from '@emotion/react'
 import { Theme } from '@emotion/react'
 import { useEffect } from 'react'
 import { FaArrowDownLong, FaArrowUp } from 'react-icons/fa6'
-import { LuTrash2 } from 'react-icons/lu'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import BoardAddButton from './BoardAddButton'
+import BoardDeleteButton from './BoardDeleteButton'
 
 import { useBoardListFetch } from '@/hooks/useBoardListFetch'
 import { boardListAtom, currentBoardIdAtom } from '@/store/boardState'
+
 const BoardList = () => {
   const [currentBoardId, setCurrentBoardId] = useRecoilState(currentBoardIdAtom)
   const { fetchBoardList } = useBoardListFetch()
@@ -26,11 +27,6 @@ const BoardList = () => {
     setCurrentBoardId(boardId)
   }
 
-  const handleClickDelete = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, boardId: number) => {
-    e.stopPropagation()
-    alert(`delete ${boardId}`)
-  }
-
   return (
     <div css={container}>
       <div css={leftWrap}>
@@ -46,9 +42,7 @@ const BoardList = () => {
               css={listItem(theme, isCurrentBoard(currentBoardId, item.id))}
             >
               <div>{item.title}</div>
-              <div onClick={(e) => handleClickDelete(e, item.id)}>
-                <LuTrash2 />
-              </div>
+              <BoardDeleteButton listId={item.id} />
             </div>
           ))}
         </div>
