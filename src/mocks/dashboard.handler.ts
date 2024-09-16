@@ -12,6 +12,7 @@ import {
   RES_DASHBOARD_LIST_RETRIEVED_SUCCESS_EMPTY,
   RES_DASHBOARD_RETRIEVED_SUCCESS,
   RES_DASHBOARD_RETRIEVED_SUCCESS_EMPTY,
+  RES_DASHBOARD_UPDATE_SUCCESS,
   RES_INTERNAL_SERVER_ERROR,
 } from './resMessage'
 import { authenticateRequest } from './utils'
@@ -138,25 +139,19 @@ export const dashboardHandlers = [
   }),
 
   //대시보드 수정
-  /* http.post('/api/board/:boardId', async ({ request, params }) => {
-    const token = request.headers.get('Authorization')
+  http.put('/dashboard/:boardId', async ({ request, params }) => {
     const { boardId } = params
 
-    const result = await request.json()
+    const updateData = (await request.json()) as Partial<DashboardBody>
 
-    const data = {
-      success: true,
+    const index = boardListData.findIndex((board) => board.id === Number(boardId))
+
+    if (index === -1) {
+      return HttpResponse.json(RES_DASHBOARD_FAIL_NOT_FOUND.res, { status: RES_DASHBOARD_FAIL_NOT_FOUND.code })
     }
 
-    if (token === '12341234' && boardId && result) {
-      return new HttpResponse(JSON.stringify(data), {
-        status: 200,
-      })
-    } else {
-      return new HttpResponse(null, {
-        status: 400,
-        statusText: 'failed',
-      })
-    }
-  }), */
+    boardListData[index] = { ...boardListData[index], ...updateData }
+
+    return HttpResponse.json(RES_DASHBOARD_UPDATE_SUCCESS.res, { status: RES_DASHBOARD_UPDATE_SUCCESS.code })
+  }),
 ]
