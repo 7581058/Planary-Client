@@ -20,14 +20,6 @@ interface CustomDragEvent extends Event {
   dataTransfer: DataTransfer
 }
 
-interface ResizingItem {
-  w: number
-  h: number
-}
-interface ItemSizeProps {
-  [key: string]: ResizingItem
-}
-
 const ResponsiveGridLayout = WidthProvider(Responsive)
 
 const BoardPreview = () => {
@@ -35,28 +27,38 @@ const BoardPreview = () => {
   const boardId = useRecoilValue(currentBoardIdAtom)
   const boardData = useRecoilValue(boardDataSelector(boardId))
   const setIsDirty = useSetRecoilState<boolean>(boardDirtyFlag)
-  const [itemSize, setItemSize] = useState<ItemSizeProps>({})
-  let invalidResizing = false
   const { openAlert } = useAlert()
+  const [resizeUpdates, setResizeUpdates] = useState<BoardState>({ lg: [] })
 
   useEffect(() => {
     if (boardData) {
-      setEditableBoard(boardData)
+      setEditableBoard({ lg: boardData.lg })
+      setResizeUpdates({ lg: boardData.lg })
     }
   }, [boardData, setEditableBoard])
 
   const handleClickDelete = (itemId: string) => {
-    setEditableBoard((prevBoards) => {
+    /* setEditableBoard((prevBoards) => {
       const updatedBoards = {
         ...prevBoards,
         lg: prevBoards.lg.filter((item: BoardItem) => item.i !== itemId),
       }
       return updatedBoards
+    }) */
+    setEditableBoard((prevBoards) => {
+      const updatedBoards = {
+        ...prevBoards,
+        lg: prevBoards.lg.filter((item: BoardItem) => item.i !== itemId),
+      }
+      setResizeUpdates((prevUpdates) => ({
+        ...prevUpdates,
+        lg: updatedBoards.lg,
+      }))
+
+      return updatedBoards
     })
   }
 
-  //!FIX: 변경가능 사이즈 -> 변경불가 사이즈 변경시 정상동작
-  //! 변경불가 -> 변경불가 변경시 변경불가 인데도 변경되고있음
   const isInvalidResizingSize = (component: string | undefined, w: number, h: number) => {
     if (component !== 'calendar') return false
     const invalidSizes = [
@@ -81,33 +83,12 @@ const BoardPreview = () => {
         const updatedLayouts = currentLayout.map((newItem) => {
           const foundItem: BoardItem | undefined = prevBoards.lg.find((prevItem: BoardItem) => prevItem.i === newItem.i)
           if (foundItem) {
-            if (isInvalidResizingSize(foundItem.component, newItem.w, newItem.h)) {
-              invalidResizing = true
-              setItemSize((prevSize) => ({
-                ...prevSize,
-                [newItem.i]: { w: 3, h: 3 },
-              }))
-              return {
-                ...newItem,
-                component: foundItem.component,
-                i: foundItem.i,
-                x: newItem.x,
-                y: newItem.y,
-                w: 3,
-                h: 3,
-                minW: foundItem.minW,
-                maxW: foundItem.maxW,
-                minH: foundItem.minH,
-                maxH: foundItem.maxH,
-              }
-            }
             return {
               ...newItem,
-              component: foundItem.component,
-              x: newItem.x,
-              y: newItem.y,
               w: newItem.w,
               h: newItem.h,
+              component: foundItem.component,
+              i: foundItem.i,
               minW: foundItem.minW,
               maxW: foundItem.maxW,
               minH: foundItem.minH,
@@ -121,36 +102,25 @@ const BoardPreview = () => {
         return prevBoards
       }
     })
-
-    if (invalidResizing) {
-      openAlert(BOARD_EDIT_RESIZING_ERROR)
-    }
   }
 
   const generateUniqueId = () => {
     return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
   }
 
-  /**
-   * !FIX: 위젯 추가 시 기존 패널위 드래그 할때(drag over안나타날때) 오류 발생 수정필요
-   * !FIX: 위젯 추가 시 아래위로 이동 몇번 후 드롭하면 여러개 가끔 생길때 있음, 아이디 워닝 발생
-   */
   const onDrop = (_layout: Layout[], layoutItem: Layout, e: CustomDragEvent) => {
     const widgetDataString = e.dataTransfer.getData('widgetData')
     const widgetData = JSON.parse(widgetDataString)
 
-    setEditableBoard((prevBoards) => {
-      const updatedLayouts = prevBoards.lg.map((item) => {
-        if (item.i === layoutItem.i) {
-          return {
-            x: layoutItem.x,
-            y: layoutItem.y - layoutItem.h,
-            i: generateUniqueId(),
-            ...widgetData,
-          }
-        }
-        return item
-      })
+    setResizeUpdates((prevBoards) => {
+      const newItem = {
+        x: layoutItem.x,
+        y: layoutItem.y - layoutItem.h,
+        i: generateUniqueId(),
+        ...widgetData,
+      }
+
+      const updatedLayouts = [...prevBoards.lg, newItem]
 
       return { ...prevBoards, lg: updatedLayouts }
     })
@@ -160,11 +130,45 @@ const BoardPreview = () => {
     return { w: 2, h: 1 }
   }
 
-  const onResize = (_layout: Layout[], _oldItem: Layout, newItem: Layout) => {
-    setItemSize((prevSize) => ({
-      ...prevSize,
-      [newItem.i]: { w: newItem.w, h: newItem.h },
-    }))
+  useEffect(() => {
+    if (resizeUpdates) {
+      setEditableBoard({ lg: resizeUpdates.lg })
+    }
+  }, [resizeUpdates, setEditableBoard])
+
+  const onResizeStop = (_layout: Layout[], _oldItem: Layout, newItem: Layout) => {
+    const foundItem = editableBoard.lg.find((item) => item.i === newItem.i)
+
+    if (foundItem) {
+      const isInvalidSize = isInvalidResizingSize(foundItem.component, newItem.w, newItem.h)
+
+      const updatedWidth = isInvalidSize ? foundItem.w : newItem.w
+      const updatedHeight = isInvalidSize ? foundItem.h : newItem.h
+
+      setResizeUpdates((prevBoards: BoardState) => {
+        const updatedLayouts = prevBoards.lg.map((item) => {
+          if (item.i === newItem.i) {
+            return {
+              ...item,
+              w: updatedWidth,
+              h: updatedHeight,
+              component: item.component,
+              i: item.i,
+              minW: item.minW,
+              maxW: item.maxW,
+              minH: item.minH,
+              maxH: item.maxH,
+            }
+          }
+          return item
+        })
+        return { ...prevBoards, lg: updatedLayouts }
+      })
+
+      if (isInvalidSize) {
+        openAlert(BOARD_EDIT_RESIZING_ERROR)
+      }
+    }
   }
 
   return (
@@ -181,7 +185,7 @@ const BoardPreview = () => {
         onDrop={onDrop}
         isDroppable={true}
         onDropDragOver={onDropDragOver}
-        onResize={onResize}
+        onResizeStop={onResizeStop}
       >
         {editableBoard.lg.length > 0 ? (
           editableBoard.lg.map((item: BoardItem) => (
@@ -193,8 +197,8 @@ const BoardPreview = () => {
                 isCovered={true}
                 component={item.component}
                 onDelete={() => handleClickDelete(item.i)}
-                w={itemSize[item.i]?.w || item.w}
-                h={itemSize[item.i]?.h || item.h}
+                w={item.w}
+                h={item.h}
               />
             </div>
           ))
