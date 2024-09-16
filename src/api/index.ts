@@ -67,7 +67,7 @@ export const getBoard = async (boardId: number | null) => {
 
 //대시보드 수정
 export const editBoard = async (body: BoardState, boardId: number) => {
-  const res = await authInstance.post(`/api/board/${boardId}`, body)
+  const res = await authInstance.put(`/dashboard/${boardId}`, body)
   return res.data
 }
 

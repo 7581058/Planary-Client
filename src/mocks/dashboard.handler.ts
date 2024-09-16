@@ -1,7 +1,7 @@
 import { http, HttpResponse } from 'msw'
 import { MSW_DASHBOARD_LAYOUTS } from './constants'
 import { boardListData } from './dashboardListData'
-import { defaultBoardData } from './data'
+import { defaultBoardData, LayoutDataType } from './data'
 import {
   RES_DASHBOARD_CREATE_FAIL,
   RES_DASHBOARD_CREATE_SUCCESS,
@@ -12,6 +12,7 @@ import {
   RES_DASHBOARD_LIST_RETRIEVED_SUCCESS_EMPTY,
   RES_DASHBOARD_RETRIEVED_SUCCESS,
   RES_DASHBOARD_RETRIEVED_SUCCESS_EMPTY,
+  RES_DASHBOARD_UPDATE_SUCCESS,
   RES_INTERNAL_SERVER_ERROR,
 } from './resMessage'
 import { authenticateRequest } from './utils'
@@ -138,25 +139,16 @@ export const dashboardHandlers = [
   }),
 
   //대시보드 수정
-  /* http.post('/api/board/:boardId', async ({ request, params }) => {
-    const token = request.headers.get('Authorization')
+  http.put('/dashboard/:boardId', async ({ request, params }) => {
     const { boardId } = params
 
-    const result = await request.json()
+    const updateData = (await request.json()) as Partial<LayoutDataType[]>
 
-    const data = {
-      success: true,
-    }
+    MSW_DASHBOARD_LAYOUTS[Number(boardId)] = MSW_DASHBOARD_LAYOUTS[Number(boardId)].map((item, index) => ({
+      ...item,
+      ...updateData[index],
+    }))
 
-    if (token === '12341234' && boardId && result) {
-      return new HttpResponse(JSON.stringify(data), {
-        status: 200,
-      })
-    } else {
-      return new HttpResponse(null, {
-        status: 400,
-        statusText: 'failed',
-      })
-    }
-  }), */
+    return HttpResponse.json(RES_DASHBOARD_UPDATE_SUCCESS.res, { status: RES_DASHBOARD_UPDATE_SUCCESS.code })
+  }),
 ]

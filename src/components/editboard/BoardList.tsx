@@ -6,14 +6,18 @@ import { useRecoilState, useRecoilValue } from 'recoil'
 import BoardAddButton from './BoardAddButton'
 import BoardDeleteButton from './BoardDeleteButton'
 
+import { DASHBOARD_UPDATE_CONFIRM_ALERT } from '@/constants/alert'
+import { useAlert } from '@/hooks/useAlert'
 import { useBoardListFetch } from '@/hooks/useBoardListFetch'
-import { boardListAtom, currentBoardIdAtom } from '@/store/boardState'
+import { boardDirtyFlag, boardListAtom, currentBoardIdAtom } from '@/store/boardState'
 
 const BoardList = () => {
   const [currentBoardId, setCurrentBoardId] = useRecoilState(currentBoardIdAtom)
   const { fetchBoardList } = useBoardListFetch()
   const boardListData = useRecoilValue(boardListAtom)
   const theme = useTheme()
+  const [isDirty, setIsDirty] = useRecoilState<boolean>(boardDirtyFlag)
+  const { openAlert } = useAlert()
 
   useEffect(() => {
     fetchBoardList()
@@ -24,7 +28,16 @@ const BoardList = () => {
   }
 
   const handleClickItem = (boardId: number) => {
-    setCurrentBoardId(boardId)
+    if (boardId === currentBoardId) return
+
+    const changeBoard = () => {
+      setCurrentBoardId(boardId)
+      setIsDirty(false)
+    }
+
+    isDirty
+      ? openAlert({ ...DASHBOARD_UPDATE_CONFIRM_ALERT, buttonTitle: '확인', callback: changeBoard })
+      : changeBoard()
   }
 
   return (

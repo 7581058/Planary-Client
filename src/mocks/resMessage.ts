@@ -106,6 +106,15 @@ export const RES_DASHBOARD_DELETE_SUCCESS = {
   code: 201,
 }
 
+//대시보드 수정 성공
+export const RES_DASHBOARD_UPDATE_SUCCESS = {
+  res: {
+    success: true,
+    message: 'Dashboard updated successfully',
+  },
+  code: 200,
+}
+
 //대시보드 수정,삭제 실패: 해당 아이디 없음
 export const RES_DASHBOARD_FAIL_NOT_FOUND = {
   res: {
