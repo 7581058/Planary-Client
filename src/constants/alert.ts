@@ -169,3 +169,11 @@ export const DASHBOARD_DELETE_SUCCESS_ALERT = {
   buttonType: AlertButtonType.None,
   notiType: AlertNotificationType.Success,
 }
+
+export const DASHBOARD_UPDATE_CONFIRM_ALERT = {
+  icon: '🔔',
+  title: '대시보드 편집 내역 미저장',
+  content: '편집 내역이 저장되지 않은 대시보드가 있습니다. \n저장하지 않고 이동하시겠습니까?',
+  buttonType: AlertButtonType.CloseAndOk,
+  notiType: AlertNotificationType.Warning,
+}
