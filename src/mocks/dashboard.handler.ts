@@ -1,7 +1,7 @@
 import { http, HttpResponse } from 'msw'
 import { MSW_DASHBOARD_LAYOUTS } from './constants'
 import { boardListData } from './dashboardListData'
-import { defaultBoardData } from './data'
+import { defaultBoardData, LayoutDataType } from './data'
 import {
   RES_DASHBOARD_CREATE_FAIL,
   RES_DASHBOARD_CREATE_SUCCESS,
@@ -142,15 +142,12 @@ export const dashboardHandlers = [
   http.put('/dashboard/:boardId', async ({ request, params }) => {
     const { boardId } = params
 
-    const updateData = (await request.json()) as Partial<DashboardBody>
+    const updateData = (await request.json()) as Partial<LayoutDataType[]>
 
-    const index = boardListData.findIndex((board) => board.id === Number(boardId))
-
-    if (index === -1) {
-      return HttpResponse.json(RES_DASHBOARD_FAIL_NOT_FOUND.res, { status: RES_DASHBOARD_FAIL_NOT_FOUND.code })
-    }
-
-    boardListData[index] = { ...boardListData[index], ...updateData }
+    MSW_DASHBOARD_LAYOUTS[Number(boardId)] = MSW_DASHBOARD_LAYOUTS[Number(boardId)].map((item, index) => ({
+      ...item,
+      ...updateData[index],
+    }))
 
     return HttpResponse.json(RES_DASHBOARD_UPDATE_SUCCESS.res, { status: RES_DASHBOARD_UPDATE_SUCCESS.code })
   }),
