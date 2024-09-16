@@ -38,13 +38,6 @@ const BoardPreview = () => {
   }, [boardData, setEditableBoard])
 
   const handleClickDelete = (itemId: string) => {
-    /* setEditableBoard((prevBoards) => {
-      const updatedBoards = {
-        ...prevBoards,
-        lg: prevBoards.lg.filter((item: BoardItem) => item.i !== itemId),
-      }
-      return updatedBoards
-    }) */
     setEditableBoard((prevBoards) => {
       const updatedBoards = {
         ...prevBoards,
@@ -145,8 +138,10 @@ const BoardPreview = () => {
       const updatedWidth = isInvalidSize ? foundItem.w : newItem.w
       const updatedHeight = isInvalidSize ? foundItem.h : newItem.h
 
-      setResizeUpdates((prevBoards: BoardState) => {
-        const updatedLayouts = prevBoards.lg.map((item) => {
+      //?HACK: 배치 이후 리사이징할때 리사이징 이전 배치로 돌아가지 않게하기위해 직접 변경, 현재는 문제가 없으나
+      //?HACK: prev 를 사용하는게 일반적, 이후 문제 발생 가능성 높아 임시로 정상동작 위해 구현, 수정필요
+      setResizeUpdates(() => {
+        const updatedLayouts = editableBoard.lg.map((item) => {
           if (item.i === newItem.i) {
             return {
               ...item,
@@ -162,7 +157,7 @@ const BoardPreview = () => {
           }
           return item
         })
-        return { ...prevBoards, lg: updatedLayouts }
+        return { lg: updatedLayouts }
       })
 
       if (isInvalidSize) {
