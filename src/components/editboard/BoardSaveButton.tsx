@@ -16,9 +16,11 @@ const BoardSaveButton = () => {
 
   const onSave = async () => {
     try {
-      const res = await editBoard(boards, boardId)
-      if (res.success) {
-        openAlert(BOARD_EDIT_SAVE_SUCCESS)
+      if (boardId) {
+        const res = await editBoard(boards, boardId)
+        if (res.success) {
+          openAlert(BOARD_EDIT_SAVE_SUCCESS)
+        }
       }
     } catch (error) {
       openAlert(BOARD_EDIT_SAVE_FAILED)
