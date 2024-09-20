@@ -177,3 +177,11 @@ export const DASHBOARD_UPDATE_CONFIRM_ALERT = {
   buttonType: AlertButtonType.CloseAndOk,
   notiType: AlertNotificationType.Warning,
 }
+
+export const DASHBOARD_TITLE_UPDATE_SUCCESS_ALERT = {
+  icon: '👌',
+  title: '대시보드 타이틀 수정 완료',
+  content: '',
+  buttonType: AlertButtonType.None,
+  notiType: AlertNotificationType.Success,
+}
