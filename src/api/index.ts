@@ -73,7 +73,7 @@ export const editBoard = async (body: BoardState, boardId: number) => {
 
 //대시보드 타이틀, 테마 수정
 export const editBoardDetails = async (body: { title?: string; theme?: string }, boardId: number) => {
-  const res = await authInstance.put(`/dashboard/${boardId}/defails`, body)
+  const res = await authInstance.put(`/dashboard/${boardId}/details`, body)
   return res.data
 }
 
