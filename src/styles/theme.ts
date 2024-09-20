@@ -14,8 +14,10 @@ export const themeDefault = {
   buttonText: Common.colors.white,
   subButton: Common.colors.gray02,
   subButtonText: Common.colors.gray03,
-  boderButtonborder: Common.colors.blue02,
-  boderButtonText: Common.colors.blue02,
+  borderButtonborder: Common.colors.blue02,
+  borderButtonText: Common.colors.blue02,
+  borderButtonGray: Common.colors.gray03,
+  borderButtonGrayText: Common.colors.gray03,
   lightButton: Common.colors.white,
   //alert color
   errorRed: Common.colors.red01,
