@@ -185,3 +185,11 @@ export const DASHBOARD_TITLE_UPDATE_SUCCESS_ALERT = {
   buttonType: AlertButtonType.None,
   notiType: AlertNotificationType.Success,
 }
+
+export const DASHBOARD_TITLE_UPDATE_FAIL_ALERT = {
+  icon: '🚨',
+  title: '대시보드 타이틀 수정 실패',
+  content: '대시보드 타이들 수정에 실패했습니다. \n잠시 후 다시 시도해주세요.',
+  buttonType: AlertButtonType.Close,
+  notiType: AlertNotificationType.Error,
+}
