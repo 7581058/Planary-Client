@@ -151,4 +151,23 @@ export const dashboardHandlers = [
 
     return HttpResponse.json(RES_DASHBOARD_UPDATE_SUCCESS.res, { status: RES_DASHBOARD_UPDATE_SUCCESS.code })
   }),
+
+  //대시보드 타이틀, 테마 수정
+  http.put('/dashboard/:boardId/details', async ({ request, params }) => {
+    const { boardId } = params
+    const updateData = (await request.json()) as { title?: string; theme?: string }
+
+    const boardIndex = boardListData.findIndex((board) => board.id === Number(boardId))
+
+    if (boardIndex !== -1) {
+      boardListData[boardIndex] = {
+        ...boardListData[boardIndex],
+        ...updateData,
+      }
+
+      return HttpResponse.json(RES_DASHBOARD_UPDATE_SUCCESS.res, { status: RES_DASHBOARD_UPDATE_SUCCESS.code })
+    } else {
+      return HttpResponse.json(RES_DASHBOARD_FAIL_NOT_FOUND.res, { status: RES_DASHBOARD_FAIL_NOT_FOUND.code })
+    }
+  }),
 ]
