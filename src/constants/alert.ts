@@ -193,3 +193,11 @@ export const DASHBOARD_TITLE_UPDATE_FAIL_ALERT = {
   buttonType: AlertButtonType.Close,
   notiType: AlertNotificationType.Error,
 }
+
+export const THEME_GET_ERROR = {
+  icon: '🚨',
+  title: '불러오기 오류',
+  content: '테마 불러오기에 실패했습니다. 잠시 후 다시 시도해 주세요.',
+  buttonType: AlertButtonType.None,
+  notiType: AlertNotificationType.Error,
+}
