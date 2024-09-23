@@ -118,3 +118,9 @@ export const updateDdayOrder = async (body: DdayOrderUpdateRequestBody[]) => {
   const res = await authInstance.put(`/dday/order`, body)
   return res.data
 }
+
+// 보유중인(적용가능한) 테마 조회
+export const getThemeList = async () => {
+  const res = await authInstance.get(`/theme`)
+  return res.data
+}
