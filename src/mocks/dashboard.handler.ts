@@ -1,4 +1,5 @@
 import { http, HttpResponse } from 'msw'
+import { themeDatas } from './datas/themeData'
 import { MSW_DASHBOARD_LAYOUTS } from './constants'
 import { boardListData } from './dashboardListData'
 import { defaultBoardData, LayoutDataType } from './data'
@@ -14,6 +15,7 @@ import {
   RES_DASHBOARD_RETRIEVED_SUCCESS_EMPTY,
   RES_DASHBOARD_UPDATE_SUCCESS,
   RES_INTERNAL_SERVER_ERROR,
+  RES_THEME_SUCCESS,
 } from './resMessage'
 import { authenticateRequest } from './utils'
 
@@ -169,5 +171,19 @@ export const dashboardHandlers = [
     } else {
       return HttpResponse.json(RES_DASHBOARD_FAIL_NOT_FOUND.res, { status: RES_DASHBOARD_FAIL_NOT_FOUND.code })
     }
+  }),
+
+  //테마 조회
+  http.get('/theme', async ({ request }) => {
+    const authResponse = authenticateRequest(request)
+    if (authResponse) return authResponse
+
+    return HttpResponse.json(
+      {
+        ...RES_THEME_SUCCESS.res,
+        themeList: themeDatas,
+      },
+      { status: RES_THEME_SUCCESS.code },
+    )
   }),
 ]
