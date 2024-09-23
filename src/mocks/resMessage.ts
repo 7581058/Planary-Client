@@ -312,3 +312,12 @@ export const RES_MY_RETRIEVED_FAIL = {
   },
   code: 400,
 }
+
+//테마 조회 성공
+export const RES_THEME_SUCCESS = {
+  res: {
+    success: true,
+    message: 'My theme retrieved successfully',
+  },
+  code: 200,
+}
