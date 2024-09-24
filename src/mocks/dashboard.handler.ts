@@ -22,7 +22,7 @@ import { authenticateRequest } from './utils'
 interface DashboardBody {
   title: string
   userId: string
-  theme: string
+  theme: number
 }
 export const dashboardHandlers = [
   //대시보드 목록 조회
@@ -157,7 +157,7 @@ export const dashboardHandlers = [
   //대시보드 타이틀, 테마 수정
   http.put('/dashboard/:boardId/details', async ({ request, params }) => {
     const { boardId } = params
-    const updateData = (await request.json()) as { title?: string; theme?: string }
+    const updateData = (await request.json()) as { title?: string; theme?: number }
 
     const boardIndex = boardListData.findIndex((board) => board.id === Number(boardId))
 
@@ -181,7 +181,7 @@ export const dashboardHandlers = [
     return HttpResponse.json(
       {
         ...RES_THEME_SUCCESS.res,
-        themeList: themeDatas,
+        themeDatas,
       },
       { status: RES_THEME_SUCCESS.code },
     )
