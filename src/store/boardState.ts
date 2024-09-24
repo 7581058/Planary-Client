@@ -13,7 +13,7 @@ export interface BoardState {
 
 export interface BoardListItem {
   id: number
-  theme: string
+  theme: number
   title: string
 }
 
@@ -23,6 +23,11 @@ export interface BoardListState {
 
 export const boardDirtyFlag = atom({
   key: 'boardDirtyFlag',
+  default: false,
+})
+
+export const themeDirtyFlag = atom({
+  key: 'themeDirtyFlag',
   default: false,
 })
 
