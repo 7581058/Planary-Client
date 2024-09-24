@@ -170,10 +170,26 @@ export const DASHBOARD_DELETE_SUCCESS_ALERT = {
   notiType: AlertNotificationType.Success,
 }
 
-export const DASHBOARD_UPDATE_CONFIRM_ALERT = {
+export const DASHBOARD_BOARD_UPDATE_CONFIRM_ALERT = {
   icon: '🔔',
   title: '대시보드 편집 내역 미저장',
   content: '편집 내역이 저장되지 않은 대시보드가 있습니다. \n저장하지 않고 이동하시겠습니까?',
+  buttonType: AlertButtonType.CloseAndOk,
+  notiType: AlertNotificationType.Warning,
+}
+
+export const DASHBOARD_THEME_UPDATE_CONFIRM_ALERT = {
+  icon: '🔔',
+  title: '대시보드 테마 미저장',
+  content: '선택된 테마로 저장되지 않았습니다. \n저장하지 않고 이동하시겠습니까?',
+  buttonType: AlertButtonType.CloseAndOk,
+  notiType: AlertNotificationType.Warning,
+}
+
+export const DASHBOARD_UPDATE_CONFIRM_ALERT = {
+  icon: '🔔',
+  title: '대시보드 변경 미저장',
+  content: '보드와 테마에 변경사항이 있습니다. \n저장하지 않고 이동하시겠습니까?',
   buttonType: AlertButtonType.CloseAndOk,
   notiType: AlertNotificationType.Warning,
 }
