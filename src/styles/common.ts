@@ -24,6 +24,7 @@ export const Common: Colors = {
     gray05: '#f4f4f4',
     green01: '#02d147',
     yellow01: '#fcc203',
+    pink01: '#ffc9c9',
   },
   fontSize: {
     fs40: '4rem',
