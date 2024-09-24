@@ -1,12 +1,16 @@
 import { Common } from './common'
 
 export const themeDefault = {
+  name: 'default',
+  code: 0,
   background: Common.colors.blue01,
   subBackground: Common.colors.gray01,
   mainBackground: Common.colors.blue02,
   lightBackground: Common.colors.white,
   panel: Common.colors.white,
   border: Common.colors.blue01,
+  darkBorder: Common.colors.black02,
+  whiteBorder: Common.colors.white,
   text: Common.colors.black02,
   subText: Common.colors.gray03,
   mainText: Common.colors.blue02,
