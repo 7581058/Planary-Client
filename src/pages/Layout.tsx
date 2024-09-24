@@ -1,24 +1,31 @@
 import { css, Global, ThemeProvider } from '@emotion/react'
 import { createPortal } from 'react-dom'
 import { Outlet, useLocation } from 'react-router-dom'
+import { useRecoilValue } from 'recoil'
 
 import CustomAlert from '@/components/alert/CustomAlert'
 import LayoutHeader from '@/components/header/LayoutHeader'
 import MainNav from '@/components/MainNav'
 import ModalBase from '@/components/modal/ModalBase'
 import { LAYOUT_HEADER_PATHS } from '@/constants/paths'
+import { themeStyles } from '@/constants/theme'
+import { currentThemeAtom } from '@/store/themeState'
 import { globalStyles } from '@/styles/globalStyles'
-import { themeDefault } from '@/styles/theme'
 
 const Layout = () => {
   const location = useLocation()
   const modalEl = document.getElementById('modal')
+  const currentTheme = useRecoilValue(currentThemeAtom)
 
   const isLayoutHeaderPath = LAYOUT_HEADER_PATHS.includes(location.pathname)
 
   return (
-    <ThemeProvider theme={themeDefault}>
-      <Global styles={globalStyles} />
+    <ThemeProvider theme={themeStyles[currentTheme].theme}>
+      <Global
+        styles={(theme) => css`
+          ${globalStyles(theme)}
+        `}
+      />
       <div css={container}>
         {isLayoutHeaderPath ? (
           <div css={navContainer}>
