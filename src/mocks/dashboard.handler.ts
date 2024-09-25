@@ -24,6 +24,7 @@ interface DashboardBody {
   userId: string
   theme: number
 }
+
 export const dashboardHandlers = [
   //대시보드 목록 조회
   http.get('/dashboard/list', async ({ request }) => {
@@ -116,6 +117,7 @@ export const dashboardHandlers = [
       title: data.title,
       theme: data.theme,
       id: boardListData.length + 1,
+      boardId: boardListData.length + 1,
     }
 
     boardListData.push(newBoard)
@@ -129,7 +131,7 @@ export const dashboardHandlers = [
   //대시보드 삭제
   http.delete('/dashboard/:boardId', async ({ params }) => {
     const { boardId } = params
-    const index = boardListData.findIndex((board) => board.id === Number(boardId))
+    const index = boardListData.findIndex((board) => board.boardId === Number(boardId))
 
     if (index === -1) {
       return HttpResponse.json(RES_DASHBOARD_FAIL_NOT_FOUND.res, { status: RES_DASHBOARD_FAIL_NOT_FOUND.code })
@@ -159,7 +161,7 @@ export const dashboardHandlers = [
     const { boardId } = params
     const updateData = (await request.json()) as { title?: string; theme?: number }
 
-    const boardIndex = boardListData.findIndex((board) => board.id === Number(boardId))
+    const boardIndex = boardListData.findIndex((board) => board.boardId === Number(boardId))
 
     if (boardIndex !== -1) {
       boardListData[boardIndex] = {
