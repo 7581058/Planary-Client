@@ -6,14 +6,14 @@ import BoardEditMenu from '@/components/editboard/BoardEditMenu'
 import BoardPreview from '@/components/editboard/BoardPreview'
 import WidgetList from '@/components/editboard/WidgetList'
 import PageHeader from '@/components/header/PageHeader'
-import { boardDirtyFlag } from '@/store/boardState'
+import { boardDirtyFlag, themeDirtyFlag } from '@/store/boardState'
 
 const BoardEdit = () => {
-  const isDirty = useRecoilValue(boardDirtyFlag)
-
+  const boardIsDirty = useRecoilValue(boardDirtyFlag)
+  const themeIsDirty = useRecoilValue(themeDirtyFlag)
   useEffect(() => {
     const handleWindowClose = (e: BeforeUnloadEvent) => {
-      if (!isDirty) return
+      if (!boardIsDirty && !themeIsDirty) return
 
       e.preventDefault()
     }
@@ -23,7 +23,7 @@ const BoardEdit = () => {
     return () => {
       window.removeEventListener('beforeunload', handleWindowClose)
     }
-  }, [isDirty])
+  }, [boardIsDirty, themeIsDirty])
 
   return (
     <div css={pageContainer}>

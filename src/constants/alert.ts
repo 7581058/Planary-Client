@@ -170,10 +170,26 @@ export const DASHBOARD_DELETE_SUCCESS_ALERT = {
   notiType: AlertNotificationType.Success,
 }
 
-export const DASHBOARD_UPDATE_CONFIRM_ALERT = {
+export const DASHBOARD_BOARD_UPDATE_CONFIRM_ALERT = {
   icon: '🔔',
   title: '대시보드 편집 내역 미저장',
   content: '편집 내역이 저장되지 않은 대시보드가 있습니다. \n저장하지 않고 이동하시겠습니까?',
+  buttonType: AlertButtonType.CloseAndOk,
+  notiType: AlertNotificationType.Warning,
+}
+
+export const DASHBOARD_THEME_UPDATE_CONFIRM_ALERT = {
+  icon: '🔔',
+  title: '대시보드 테마 미저장',
+  content: '선택된 테마로 저장되지 않았습니다. \n저장하지 않고 이동하시겠습니까?',
+  buttonType: AlertButtonType.CloseAndOk,
+  notiType: AlertNotificationType.Warning,
+}
+
+export const DASHBOARD_UPDATE_CONFIRM_ALERT = {
+  icon: '🔔',
+  title: '대시보드 변경 미저장',
+  content: '보드와 테마에 변경사항이 있습니다. \n저장하지 않고 이동하시겠습니까?',
   buttonType: AlertButtonType.CloseAndOk,
   notiType: AlertNotificationType.Warning,
 }
@@ -192,4 +208,28 @@ export const DASHBOARD_TITLE_UPDATE_FAIL_ALERT = {
   content: '대시보드 타이들 수정에 실패했습니다. \n잠시 후 다시 시도해주세요.',
   buttonType: AlertButtonType.Close,
   notiType: AlertNotificationType.Error,
+}
+
+export const THEME_GET_ERROR = {
+  icon: '🚨',
+  title: '불러오기 오류',
+  content: '테마 불러오기에 실패했습니다. 잠시 후 다시 시도해 주세요.',
+  buttonType: AlertButtonType.None,
+  notiType: AlertNotificationType.Error,
+}
+
+export const THEME_UPDATE_ERROR = {
+  icon: '🚨',
+  title: '테마 변경 실패',
+  content: '테마 변경에 실패했습니다. 잠시 후 다시 시도해 주세요.',
+  buttonType: AlertButtonType.None,
+  notiType: AlertNotificationType.Error,
+}
+
+export const THEME_UPDATE_SUCCESS = {
+  icon: '👌',
+  title: '테마 변경 완료',
+  content: '',
+  buttonType: AlertButtonType.None,
+  notiType: AlertNotificationType.Success,
 }

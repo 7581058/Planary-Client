@@ -19,16 +19,16 @@ const BoardDeleteButton = ({ listId }: BoardDeleteButtonProps) => {
   const [boardListData, setBoardList] = useRecoilState(boardListAtom)
   const setCurrentBoardId = useSetRecoilState(currentBoardIdAtom)
 
-  const deleteBoard = async (boardId: number) => {
+  const deleteBoard = async (listId: number) => {
     try {
-      const res = await deleteDashboard(boardId)
+      const res = await deleteDashboard(listId)
       if (res) {
         openAlert(DASHBOARD_DELETE_SUCCESS_ALERT)
-        setBoardList((prevList) => prevList.filter((board) => board.id !== boardId))
+        setBoardList((prevList) => prevList.filter((board) => board.id !== listId))
 
         setCurrentBoardId((prevBoardId) => {
-          const newBoardList = boardListData.filter((board) => board.id !== boardId)
-          if (prevBoardId === boardId && newBoardList.length > 0) {
+          const newBoardList = boardListData.filter((board) => board.id !== listId)
+          if (prevBoardId === listId && newBoardList.length > 0) {
             return newBoardList[0].id
           }
           return prevBoardId
@@ -39,9 +39,9 @@ const BoardDeleteButton = ({ listId }: BoardDeleteButtonProps) => {
     }
   }
 
-  const handleClickDelete = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, boardId: number) => {
+  const handleClickDelete = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, listId: number) => {
     e.stopPropagation()
-    openAlert({ ...DASHBOARD_DELETE_COMFIRM_ALERT, buttonTitle: '삭제', callback: () => deleteBoard(boardId) })
+    openAlert({ ...DASHBOARD_DELETE_COMFIRM_ALERT, buttonTitle: '삭제', callback: () => deleteBoard(listId) })
   }
 
   return (

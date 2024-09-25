@@ -4,6 +4,7 @@ import { LocalStorageKeys } from '@/constants/enum'
 import { BoardState } from '@/store/boardState'
 import {
   DashboardRequestBody,
+  DashboardThemeRequestBody,
   DdayCarouselSettingsRequestBody,
   DdayOrderUpdateRequestBody,
   DdayPostRequestBody,
@@ -72,7 +73,7 @@ export const editBoard = async (body: BoardState, boardId: number) => {
 }
 
 //대시보드 타이틀, 테마 수정
-export const editBoardDetails = async (body: { title?: string; theme?: string }, boardId: number) => {
+export const editBoardDetails = async (body: { title?: string; theme?: number }, boardId: number) => {
   const res = await authInstance.put(`/dashboard/${boardId}/details`, body)
   return res.data
 }
@@ -116,5 +117,11 @@ export const updateDdayCarouselSettings = async (widgetId: number | null, body: 
 // 디데이 순서 변경
 export const updateDdayOrder = async (body: DdayOrderUpdateRequestBody[]) => {
   const res = await authInstance.put(`/dday/order`, body)
+  return res.data
+}
+
+// 보유중인(적용가능한) 테마 조회
+export const getThemeList = async () => {
+  const res = await authInstance.get(`/theme`)
   return res.data
 }

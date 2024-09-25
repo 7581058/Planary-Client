@@ -1,4 +1,5 @@
 import { http, HttpResponse } from 'msw'
+import { themeDatas } from './datas/themeData'
 import { MSW_DASHBOARD_LAYOUTS } from './constants'
 import { boardListData } from './dashboardListData'
 import { defaultBoardData, LayoutDataType } from './data'
@@ -14,14 +15,16 @@ import {
   RES_DASHBOARD_RETRIEVED_SUCCESS_EMPTY,
   RES_DASHBOARD_UPDATE_SUCCESS,
   RES_INTERNAL_SERVER_ERROR,
+  RES_THEME_SUCCESS,
 } from './resMessage'
 import { authenticateRequest } from './utils'
 
 interface DashboardBody {
   title: string
   userId: string
-  theme: string
+  theme: number
 }
+
 export const dashboardHandlers = [
   //대시보드 목록 조회
   http.get('/dashboard/list', async ({ request }) => {
@@ -114,6 +117,7 @@ export const dashboardHandlers = [
       title: data.title,
       theme: data.theme,
       id: boardListData.length + 1,
+      boardId: boardListData.length + 1,
     }
 
     boardListData.push(newBoard)
@@ -127,7 +131,7 @@ export const dashboardHandlers = [
   //대시보드 삭제
   http.delete('/dashboard/:boardId', async ({ params }) => {
     const { boardId } = params
-    const index = boardListData.findIndex((board) => board.id === Number(boardId))
+    const index = boardListData.findIndex((board) => board.boardId === Number(boardId))
 
     if (index === -1) {
       return HttpResponse.json(RES_DASHBOARD_FAIL_NOT_FOUND.res, { status: RES_DASHBOARD_FAIL_NOT_FOUND.code })
@@ -155,9 +159,9 @@ export const dashboardHandlers = [
   //대시보드 타이틀, 테마 수정
   http.put('/dashboard/:boardId/details', async ({ request, params }) => {
     const { boardId } = params
-    const updateData = (await request.json()) as { title?: string; theme?: string }
+    const updateData = (await request.json()) as { title?: string; theme?: number }
 
-    const boardIndex = boardListData.findIndex((board) => board.id === Number(boardId))
+    const boardIndex = boardListData.findIndex((board) => board.boardId === Number(boardId))
 
     if (boardIndex !== -1) {
       boardListData[boardIndex] = {
@@ -169,5 +173,19 @@ export const dashboardHandlers = [
     } else {
       return HttpResponse.json(RES_DASHBOARD_FAIL_NOT_FOUND.res, { status: RES_DASHBOARD_FAIL_NOT_FOUND.code })
     }
+  }),
+
+  //테마 조회
+  http.get('/theme', async ({ request }) => {
+    const authResponse = authenticateRequest(request)
+    if (authResponse) return authResponse
+
+    return HttpResponse.json(
+      {
+        ...RES_THEME_SUCCESS.res,
+        themeDatas,
+      },
+      { status: RES_THEME_SUCCESS.code },
+    )
   }),
 ]
