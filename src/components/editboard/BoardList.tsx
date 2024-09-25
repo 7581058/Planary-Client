@@ -74,8 +74,8 @@ const BoardList = () => {
           {boardListData.map((item, index) => (
             <div
               key={index}
-              onClick={() => handleClickItem(item.id)}
-              css={listItem(theme, isCurrentBoard(currentBoardId, item.id))}
+              onClick={() => handleClickItem(item.boardId)}
+              css={listItem(theme, isCurrentBoard(currentBoardId, item.boardId))}
             >
               <div>{item.title}</div>
               <BoardDeleteButton listId={item.id} />
