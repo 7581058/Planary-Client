@@ -15,7 +15,7 @@ export const themePink = {
   subText: Common.colors.gray03,
   mainText: Common.colors.pink01,
   button: Common.colors.pink01,
-  buttonText: Common.colors.white,
+  buttonText: Common.colors.black,
   subButton: Common.colors.gray02,
   subButtonText: Common.colors.gray03,
   borderButtonborder: Common.colors.pink01,
