@@ -217,3 +217,19 @@ export const THEME_GET_ERROR = {
   buttonType: AlertButtonType.None,
   notiType: AlertNotificationType.Error,
 }
+
+export const THEME_UPDATE_ERROR = {
+  icon: '🚨',
+  title: '테마 변경 실패',
+  content: '테마 변경에 실패했습니다. 잠시 후 다시 시도해 주세요.',
+  buttonType: AlertButtonType.None,
+  notiType: AlertNotificationType.Error,
+}
+
+export const THEME_UPDATE_SUCCESS = {
+  icon: '👌',
+  title: '테마 변경 완료',
+  content: '',
+  buttonType: AlertButtonType.None,
+  notiType: AlertNotificationType.Success,
+}
