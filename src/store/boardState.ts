@@ -15,6 +15,7 @@ export interface BoardListItem {
   id: number
   theme: number
   title: string
+  boardId: number
 }
 
 export interface BoardListState {
