@@ -5,11 +5,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil'
 
 import { useBoardListFetch } from '@/hooks/useBoardListFetch'
 import { boardListAtom, currentBoardIdAtom } from '@/store/boardState'
-interface Option {
-  id: number
-  title: string
-  theme: string
-}
+import { BoardListItem } from '@/store/boardState'
 
 const BoardListSelect = () => {
   const setId = useSetRecoilState(currentBoardIdAtom)
@@ -30,7 +26,8 @@ const BoardListSelect = () => {
   return (
     <select onChange={handleChangeValue} css={selectContainer}>
       {boardList.length > 0 &&
-        boardList.map((option: Option, index: number) => (
+        boardList &&
+        boardList.map((option: BoardListItem, index: number) => (
           <option key={index} value={option.id}>
             {option.title}
           </option>
