@@ -1,6 +1,6 @@
 import { Theme } from '@emotion/react'
 import { css } from '@emotion/react'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
 import { editBoardDetails } from '@/api'
@@ -17,14 +17,17 @@ const BoardTitle = () => {
   const currentBoardId = useRecoilValue(currentBoardIdAtom)
   const { openAlert } = useAlert()
 
+  const currentBoard = useMemo(
+    () => boardListData.find((board) => board.id === currentBoardId),
+    [currentBoardId, boardListData],
+  )
+
   useEffect(() => {
-    if (currentBoardId === null) return
-    const currentBoard = boardListData.find((board) => board.id === currentBoardId)
     if (currentBoard) {
       setTitle(currentBoard.title)
       setOriginalTitle(currentBoard.title)
     }
-  }, [currentBoardId, boardListData])
+  }, [currentBoard])
 
   const handleClickEdit = async () => {
     setIsEdit(true)
