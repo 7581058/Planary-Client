@@ -18,12 +18,11 @@ const BoardTitle = () => {
   const { openAlert } = useAlert()
 
   useEffect(() => {
-    if (currentBoardId) {
-      const currentBoard = boardListData.find((board) => board.id === currentBoardId)
-      if (currentBoard) {
-        setTitle(currentBoard.title)
-        setOriginalTitle(currentBoard.title)
-      }
+    if (currentBoardId === null) return
+    const currentBoard = boardListData.find((board) => board.id === currentBoardId)
+    if (currentBoard) {
+      setTitle(currentBoard.title)
+      setOriginalTitle(currentBoard.title)
     }
   }, [currentBoardId, boardListData])
 
