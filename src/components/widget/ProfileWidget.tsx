@@ -1,30 +1,36 @@
 import { Theme } from '@emotion/react'
 import { css } from '@emotion/react'
+import { IoPerson } from 'react-icons/io5'
 import { LiaCoinsSolid } from 'react-icons/lia'
 
 import { WidgetProps } from '@/constants/widget'
 import { Common } from '@/styles/common'
-
-const ProfileWidget = ({ w, h }: WidgetProps) => {
+const ProfileWidget = ({ w, h, isPreview }: WidgetProps) => {
   return (
     <div css={[container, responsiveContainer(w, h)]}>
       <div css={leftWrap}>
-        <div css={[img, responsiveImg(w, h)]}></div>
+        <div css={[img, responsiveImg(w, h)]}>{isPreview ? <IoPerson /> : <div></div>}</div>
       </div>
       <div css={[rightWrap, responsiveRight(w, h)]}>
         <div css={[titleWrap, responsiveTitle(w, h)]}>
-          <div css={userTitle}>Title</div>
-          <div css={userTitle}>Title</div>
+          {isPreview ? (
+            <div css={userTitle}>Title</div>
+          ) : (
+            <>
+              <div css={userTitle}>Title</div>
+              <div css={userTitle}>Title</div>
+            </>
+          )}
         </div>
-        <span css={[userName, responsiveName(w, h)]}>Name</span>
+        <span css={[userName, responsiveName(w, h)]}>{isPreview ? 'Name' : 'Name'}</span>
         <div css={[levelWrap, responsiveLevelWrap(w, h)]}>
           <div css={levelBackground}></div>
-          <div css={[levelBar, responsiveLevelBar(w, h)]}>1 level</div>
+          <div css={[levelBar, responsiveLevelBar(w, h)]}>{!isPreview && '1 level'}</div>
         </div>
         <div css={infoWrap}>
           <div css={[coin, responsiveCoin(w, h)]}>
             <LiaCoinsSolid />
-            My Coin: 0 Coin
+            My Coin: {isPreview ? '0' : '11'} Coin
           </div>
         </div>
       </div>
@@ -59,8 +65,16 @@ const leftWrap = css`
 `
 
 const img = (theme: Theme) => css`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   width: 100%;
   height: 100%;
+
+  font-size: 32px;
+  color: ${theme.widgetPreviewProfileIcon};
+
   background-color: ${theme.previewSubText};
   border-radius: 50%;
 `
