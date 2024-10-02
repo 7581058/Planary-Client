@@ -31,21 +31,40 @@ const DdayWidget = ({ w, h, isPreview, isCovered, widgetId }: WidgetProps) => {
   const ddayItems =
     ddayData.ddayList.length > 0
       ? ddayData.ddayList.map((item: DdayItem) => (
-        <div css={itemWrap} key={item.date}>
-          <div css={[title, responsiveTitle(w, h)]}>{DDAY_ICONS[item.icon]}{item.title}</div>
-          <div css={[day, responsiveDay(w, h)]}>{convertDate(item.date, 'kor')}</div>
-          <div css={[dday, responsiveDday(w, h)]}>{calculateDday(item.date)}</div>
-        </div>
-      ))
+          <div css={itemWrap} key={item.date}>
+            <div css={[title, responsiveTitle(w, h)]}>
+              {DDAY_ICONS[item.icon]}
+              {item.title}
+            </div>
+            <div css={[day, responsiveDay(w, h)]}>{convertDate(item.date, 'kor')}</div>
+            <div css={[dday, responsiveDday(w, h)]}>{calculateDday(item.date)}</div>
+          </div>
+        ))
       : [
-        <div css={[noData]} key="noData">
-          등록된 디데이가 없습니다.
-        </div>
-      ]
+          <div css={[noData]} key="noData">
+            등록된 디데이가 없습니다.
+          </div>,
+        ]
+
+  const previewDdayItems = (
+    <div css={itemWrap}>
+      <div css={[title, responsiveTitle(w, h)]}>{DDAY_ICONS[0]}Title</div>
+      <div css={[day, responsiveDay(w, h)]}>{convertDate('2024-01-01', 'kor')}</div>
+      <div css={[dday, responsiveDday(w, h)]}>{calculateDday('2024-01-01')}</div>
+    </div>
+  )
 
   return (
     <div css={[container, responsiveContainer(w, h)]}>
-      <Carousel auto={isPreview ? !isPreview : (Number(ddayData.isAuto) === 0 ? false : true)} items={ddayItems} control={isPreview ? !isPreview : !isCovered} />
+      {isPreview ? (
+        previewDdayItems
+      ) : (
+        <Carousel
+          auto={isPreview ? !isPreview : Number(ddayData.isAuto) === 0 ? false : true}
+          items={ddayItems}
+          control={isPreview ? !isPreview : !isCovered}
+        />
+      )}
     </div>
   )
 }
@@ -66,7 +85,8 @@ const container = css`
 `
 
 const responsiveContainer = (w: number, h: number) => css`
-  ${w === 0 && h === 0 && `padding-top: 30px;`}
+  /*   ${w === 0 && h === 0 && `padding-top: 30px;`}
+ */
 `
 
 const title = (theme: Theme) => css`

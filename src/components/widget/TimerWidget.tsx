@@ -10,7 +10,7 @@ const TimerWidget = ({ w, h }: WidgetProps) => {
     <div css={container}>
       {(w === 2 && h === 1) || (w === 0 && h === 0) ? (
         <>
-          <div css={stopWatch}>00:00:00</div>
+          <div css={[stopWatch, responsiveStopWatch(w, h)]}>00:00:00</div>
           <div css={buttonWrap}>
             <div css={startButton}>시작</div>
             <div css={saveButton}>저장</div>
@@ -46,6 +46,7 @@ const container = css`
   width: 100%;
   height: 100%;
 `
+
 const selectWrap = (theme: Theme) => css`
   display: flex;
   justify-content: space-between;
@@ -158,4 +159,8 @@ const saveButton = (theme: Theme) => css`
 const stopWatch = (theme: Theme) => css`
   font-size: ${Common.fontSize.title};
   color: ${theme.previewText};
+`
+
+const responsiveStopWatch = (w: number, h: number) => css`
+  ${w === 0 && h === 0 && `font-size: ${Common.fontSize.fs20};`}
 `

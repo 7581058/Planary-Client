@@ -113,4 +113,6 @@ export const themeDefault = {
   checkLabelSubText: Common.colors.gray03,
   //etc
   agreeMoreButtonColor: Common.colors.gray03,
+  //profile widget
+  widgetPreviewProfileIcon: Common.colors.white,
 }

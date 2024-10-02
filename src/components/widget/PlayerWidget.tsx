@@ -11,7 +11,7 @@ import { RxLoop } from 'react-icons/rx'
 import { WidgetProps } from '@/constants/widget'
 import { Common } from '@/styles/common'
 
-const PlayerWidget = ({ w, h }: WidgetProps) => {
+const PlayerWidget = ({ w, h, isPreview }: WidgetProps) => {
   return (
     <div css={container}>
       <div css={[topWrap, responsiveTopWrap(w, h)]}>
@@ -41,7 +41,7 @@ const PlayerWidget = ({ w, h }: WidgetProps) => {
           </div>
 
           <div css={rightWrap}>
-            {!(w === 1 && h === 1) && !(w === 1 && h === 2) && (
+            {!isPreview && !(w === 1 && h === 1) && !(w === 1 && h === 2) && (
               <>
                 <RxLoop />
                 <RiShuffleLine />
